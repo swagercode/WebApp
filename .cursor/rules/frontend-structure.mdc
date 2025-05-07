@@ -1,0 +1,54 @@
+---
+description: Useful for understanding the frontend structure of this project
+globs: 
+alwaysApply: false
+---
+# StudySpot Frontend Structure
+
+## Directory Structure
+```
+frontend/              # Svelte frontend
+├── src/
+│   ├── lib/          # Shared utilities
+│   │   ├── api/      # API client
+│   │   ├── stores/   # Svelte stores
+│   │   └── utils/    # Helper functions
+│   ├── components/   # Reusable components
+│   │   ├── common/   # Common UI components
+│   │   ├── spots/    # Spot-related components
+│   │   └── maps/     # Map-related components
+│   ├── routes/       # SvelteKit routes
+│   │   ├── +layout.svelte
+│   │   ├── +page.svelte
+│   │   ├── map/
+│   │   ├── spots/
+│   │   └── favorites/
+│   ├── styles/       # Global styles
+│   └── app.html      # HTML template
+├── static/           # Static assets
+├── package.json      # NPM dependencies
+└── .env              # Environment variables
+```
+
+## Key Components
+
+### Frontend (Svelte)
+- **src/lib**: Shared utilities and configuration
+  - **api**: API client for backend communication
+  - **stores**: Svelte stores for state management
+  - **utils**: Helper functions
+- **src/components**: Reusable UI components
+  - **common**: Common UI components (buttons, inputs, etc.)
+  - **spots**: Spot-related components
+  - **maps**: Map-related components
+- **src/routes**: SvelteKit routes for different pages
+- **static**: Static assets like images and fonts
+
+## Environment Variables
+Frontend needs environment variables for:
+- Google Maps API key
+- Backend API URL
+- Other configuration values
+
+Note: The website must be compatible with BOTH desktop and mobile
+

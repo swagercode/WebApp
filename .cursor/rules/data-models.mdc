@@ -1,0 +1,42 @@
+---
+description: Useful for understanding the data models for this project
+globs: 
+alwaysApply: false
+---
+# StudySpot Data Models
+
+## Spots Collection
+
+|**Field**|**Firestore Type**|**Notes**|
+|---|---|---|
+|`id`|string|uuid, Firestore auto-id, or custom|
+|`name`|string|From Places API, `displayName.text`|
+|`location`|map|`{ lat: number, lng: number }` or Firestore `geopoint`|
+|`addressComponents`|array of map|Each is an AddressComponent object|
+|`categories`|array of string|From Places API types / `primaryType`|
+|`thingsToKnow`|array of string|Only allowed values (e.g. "AC", "WiFi", "WC")|
+|`photos`|array of map|Each is a Photo object (`url`, `attribution`, etc.)|
+|`openHours`|map|From Places API `OpeningHours` object|
+|`ratings`|map|`{ atmosphere: number, comfort: number, ... }` (averages)|
+|`reviews`|subcollection|See **reviews** section below|
+
+## Reviews Subcollection
+
+| **Field**   | **Firestore Type** | **Notes**                                        |
+| ----- | --- | --- |
+| `id`        | string             | uuid, Firestore auto-id, or custom               |
+| `userID`    | string             | Reference to `users` collection, or just the uid |
+| `spotID`    | string             | Reference to `spots` collection, or just the id  |
+| `ratings`   | map                | `{ atmosphere: number, comfort: number, ... }`   |
+| `text`      | string             | Review text                                      |
+| `createdAt` | timestamp          | Firestore timestamp                              |
+
+## Users Collection
+
+| **Field**     | **Firestore Type** | **Notes**                                     |
+| ---- | --- | --- |
+| `id`          | string             | uid from Firebase Auth                        |
+| `displayName` | string             | From Auth or user profile                     |
+| `email`       | string             | From Auth                                     |
+| `favorites`   | array of string    | Array of spotIDs (or references if preferred) |
+

@@ -1,0 +1,50 @@
+---
+description: Useful for understanding the backend structure of this project
+globs: 
+alwaysApply: false
+---
+# StudySpot Backend Structure
+
+## Directory Structure
+```
+backend/                 # Go backend
+├── cmd/                # Application entry points
+│   └── api/           # Main API server
+│       └── main.go    # Server entry point
+├── internal/          # Private application code
+│   ├── config/       # Configuration management
+│   ├── handlers/     # HTTP request handlers
+│   ├── middleware/   # HTTP middleware
+│   ├── models/       # Data models
+│   ├── repository/   # Database interactions
+│   │   └── firestore/ # Firestore specific code
+│   └── services/     # Business logic
+├── pkg/              # Public library code
+│   ├── auth/         # Authentication utilities
+│   └── places/       # Google Places API integration
+├── go.mod            # Go module file
+├── go.sum            # Go dependencies checksum
+└── .env              # Environment variables
+```
+
+## Key Components
+
+### Backend (Go)
+- **cmd/api**: Contains the main application entry point
+- **internal**: Private application code that won't be imported by other projects
+  - **config**: Configuration management using environment variables
+  - **handlers**: HTTP request handlers for different endpoints
+  - **middleware**: Authentication, logging, and other middleware
+  - **models**: Data structures and validation
+  - **repository**: Database interactions, including Firestore
+  - **services**: Business logic and external service integration
+- **pkg**: Public library code that can be imported by other projects
+  - **auth**: Authentication utilities
+  - **places**: Google Places API integration
+
+## Environment Variables
+Backend needs environment variables for:
+- Google Maps API key
+- Firestore credentials
+- Other configuration values
+

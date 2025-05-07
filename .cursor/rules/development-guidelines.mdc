@@ -1,0 +1,81 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# StudySpot Development Guidelines
+
+## Learning Philosophy
+This project serves as a comprehensive full-stack development course, where you'll learn by building a real-world application. The approach will be:
+
+1. **Challenge-Based Learning**: You'll receive small, manageable coding challenges that gradually increase in difficulty
+2. **Progressive Difficulty**: Challenges are designed to match your experience level and build upon previous knowledge
+3. **Starter Code Provided**: Each challenge comes with starter code to help you get started
+4. **Interactive Learning**: Work through challenges independently, then check back for guidance and validation
+
+## Development Guidelines
+1. **No Complete Solutions**: You'll receive starter code and guidance, but must implement solutions yourself
+2. **Challenge-Based**: Each feature is broken down into smaller challenges
+3. **Self-Paced Learning**: Work through challenges at your own pace
+4. **Progressive Complexity**: Challenges increase in difficulty as you gain experience
+5. **Code Review**: Regular check-ins to validate your solutions and provide feedback
+
+## Learning Path
+The development will follow this general path:
+1. Project setup and understanding the architecture
+2. Backend fundamentals with Go
+3. Frontend development with Svelte
+4. Database integration with Firestore
+5. API integration with Google Places
+6. Advanced features and optimizations
+
+## Challenge Structure
+Each challenge will include:
+1. Clear learning objectives
+2. Starter code to build upon
+3. Specific requirements to implement
+4. Hints if you get stuck
+5. Validation of your solution
+
+## Getting Started
+To begin our development journey:
+1. Review the project structure
+2. Set up your development environment
+3. Start with your first challenge
+4. Implement the solution
+5. Check back for validation and next steps
+
+## Next Steps
+1. Complete the environment setup challenge
+2. Begin with basic Go backend challenges
+3. Progress to Svelte frontend challenges
+4. Move on to database integration challenges
+5. Tackle API integration challenges
+
+
+Always refer to the current documentation for Svelte:
+
+# Svelte Documentation for LLMs
+
+> Svelte is a UI framework that uses a compiler to let you write breathtakingly concise components that do minimal work in the browser, using languages you already know — HTML, CSS and JavaScript.
+
+## Documentation Sets
+
+- [Abridged documentation](https://svelte.dev/llms-medium.txt): A shorter version of the Svelte and SvelteKit documentation, with examples and non-essential content removed
+- [Compressed documentation](https://svelte.dev/llms-small.txt): A minimal version of the Svelte and SvelteKit documentation, with many examples and non-essential content removed
+- [Complete documentation](https://svelte.dev/llms-full.txt): The complete Svelte and SvelteKit documentation including all examples and additional content
+
+## Individual Package Documentation
+
+- [Svelte documentation](https://svelte.dev/docs/svelte/llms.txt): This is the developer documentation for Svelte.
+- [SvelteKit documentation](https://svelte.dev/docs/kit/llms.txt): This is the developer documentation for SvelteKit.
+- [the Svelte CLI documentation](https://svelte.dev/docs/cli/llms.txt): This is the developer documentation for the Svelte CLI.
+
+## Notes
+
+- The abridged and compressed documentation excludes legacy compatibility notes, detailed examples, and supplementary information
+- The complete documentation includes all content from the official documentation
+- Package-specific documentation files contain only the content relevant to that package
+- The content is automatically generated from the same source as the official documentation
+
+
