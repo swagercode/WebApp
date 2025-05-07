@@ -1,0 +1,273 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# StudySpot Project Structure
+
+## Problem Statement
+StudySpot is an app to help students find comfortable spots to study, through public reviews. 
+
+### Pages:
+- home page: 
+	- airbnb.com homepage
+		- see **homepage** for details
+	- google auth popup
+- map page: 
+	- uses google maps api
+	- clickable pins
+		- pins display star rating designated by filter
+		- on click ->
+			- popup compact view of spot page
+				- on click -> redirect to full spot page
+				- swipe through photos
+	- button in top right for filter
+		- filter by categories (see below)
+			- e.g. click atmosphere icon -> star now displays average rating of that specific category
+- spot page (abstract page for spots)
+	- heart icon
+		- press to add to favorites
+	- images
+		- show all photos (focus images and scroll through all)
+	- reviews 
+		- list categories 1-5 (average of all reviews in each category) 
+		- individual reviews below
+			- their rating (categories 1-5)
+			- written text
+		- leave review button
+	- include **things to know** (see below)
+	- hours open
+	- map showing location
+		- linked to google maps on click
+		- uses google maps api
+- favorites page
+	- display 
+
+
+### homepage
+- header & navigation
+    - logo (top left)
+    - primary nav links: spots, map, favorites
+    - language/region selector
+    - dark mode (moon/sun icon) ?
+	    - controlled by 
+    - user profile icon (top right)
+- search bar
+    - rounded container
+	    - text field
+	    - search button (magnifying glass)
+- category carousel
+    - horizontally scrollable icons & labels:
+	    - cafes
+	    - outside
+	    - on campus
+    - arrow button to scroll more categories (if not enough space on screen)
+- filter controls
+    - filters button next to carousel
+	    - on click - >
+		    - popup
+			    - filters header
+			    - icons and name
+				    - see **things to know**
+- spots grid
+    - rows of large cards
+	    - on laptop
+		    - five per row
+		- on mobile
+			- one per row
+		- scale with screen dimensions
+    - each card includes:
+        - image carousel with dot indicators
+        - optional guest favorite trophy badge
+        - heart icon for saving to favorites (top right of image)
+        - spot title (e.g DarkHorse Cafe)
+        - star rating (e.g. ★ 5.0, derived from average review across all reviews' average of all categories)
+        - distance / time (10 minute walk, 5 minute drive)
+	        - if walk is over 10 mins do drive instead
+	        - user setting to always display bike/drive/walk
+        - open hours (X:Y am - X:Y pm)
+        - when hovered over, arrow button on right and left to cycle through images
+### categories (1-5)
+- atmosphere
+- comfort
+- quiet
+- seating
+- food and drink
+- overall (average of all)
+
+
+### things to know
+things a user should know about their 
+- Air Conditioned
+- WiFi (free)
+- Requires purchase (of beverage)
+- Wheelchair accessible
+- Has restroom
+- Outdoor seating
+
+
+## Project Structure
+
+
+
+## Data Models
+### **spots (collection)**
+
+|**Field**|**Firestore Type**|**Notes**|
+|---|---|---|
+|`id`|string|uuid, Firestore auto-id, or custom|
+|`name`|string|From Places API, `displayName.text`|
+|`location`|map|`{ lat: number, lng: number }` or Firestore `geopoint`|
+|`addressComponents`|array of map|Each is an AddressComponent object|
+|`categories`|array of string|From Places API types / `primaryType`|
+|`thingsToKnow`|array of string|Only allowed values (e.g. "AC", "WiFi", "WC")|
+|`photos`|array of map|Each is a Photo object (`url`, `attribution`, etc.)|
+|`openHours`|map|From Places API `OpeningHours` object|
+|`ratings`|map|`{ atmosphere: number, comfort: number, ... }` (averages)|
+|`reviews`|subcollection|See **reviews** section below|
+### **reviews (subcollection under `spots` or top-level)**
+
+| **Field**   | **Firestore Type** | **Notes**                                        |
+| ----------- | ------------------ | ------------------------------------------------ |
+| `id`        | string             | uuid, Firestore auto-id, or custom               |
+| `userID`    | string             | Reference to `users` collection, or just the uid |
+| `spotID`    | string             | Reference to `spots` collection, or just the id  |
+| `ratings`   | map                | `{ atmosphere: number, comfort: number, ... }`   |
+| `text`      | string             | Review text                                      |
+| `createdAt` | timestamp          | Firestore timestamp                              |
+### **users (collection)**
+
+| **Field**     | **Firestore Type** | **Notes**                                     |
+| ------------- | ------------------ | --------------------------------------------- |
+| `id`          | string             | uid from Firebase Auth                        |
+| `displayName` | string             | From Auth or user profile                     |
+| `email`       | string             | From Auth                                     |
+| `favorites`   | array of string    | Array of spotIDs (or references if preferred) |
+
+
+Refer to this structure when adding new features, pages, or API endpoints.
+
+
+## Root Directory
+```
+/StudySpot
+├── backend/                 # Go backend
+│   ├── cmd/                # Application entry points
+│   │   └── api/           # Main API server
+│   │       └── main.go    # Server entry point
+│   ├── internal/          # Private application code
+│   │   ├── config/       # Configuration management
+│   │   ├── handlers/     # HTTP request handlers
+│   │   ├── middleware/   # HTTP middleware
+│   │   ├── models/       # Data models
+│   │   ├── repository/   # Database interactions
+│   │   │   └── firestore/ # Firestore specific code
+│   │   └── services/     # Business logic
+│   ├── pkg/              # Public library code
+│   │   ├── auth/         # Authentication utilities
+│   │   └── places/       # Google Places API integration
+│   ├── go.mod            # Go module file
+│   ├── go.sum            # Go dependencies checksum
+│   └── .env              # Environment variables
+│
+├── frontend/              # Svelte frontend
+│   ├── src/
+│   │   ├── lib/          # Shared utilities
+│   │   │   ├── api/      # API client
+│   │   │   ├── stores/   # Svelte stores
+│   │   │   └── utils/    # Helper functions
+│   │   ├── components/   # Reusable components
+│   │   │   ├── common/   # Common UI components
+│   │   │   ├── spots/    # Spot-related components
+│   │   │   └── maps/     # Map-related components
+│   │   ├── routes/       # SvelteKit routes
+│   │   │   ├── +layout.svelte
+│   │   │   ├── +page.svelte
+│   │   │   ├── map/
+│   │   │   ├── spots/
+│   │   │   └── favorites/
+│   │   ├── styles/       # Global styles
+│   │   └── app.html      # HTML template
+│   ├── static/           # Static assets
+│   ├── package.json      # NPM dependencies
+│   └── .env              # Environment variables
+│
+├── .gitignore            # Git ignore file
+├── README.md             # Project documentation
+└── docker-compose.yml    # Docker configuration
+```
+
+## Key Components
+
+### Backend (Go)
+- **cmd/api**: Contains the main application entry point
+- **internal**: Private application code that won't be imported by other projects
+  - **config**: Configuration management using environment variables
+  - **handlers**: HTTP request handlers for different endpoints
+  - **middleware**: Authentication, logging, and other middleware
+  - **models**: Data structures and validation
+  - **repository**: Database interactions, including Firestore
+  - **services**: Business logic and external service integration
+- **pkg**: Public library code that can be imported by other projects
+  - **auth**: Authentication utilities
+  - **places**: Google Places API integration
+
+### Frontend (Svelte)
+- **src/lib**: Shared utilities and configuration
+  - **api**: API client for backend communication
+  - **stores**: Svelte stores for state management
+  - **utils**: Helper functions
+- **src/components**: Reusable UI components
+  - **common**: Common UI components (buttons, inputs, etc.)
+  - **spots**: Spot-related components
+  - **maps**: Map-related components
+- **src/routes**: SvelteKit routes for different pages
+- **static**: Static assets like images and fonts
+
+## Environment Variables
+Both frontend and backend will need environment variables for:
+- Google Maps API key
+- Firestore credentials
+- Backend API URL
+- Other configuration values
+
+## Development Approach and Guidelines
+
+### Learning Philosophy
+This project serves as a comprehensive full-stack development course, where you'll learn by building a real-world application. The approach will be:
+
+1. **Guided Learning**: Instead of direct solutions, we'll focus on understanding concepts and making informed decisions together
+2. **Step-by-Step Development**: We'll break down complex features into manageable learning units
+3. **Interactive Discussion**: Regular checkpoints to ensure understanding and alignment with your goals
+4. **Best Practices**: Emphasis on modern development practices and patterns
+
+### Development Guidelines
+1. **No Direct Solutions**: Solutions will only be provided when explicitly requested
+2. **Understanding First**: Focus on understanding concepts before implementation
+3. **Discussion-Based**: Regular discussions about architecture and implementation choices
+4. **Progressive Learning**: Building complexity gradually while maintaining understanding
+5. **Code Review**: Regular reviews to ensure quality and learning
+
+### Learning Path
+The development will follow this general path:
+1. Project setup and understanding the architecture
+2. Backend fundamentals with Go
+3. Frontend development with Svelte
+4. Database integration with Firestore
+5. API integration with Google Places
+6. Advanced features and optimizations
+
+### Getting Started
+To begin our development journey, we should:
+1. Review and confirm the project structure
+2. Set up the development environment
+3. Initialize the basic project structure
+4. Start with a specific feature or component
+
+
+## Next Steps
+1. Initialize the Go module
+2. Set up the Svelte project
+3. Configure environment variables
+4. Set up Firestore integration
+5. Implement Google Places API integration 
