@@ -1,11 +1,9 @@
 <script lang="ts">
-
-    let selected = $state("overall")
+    import { currentCategory } from "../../lib/index.svelte";
 
     function onclick(e: MouseEvent) {
         if (e.currentTarget instanceof HTMLElement) {
-            selected = e.currentTarget.getAttribute("aria-label") ?? "";
-            console.log(selected);
+            currentCategory.name = e.currentTarget.getAttribute("aria-label") ?? "";
         }
     }
 </script>
@@ -13,7 +11,7 @@
 
 <div class="carousel">
     <ul>
-        <li class:selected={selected === "atmosphere"}>
+        <li class:selected={currentCategory.name === "atmosphere"}>
             <button 
             class="image-container" 
             aria-label="atmosphere" 
@@ -29,7 +27,7 @@
             <p>Atmosphere</p>
         </li>
 
-        <li class:selected={selected === "seating"}>
+        <li class:selected={currentCategory.name === "seating"}>
             <button class="image-container" 
             aria-label="seating"  
             {onclick}>
@@ -42,7 +40,7 @@
         </li>
 
 
-        <li class:selected={selected === "comfort"}>
+        <li class:selected={currentCategory.name === "comfort"}>
             <button class="image-container" 
             aria-label="comfort" 
             {onclick}>
@@ -58,7 +56,7 @@
             <p>Comfort</p>
         </li>
 
-        <li class:selected={selected === "open-late"}>
+        <li class:selected={currentCategory.name === "open-late"}>
             <button class="image-container" 
             aria-label="open-late" 
             {onclick}>
@@ -98,7 +96,7 @@
             <p>Open Late</p>
         </li>
 
-        <li class:selected={selected === "overall"}>
+        <li class:selected={currentCategory.name === "overall"}>
             <button class="image-container" 
             aria-label="overall" 
             {onclick}>
@@ -116,18 +114,20 @@
     :root {
         --padding: 0;
         --margin: 0;
+        --button-size: clamp(4rem, 8vw, 7rem);
     }
 
     .carousel {
         width: 100%;
+        padding: var(--padding);
     }
 
     ul {
         list-style: none;
-        overflow: hidden;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
+        align-items: center;
         padding: var(--padding);
         margin: var(--margin);
         width: 100%;
@@ -135,21 +135,29 @@
 
     li {
         display: flex;
-        width: 10ch;
+        width: 18%;
+        aspect-ratio: 1/1;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
 
     .image-container {
-        width: var(--button-size);
-        height: var(--button-size);
+        width: 80%;
+        min-width: 2rem;
+        aspect-ratio: 1/1;
         display: flex;
         justify-content: center;
         align-items: center;
         border: var(--carousel-border);
         background-color: white;
         border-radius: .5rem;
+        max-width: 7.5ch;
+
+        @media (max-width: 600px) {
+            width: 50%;
+            min-width: 0;
+        }
     }
 
     .image-container:hover {
@@ -168,7 +176,9 @@
 
     li svg {
         width: 100%;
+        height: 100%;
         fill: var(--font-clr);
+        display: block;
     }
 
     li.selected svg, li.selected svg > path{
@@ -176,10 +186,18 @@
     }
 
     p {
+        font-size: 0.9rem;
         display: block;
         color: var(--font-clr);
         text-align: center;
         font-weight: var(--font-weight);
     }
+
+    @media (max-width: 600px) {
+        p {
+            font-size: 0.65rem; 
+        }
+    }
+
 </style>
 

@@ -1,7 +1,10 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { onMount, getContext } from "svelte";
+    import type { User } from "../../components/types";
 
     let { open = $bindable() } = $props();
+
+    const user: User = getContext("user");
 
     function handleClickOutside(event: MouseEvent) {
         const menu = document.querySelector('.user-nav');
@@ -33,8 +36,8 @@
         <span></span>
         <span></span>
     </div>
-    <div class="user-button-button">
-        <img src="profile.png" alt="profile" />
+    <div class="img-wrapper">
+        <img src={user.profilePicture} alt="profile" />
     </div>
 </button>
 
@@ -68,8 +71,6 @@
     </div>
 </nav>
 
-
-
 <style>
 
     :global(:root) {
@@ -77,65 +78,55 @@
     }
 
     .user-button {
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 1rem;
-        border: 1px solid #000000;
-        max-height: 2rem;
-        cursor: pointer;
+        width: clamp(2rem, 6rem, 10rem);
+        height: clamp(1rem, 4rem, 5rem);
+        border-radius: 3rem;
+        border: none;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease-in-out;
     }
 
     .user-button:hover {
         background-color: var(--hover-clr);
+        width: calc(width + 2rem);
+        height: calc(height + 2rem);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
 
-
-    
-    .user-button-button {
-        border: none;
-        background-color: transparent;
-        margin-left: auto;
+    .img-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
     }
-
-    .user-button-button img {
-        width: 1.5rem;
+    .user-button img {
+        height: 55%;
+        border-radius: 50%;
+        aspect-ratio: 1/1;
     }
-
 
     .ham-menu {
-        position: relative;
-        padding-left: 1rem;
-        margin-right: auto;
-        width: 1rem;
-        height: 1rem;
+        padding-inline-start: 10%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: clamp(.1rem, 2rem, 3rem);
+        gap: .3rem;
     }
+
 
     .ham-menu span {
         height: .2rem;
-        width: 1rem;
-        background-color: #979797;
         display: block;
-        margin-bottom: .17rem;
+        width: 100%;
+        background-color: var(--font-clr);
         border-radius: 1rem;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
     }
-    
-    .ham-menu span:nth-child(1) {
-        top: 25%;
-    }
-
-    .ham-menu span:nth-child(2) {
-        top: 50%;
-    }
-    
-    .ham-menu span:nth-child(3) {
-        top: 75%;
-    }
-
 
     .user-nav {
         position: fixed;
@@ -145,6 +136,7 @@
         justify-content: space-evenly;
         align-items: center;
         background-color: #ffffff;
+        
         border-radius: 2rem;
         transform: translateX(100%);
         transition: transform 0.3s ease-out;
@@ -162,7 +154,6 @@
     }
 
     .close-button {
-        position: absolute;
         inset: 1rem 0 0 1rem;
         background: transparent;
         border: none;
