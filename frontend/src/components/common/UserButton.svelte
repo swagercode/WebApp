@@ -1,181 +1,213 @@
 <script lang="ts">
-    import { onMount, getContext } from "svelte";
+    import { getContext } from "svelte";
+    import { motionValue } from 'svelte-motion';
     import type { User } from "../../components/types";
 
-    let { open = $bindable() } = $props();
+    // Efficient context usage for user
+    const user: User | null = getContext("user");
+    let open = $state(false);
+    let morph = motionValue(0);
 
-    const user: User = getContext("user");
+    export function toggleOpen() {
+        open = !open;
+        morph.set(open ? 1 : 0);
+    }
 
     function handleClickOutside(event: MouseEvent) {
-        const menu = document.querySelector('.user-nav');
+        const menu = document.querySelector('.morph-menu');
         const button = document.querySelector('.user-button');
         if (
             menu && !menu.contains(event.target as Node) &&
             button && !button.contains(event.target as Node)
         ) {
             open = false;
+            morph.set(0);
         }
     }
 
     $effect(() => {
         if (open) {
             document.addEventListener('mousedown', handleClickOutside);
-            return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
-            };
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
         }
     });
-    
+
+    function handleLogin() {
+        // TODO: Implement login logic or redirect
+        alert('Login clicked');
+    }
+    function handleLogout() {
+        // TODO: Implement logout logic
+        alert('Logout clicked');
+    }
+    function handleMap() {
+        // TODO: Implement map logic
+        alert('Map clicked');
+    }
+    function handleFavorites() {
+        // TODO: Implement favorites logic
+        alert('Favorites clicked');
+    }
+    function handleProfile() {
+        // TODO: Implement profile logic
+        alert('Profile clicked');
+    }
 </script>
 
-
-<button class="user-button" onclick={() => {open = !open}}>
-    <span class="sr-only">Menu</span>
-    <div class="ham-menu">
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    <div class="img-wrapper">
-        <img src={user.profilePicture} alt="profile" />
-    </div>
-</button>
-
-<nav class="user-nav" data-visible={open ? "open" : ""}>
-    <div class="close-button">
-        <button class="close-button-button" onclick={() => {open = !open}}>
-            <span class="sr-only">Close</span>
-
-            <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
-                viewBox="0 0 460.775 460.775" xml:space="preserve">
-                <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55
-                    c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55
-                    c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505
-                    c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55
-                    l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719
-                    c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"/>
-            </svg>
-        </button>
-    </div>
-    <div class="nav-button">
-        <a href="/">Home</a>
-    </div>
-    <div class="nav-button">
-        <a href="/maps">Maps</a>
-    </div>
-    <div class="nav-button">
-        <a href="/saved">Saved</a>
-    </div>
-    <div class="nav-button">
-        <a href="/profile">Profile</a>
-    </div>
-</nav>
+<div class="morph-menu-wrapper">
+    <button class="user-button morph-btn" aria-haspopup="true" aria-expanded={open} onclick={toggleOpen} tabindex="0">
+        <span class="sr-only">Menu</span>
+        <div class="ham-x-menu" aria-hidden="true">
+            <span class:open={open}></span>
+            <span class:open={open}></span>
+            <span class:open={open}></span>
+        </div>
+        <div class="img-wrapper" style="opacity: {open ? 0 : 1}; transform: scale({open ? 0.5 : 1}); transition: opacity 0.2s, transform 0.2s;">
+            <img src={user?.profilePicture || '/default-profile.png'} alt="profile" />
+        </div>
+    </button>
+    {#if open}
+        <div
+            class="morph-menu"
+            
+            tabindex="-1"
+        >
+            <div class="menu-content">
+                <div class="menu-items">
+                    {#if user}
+                        <button class="dropdown-btn" onclick={handleMap}>Map</button>
+                        <button class="dropdown-btn" onclick={handleFavorites}>Favorites</button>
+                        <button class="dropdown-btn" onclick={handleProfile}>Profile</button>
+                        <button class="dropdown-btn" onclick={handleLogout}>Logout</button>
+                    {:else}
+                        <button class="dropdown-btn" onclick={handleLogin}>Login</button>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    {/if}
+</div>
 
 <style>
+.morph-menu-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    height: 3rem;
+    width: 5rem;
+}
+.morph-menu {
+    overflow: visible;
+    width: 14rem;
+    border-radius: 1.2rem;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.08);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--bg-clr);
+    transition: width 0.35s cubic-bezier(.4,2,.6,1), height 0.35s cubic-bezier(.4,2,.6,1), border-radius 0.35s cubic-bezier(.4,2,.6,1);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-evenly;
+}
 
-    :global(:root) {
-        --nav-bg-clr: #ffffff;
-    }
+.user-button.morph-btn {
+    border: none;
+    border-radius: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    width: 5rem;
+    height: 3rem;
+    position: relative;
+    background: var(--gray-button-clr);
+    cursor: pointer;
+}
+.user-button.morph-btn:hover {
+    background: var(--gray-button-hover-clr);
+    box-shadow: var(--box-shadow);
+}
 
-    .user-button {
-        width: clamp(2rem, 6rem, 10rem);
-        height: clamp(1rem, 4rem, 5rem);
-        border-radius: 3rem;
-        border: none;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease-in-out;
-    }
-
-    .user-button:hover {
-        background-color: var(--hover-clr);
-        width: calc(width + 2rem);
-        height: calc(height + 2rem);
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    }
-
-    .img-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
-    .user-button img {
-        height: 55%;
-        border-radius: 50%;
-        aspect-ratio: 1/1;
-    }
-
-    .ham-menu {
-        padding-inline-start: 10%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: clamp(.1rem, 2rem, 3rem);
-        gap: .3rem;
-    }
-
-
-    .ham-menu span {
-        height: .2rem;
-        display: block;
-        width: 100%;
-        background-color: var(--font-clr);
-        border-radius: 1rem;
-    }
-
-    .user-nav {
-        position: fixed;
-        inset: 0 0 50% 50%;
-        display: flex;
-        flex-flow: column wrap;
-        justify-content: space-evenly;
-        align-items: center;
-        background-color: #ffffff;
-        
-        border-radius: 2rem;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-out;
-    }
-
-    .user-nav[data-visible="open"] {
-        transform: translateX(0);
-    }
-
-    .nav-button {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .close-button {
-        inset: 1rem 0 0 1rem;
-        background: transparent;
-        border: none;
-    }
-
-    .close-button-button {
-        background: transparent;
-        border: none;
-    }
-
-    .close-button-button:hover > svg{
-        fill: var(--hover-clr);
-    }
-
-    .close-button svg {
-        width: 1rem;
-        height: 1rem;
-    }
-
-    .nav-button a {
-        text-decoration: none;
-        color: var(--font-clr);
-    }
-
+.img-wrapper {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.user-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.ham-x-menu {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 12;
+    margin-right: 0.2rem;
+}
+.ham-x-menu span {
+    display: block;
+    height: 0.15rem;
+    width: 100%;
+    background: var(--font-clr);
+    border-radius: 1rem;
+    margin: 0.13rem 0;
+    transition: all 0.25s cubic-bezier(.4,0,.2,1);
+}
+.ham-x-menu span.open:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+.ham-x-menu span.open:nth-child(2) {
+    opacity: 0;
+}
+.ham-x-menu span.open:nth-child(3) {
+    transform: rotate(-45deg) translate(3px, -3px);
+}
+.menu-content {
+    margin-top: 2.8rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
+.menu-items {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+.dropdown-btn {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-size: 1rem;
+    color: var(--font-clr, #333);
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 0.7rem;
+}
+.dropdown-btn:hover, .dropdown-btn:focus {
+    background: #f5f5f5;
+    outline: none;
+}
 </style>

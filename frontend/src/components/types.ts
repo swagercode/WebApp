@@ -1,4 +1,5 @@
 export interface Spot {
+    id: string;
     name: string;
     location: string;
     image: string;
@@ -12,7 +13,7 @@ export interface Rating {
     overall: number;
     atmosphere: number;
     comfort: number;
-    openLate: number;
+    quiet: number;
     seating: number;
 }
 
