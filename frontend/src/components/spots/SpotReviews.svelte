@@ -1,24 +1,25 @@
 <script lang="ts">
     import SpotReviewMenu from "./SpotReviewMenu.svelte";
+    import { fly, fade } from "svelte/transition";
     let { reviews } = $props();
 
     let reviewOpen = $state(false);
 
-    function onclick() {
+    export function toggleOpen() {
         reviewOpen = !reviewOpen;
     }
 </script>
 
 <section class="reviews">
     {#if reviewOpen}
-        <div class="review-menu-container-background"></div>
-        <div class="review-menu-container">
-            <SpotReviewMenu />
+        <button class="review-menu-container-background" onclick={() => reviewOpen = false} aria-label="Close review menu" transition:fade={{ duration: 300 }}></button>
+        <div class="review-menu-container" transition:fly={{ y: 200, duration: 300 }}>
+            <SpotReviewMenu {toggleOpen} />
         </div>
     {/if}
     <div class="reviews-header">
         <h2>Reviews</h2>
-        <button class="leave-review-btn" {onclick} >Leave a review</button>
+        <button class="leave-review-btn" onclick={toggleOpen} aria-label="Click to leave a review">Leave a review</button>
     </div>
     
     <div class="reviews-list">
@@ -36,7 +37,7 @@
                 <div class="review-categories">
                     <span>Atmosphere: ★ {review.rating.atmosphere}</span>
                     <span>Comfort: ★ {review.rating.comfort}</span>
-                    <span>Quiet: ★ {review.rating.openLate}</span>
+                    <span>Quiet: ★ {review.rating.quiet}</span>
                     <span>Seating: ★ {review.rating.seating}</span>
                 </div>
                 
@@ -137,9 +138,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 90%;
-        height: 90%;
-        z-index: 1000;
+        width: 80%;
+        z-index: 1000;  
     }
 
     .review-menu-container-background {

@@ -2,8 +2,8 @@
 <script lang="ts">
     import Homenav from '../components/common/Homenav.svelte';
     import SpotComponent from '../components/spots/SpotComponent.svelte';
-    import type { Spot, Rating, User } from '../components/types';
-    import { onMount, setContext } from 'svelte';
+    import type { Spot, Rating } from '../components/types';
+    import { onMount } from 'svelte';
 
     let rating: Rating = {
         overall: 3.2,
@@ -12,14 +12,6 @@
         quiet: 2,
         seating: 5
     }
-
-    let user: User = {
-        profilePicture: "profile.jpg",
-        username: "John Doe",
-        city: "New York"
-    }
-
-    setContext("user", user);
 
     let spotsArray: Spot[] = [
         {
@@ -87,8 +79,13 @@
     let header: Homenav;
     let lastScrollY = $state(0);
     let offsetHeight = $state(0);
-
+    let mainWrapper: HTMLElement;
     onMount(() => {
+        window.addEventListener('resize', () => {
+            offsetHeight = header.getOffsetHeight();
+            mainWrapper.style.margin = `calc(${offsetHeight}px + 1rem)`;
+        });
+
         window.addEventListener('scroll', () => {
             if ((window.scrollY === 0 && lastScrollY !== 0) || (window.scrollY !== 0 && lastScrollY === 0)) {
                 header.toggleCarousel();
@@ -108,7 +105,7 @@
         <Homenav bind:this={header}/>
     </div>
 
-    <div class="main-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);">
+    <div class="main-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);" bind:this={mainWrapper}>
         {#each spotsArray as spot}
             <SpotComponent {spot} />
         {/each}
@@ -137,7 +134,7 @@
 
         --primary-clr: #EF934B;
         --brighter-primary-clr: #ff903c;
-        --faded-primary-clr: #EF934B;
+        --faded-primary-clr: #edd3be;
         --hover-clr: #F5F5F5;
         --open-clr: #628F66;
         --closed-clr: #C60000;

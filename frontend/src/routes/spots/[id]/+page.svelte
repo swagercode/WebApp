@@ -86,7 +86,7 @@
                 overall: 5,
                 atmosphere: 5,
                 comfort: 4,
-                openLate: 3,
+                quiet: 3,
                 seating: 5
             },
             text: "Perfect spot for studying! Great atmosphere and comfortable seating. The coffee is excellent too."
@@ -100,7 +100,7 @@
                 overall: 4,
                 atmosphere: 4,
                 comfort: 5,
-                openLate: 4,
+                quiet: 4,
                 seating: 4
             },
             text: "Love coming here during finals week. Quiet enough to focus but still has good energy."
@@ -150,6 +150,38 @@
 </main>
 
 <style>
+
+    :global(:root) {
+        font-family: 'Gotham';
+        --font-clr: #7A7A7A;
+        --font-weight: 550;
+
+        --primary-clr: #EF934B;
+        --brighter-primary-clr: #ff903c;
+        --faded-primary-clr: #edd3be;
+        --hover-clr: #F5F5F5;
+        --open-clr: #628F66;
+        --closed-clr: #C60000;
+        --gray-button-clr: #F2F2F2;
+        --gray-button-hover-clr: #EBEBEB;
+
+        --rating-clr: #F0C0A2;
+
+        --bg-clr: #ffffff;
+
+        --carousel-width: 100%;
+        --carousel-height: 100%;
+        --carousel-border: 1px solid black;
+
+        --button-size: 3rem;
+
+        --box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+        margin: 0;
+        padding: 0;
+
+    }
+
     .spot-page {
         max-width: 800px;
         margin: 0 auto;

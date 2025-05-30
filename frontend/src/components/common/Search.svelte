@@ -19,9 +19,9 @@
         width: 100%;
         height: 3.5rem;
         border-radius: 2rem;
-        border: 1px solid #000000;
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
 
     .search-bar input {

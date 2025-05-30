@@ -1,10 +1,8 @@
 <script lang="ts">
-    import { getContext } from "svelte";
     import { motionValue } from 'svelte-motion';
-    import type { User } from "../../components/types";
+    import { goto } from "$app/navigation";
+    import { user } from "../../lib/index.svelte";
 
-    // Efficient context usage for user
-    const user: User | null = getContext("user");
     let open = $state(false);
     let morph = motionValue(0);
 
@@ -33,6 +31,9 @@
         }
     });
 
+    function handleHome() {
+        goto('/');
+    }
     function handleLogin() {
         // TODO: Implement login logic or redirect
         alert('Login clicked');
@@ -42,8 +43,7 @@
         alert('Logout clicked');
     }
     function handleMap() {
-        // TODO: Implement map logic
-        alert('Map clicked');
+        goto('/map');
     }
     function handleFavorites() {
         // TODO: Implement favorites logic
@@ -63,9 +63,11 @@
             <span class:open={open}></span>
             <span class:open={open}></span>
         </div>
-        <div class="img-wrapper" style="opacity: {open ? 0 : 1}; transform: scale({open ? 0.5 : 1}); transition: opacity 0.2s, transform 0.2s;">
-            <img src={user?.profilePicture || '/default-profile.png'} alt="profile" />
-        </div>
+        {#if user}
+            <div class="img-wrapper" style="opacity: {open ? 0 : 1}; transform: scale({open ? 0.5 : 1}); transition: opacity 0.2s, transform 0.2s;">
+                <img src={user?.profilePicture || '/default-profile.png'} alt="profile" />
+            </div>
+        {/if}
     </button>
     {#if open}
         <div
@@ -75,6 +77,7 @@
         >
             <div class="menu-content">
                 <div class="menu-items">
+                    <button class="dropdown-btn" onclick={handleHome}>Home</button>
                     {#if user}
                         <button class="dropdown-btn" onclick={handleMap}>Map</button>
                         <button class="dropdown-btn" onclick={handleFavorites}>Favorites</button>
@@ -99,7 +102,7 @@
     width: 5rem;
 }
 .morph-menu {
-    overflow: visible;
+    overflow: hidden;
     width: 14rem;
     border-radius: 1.2rem;
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.08);
@@ -111,21 +114,20 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
 .user-button.morph-btn {
     border: none;
-    border-radius: 1.2rem;
+    border-radius: 1.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    gap: 0.5rem;
     padding: 0;
     margin: 0;
     outline: none;
-    width: 5rem;
+    width: 7rem;
     height: 3rem;
     position: relative;
     background: var(--gray-button-clr);
@@ -187,6 +189,7 @@
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+    overflow: hidden;
 }
 .menu-items {
     display: flex;
@@ -194,6 +197,7 @@
     align-items: stretch;
     width: 100%;
     margin-top: 0.5rem;
+    overflow: hidden;
 }
 .dropdown-btn {
     background: none;
@@ -204,7 +208,7 @@
     color: var(--font-clr, #333);
     cursor: pointer;
     transition: background 0.2s;
-    border-radius: 0.7rem;
+    overflow: hidden;
 }
 .dropdown-btn:hover, .dropdown-btn:focus {
     background: #f5f5f5;

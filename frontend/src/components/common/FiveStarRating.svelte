@@ -5,7 +5,7 @@
 
     function ratingColor(star: number): string { // im considering making it so when u click a star, all the stars animate like a flash of a brighter color
         if (star > rating && star <= hoverRating) {
-            return "var(--brighter-primary-clr)";
+            return "var(--faded-primary-clr)";
         }
         else if (star <= rating) {
             return "var(--primary-clr)";
@@ -28,20 +28,6 @@
 </div>
 
 <style>
-
-    :global(:root) {
-        --font-clr: #7A7A7A;
-        --primary-clr: #EF934B;
-        --brighter-primary-clr: #ff903c;
-        --faded-primary-clr: #EF934B;
-        --hover-clr: #F5F5F5;
-        --open-clr: #628F66;
-        --closed-clr: #C60000;
-        --gray-button-clr: #F2F2F2;
-        --gray-button-hover-clr: #EBEBEB;
-
-        --rating-clr: #F0C0A2;
-    }   
 
     .five-star-rating {
         width: 100%;

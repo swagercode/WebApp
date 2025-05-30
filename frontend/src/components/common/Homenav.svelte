@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { fade, slide } from "svelte/transition";
+	import { slide } from "svelte/transition";
     import Carousel from "./Carousel.svelte";
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
@@ -11,6 +11,10 @@
         return wrapper.offsetHeight;
     }
 
+    export function setCarouselOpen(open: boolean) {
+        carouselOpen = open;
+    }
+
     export function toggleCarousel() {
         carouselOpen = !carouselOpen;
     }
@@ -19,9 +23,9 @@
 
 <nav class="wrapper" bind:this={wrapper}>
         <div class="top-wrapper" >
-            <div class="logo-wrapper" aria-hidden="true">
+            <a href="/" class="logo-wrapper" aria-label="Home">
                 <img src="/stot.png" alt="logo" />
-            </div>
+            </a>
         <div class="middle-wrapper">
            <h1>
             Find your next <span>study spot</span>
@@ -35,9 +39,12 @@
         </div>
     </div>
 
-    <div class="carousel-wrapper" class:hidden={!carouselOpen}> 
-            <Carousel />
-   </div>
+
+    {#if carouselOpen}
+        <div class="carousel-wrapper" transition:slide> 
+                <Carousel />
+        </div>
+    {/if}
 </nav>
 
 <style>
@@ -106,16 +113,6 @@
         justify-content: center;
         align-items: center;
     }
-
-    .carousel-wrapper.hidden {
-        max-height: 0;
-        opacity: 0;
-        transform: translateY(-20px);
-        pointer-events: none;
-    }
-
-
-
     h1 {
         font-size: 1.5rem;
         font-weight: 700;

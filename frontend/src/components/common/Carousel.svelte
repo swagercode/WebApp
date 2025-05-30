@@ -132,28 +132,23 @@
 
     li {
         display: flex;
-        width: 18%;
-        aspect-ratio: 1/1;
+        width: 15%;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
     
-    .image-container:hover {
-        background-color: var(--hover-clr);
-        cursor: pointer;
-        box-shadow: var(--box-shadow);
-    }
-
     .image-container {
         width: 80%;
         min-width: 2rem;
         aspect-ratio: 1/1;
+        margin-block-start: 0.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
-        border: var(--carousel-border);
         border-radius: .5rem;
+        border: transparent;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
         max-width: 7.5ch;
         background-color: var(--bg-clr);
         @media (max-width: 600px) {
@@ -162,6 +157,11 @@
         }
     }
 
+    .image-container:hover {
+        background-color: var(--hover-clr);
+        cursor: pointer;
+        box-shadow: var(--box-shadow);
+    }
 
     @keyframes pulse {
         0% {
@@ -199,7 +199,7 @@
     }
 
     p {
-        font-size: 0.9rem;
+        font-size: 0.5rem;
         display: block;
         color: var(--font-clr);
         text-align: center;
