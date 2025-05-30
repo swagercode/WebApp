@@ -199,7 +199,7 @@
     }
 
     p {
-        font-size: 0.5rem;
+        font-size: calc(0.45rem + 0.1vw); /* todo too small */
         display: block;
         color: var(--font-clr);
         text-align: center;

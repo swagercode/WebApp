@@ -22,12 +22,12 @@
 </script>
 
 <nav class="wrapper" bind:this={wrapper}>
-        <div class="top-wrapper" >
-            <a href="/" class="logo-wrapper" aria-label="Home">
-                <img src="/stot.png" alt="logo" />
-            </a>
+    <div class="top-wrapper" >
+        <a href="/" class="logo-wrapper" aria-label="Home">
+            <img src="/stot.png" alt="logo" />
+        </a>
         <div class="middle-wrapper">
-           <h1>
+            <h1>
             Find your next <span>study spot</span>
             </h1>
             <div class="search-wrapper">
@@ -38,8 +38,6 @@
             <UserButton />
         </div>
     </div>
-
-
     {#if carouselOpen}
         <div class="carousel-wrapper" transition:slide> 
                 <Carousel />
@@ -62,11 +60,10 @@
     }
 
     .top-wrapper {
-        width: 95%;
-        padding-block-end: 1rem;
+        width: 100%;
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
 
