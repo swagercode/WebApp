@@ -4,7 +4,9 @@
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
 
-    let carouselOpen = $state(true);
+    let { transition = true } = $props();
+
+    let carouselOpen = $state(transition);
     let wrapper: HTMLElement;
 
     export function getOffsetHeight() {
@@ -38,9 +40,13 @@
             <UserButton />
         </div>
     </div>
-    {#if carouselOpen}
+    {#if carouselOpen && transition}
         <div class="carousel-wrapper" transition:slide> 
                 <Carousel />
+        </div>
+    {:else if carouselOpen && !transition}
+        <div class="carousel-wrapper"> 
+            <Carousel />
         </div>
     {/if}
 </nav>
@@ -94,6 +100,7 @@
     .search-wrapper {
         width: 80%;
         height: 100%;
+        margin-block-end: .2rem;
     }
 
     .carousel-wrapper {
