@@ -57,18 +57,18 @@
 
 <div class="morph-menu-wrapper">
     <button class="user-button morph-btn" aria-haspopup="true" aria-expanded={open} onclick={toggleOpen} tabindex="0">
+        {#if user}
+            <div class="img-wrapper" style="opacity: {open ? 0 : 1}; transform: scale({open ? 0.5 : 1}); transition: opacity 0.2s, transform 0.2s;">
+                <img src={user?.profilePicture || '/default-profile.png'} alt="profile" />
+            </div>
+        {/if}
         <span class="sr-only">Menu</span>
         <div class="ham-x-menu" aria-hidden="true">
             <span class:open={open}></span>
             <span class:open={open}></span>
             <span class:open={open}></span>
         </div>
-        {#if user}
-            <div class="img-wrapper" style="opacity: {open ? 0 : 1}; transform: scale({open ? 0.5 : 1}); transition: opacity 0.2s, transform 0.2s;">
-                <img src={user?.profilePicture || '/default-profile.png'} alt="profile" />
-            </div>
-        {/if}
-    </button>
+            </button>
     {#if open}
         <div
             class="morph-menu"
@@ -146,7 +146,6 @@
     align-items: center;
     overflow: hidden;
     border-radius: 50%;
-    margin-left: 0.5rem;
     transition: opacity 0.2s, transform 0.2s;
 }
 .user-button img {
@@ -163,7 +162,7 @@
     justify-content: center;
     align-items: center;
     z-index: 12;
-    margin-right: 0.2rem;
+    margin-inline-start: .2rem;
 }
 .ham-x-menu span {
     display: block;

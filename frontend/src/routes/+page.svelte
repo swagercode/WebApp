@@ -228,7 +228,7 @@
 
         window.addEventListener('scroll', () => {
             if ((window.scrollY === 0 && lastScrollY !== 0) || (window.scrollY !== 0 && lastScrollY === 0)) {
-                header.toggleCarousel();
+                header.toggleActive();
             }
             lastScrollY = window.scrollY;
         });

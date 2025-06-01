@@ -6,7 +6,7 @@
 
     let { transition = true } = $props();
 
-    let carouselOpen = $state(transition);
+    let active = $state(transition);
     let wrapper: HTMLElement;
 
     export function getOffsetHeight() {
@@ -16,12 +16,12 @@
         return wrapper.offsetHeight || 0;
     }
 
-    export function setCarouselOpen(open: boolean) {
-        carouselOpen = open;
+    export function setActive(active: boolean) {
+        active = active;
     }
 
-    export function toggleCarousel() {
-        carouselOpen = !carouselOpen;
+    export function toggleActive() {
+        active = !active;
     }
 
 </script>
@@ -32,7 +32,7 @@
             <img src="/stot.png" alt="logo" />
         </a>
         <div class="middle-wrapper">
-            {#if carouselOpen}
+            {#if active}
                 <div class="top-routes-wrapper" transition:slide>
                     <TopRoutes />
                 </div>
@@ -67,7 +67,7 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         margin-block: 1rem;
     }
 

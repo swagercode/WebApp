@@ -2,18 +2,18 @@
     import { scale } from 'svelte/transition';
 
     const gentleBack = (t: number) => {
-        const s = 1.3;
+        const s = 1.2;
         return --t * t * ((s + 1) * t + s) + 1;
     };
 </script>
 
 
 <div class="wrapper">
-    <button class="button" transition:scale={{duration: 800, easing: gentleBack}}>
+    <button class="button" transition:scale={{duration: 500, easing: gentleBack}}>
     </button>
-    <button class="button" transition:scale={{duration: 800, easing: gentleBack}}>
+    <button class="button" transition:scale={{duration: 550, easing: gentleBack}}>
     </button>
-    <button class="button" transition:scale={{duration: 800, easing: gentleBack}}>
+    <button class="button" transition:scale={{duration: 600, easing: gentleBack}}>
     </button>
 </div>
 

@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
 
-    onMount(() => {
+     onMount(() => {
         console.log("Search mounted");
     });
 </script>
