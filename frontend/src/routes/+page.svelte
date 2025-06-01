@@ -1,4 +1,3 @@
-
 <script lang="ts">
     import Homenav from '../components/common/Homenav.svelte';
     import SpotComponent from '../components/spots/SpotComponent.svelte';
@@ -81,9 +80,29 @@
     let offsetHeight = $state(0);
     let mainWrapper: HTMLElement;
     onMount(() => {
+        // Use requestAnimationFrame to ensure DOM is fully rendered
+        requestAnimationFrame(() => {
+            if (header) {
+                const height = header.getOffsetHeight();
+                if (height !== null && height !== undefined) {
+                    offsetHeight = height;
+                    if (mainWrapper) {
+                        mainWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
+                    }
+                }
+            }
+        });
+        
         window.addEventListener('resize', () => {
-            offsetHeight = header.getOffsetHeight();
-            mainWrapper.style.margin = `calc(${offsetHeight}px + 1rem)`;
+            if (header) {
+                const height = header.getOffsetHeight();
+                if (height !== null && height !== undefined) {
+                    offsetHeight = height;
+                    if (mainWrapper) {
+                        mainWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
+                    }
+                }
+            }
         });
 
         window.addEventListener('scroll', () => {
@@ -92,7 +111,6 @@
             }
             lastScrollY = window.scrollY;
         });
-        offsetHeight = header.getOffsetHeight();
     });
 
 

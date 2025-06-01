@@ -8,12 +8,27 @@
     let mapWrapper: HTMLElement;
 
     onMount(() => {
-        window.addEventListener('resize', () => {
-            offsetHeight = header.getOffsetHeight();
-            mapWrapper.style.margin = `calc(${offsetHeight}px)`;
+        requestAnimationFrame(() => {
+            if (header) {
+                const height = header.getOffsetHeight();
+                if (height !== null && height !== undefined) {
+                    offsetHeight = height;
+                    if (mapWrapper) {
+                        mapWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
+                    }
+                }
+                
+                window.addEventListener('resize', () => {
+                    const height = header.getOffsetHeight();
+                    if (height !== null && height !== undefined) {
+                        offsetHeight = height;
+                        if (mapWrapper) {
+                            mapWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
+                        }
+                    }
+                });
+            }
         });
-
-        offsetHeight = header.getOffsetHeight();
     });
 </script>
 

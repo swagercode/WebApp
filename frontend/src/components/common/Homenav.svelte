@@ -10,7 +10,10 @@
     let wrapper: HTMLElement;
 
     export function getOffsetHeight() {
-        return wrapper.offsetHeight;
+        if (!wrapper) {
+            return null;
+        }
+        return wrapper.offsetHeight || 0;
     }
 
     export function setCarouselOpen(open: boolean) {

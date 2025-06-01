@@ -155,6 +155,9 @@
                 }
             }
         ];
+        console.log("Demo markers added:", markers.length, "markers");
+        console.log("Current map center:", center);
+        console.log("Current zoom:", zoom);
     }
     
     // Handle marker click - SIMPLIFIED FOR NOW
@@ -233,16 +236,20 @@
     }
     
     onMount(() => {
-        // Try to get user's location on mount
-        getCurrentLocation();
+        console.log("Component mounted");
         
         // Add demo markers to show functionality
         addDemoMarkers();
+        
+        // Try to get user's location on mount
+        getCurrentLocation();
     });
 
     // Handle map load event to add missing image handler
     function handleMapLoad() {
         if (map) {
+            console.log("Map loaded successfully");
+            
             // Handle missing style images gracefully
             map.on('styleimagemissing', (e) => {
                 // Create a simple colored circle as fallback for missing icons
@@ -264,6 +271,12 @@
                     map.addImage(e.id, imageData);
                 }
             });
+            
+            // Ensure markers are visible after map loads
+            if (markers.length === 0) {
+                console.log("No markers found, adding demo markers...");
+                addDemoMarkers();
+            }
         }
     }
 </script>
@@ -284,6 +297,22 @@
                 📍
             {/if}
         </button>
+        
+        <!-- Debug button to center on NYC -->
+        <button 
+            class="location-button" 
+            onclick={() => {
+                console.log("Centering on NYC");
+                center = [-74.006, 40.7128];
+                zoom = 14;
+                if (map) {
+                    map.flyTo({ center: [-74.006, 40.7128], zoom: 14 });
+                }
+            }}
+            title="Center on NYC (where markers should be)"
+        >
+            🗽
+        </button>
     </div>
     
     <!-- Map -->
@@ -302,25 +331,34 @@
         >
             <!-- Demo markers -->
             {#each markers as marker (marker.id)}
-                <DefaultMarker lngLat={ marker.lngLat } >
-                    <Popup
-                        anchor="top"
-                        offset={[0, -10]}
-                    >
+                <Marker 
+                    lngLat={marker.lngLat}
+                    draggable={false}
+                    onclick={() => handleMarkerClick(marker)}
+                    class="custom-marker"
+                >
+                    <span class="marker-label">
+                        {marker.place.displayName.text.slice(0, 3).toUpperCase()}
+                    </span>
+
+                    <Popup offset={[0, -10]}>
                         <div class="popup-content">
-                            <h3>{marker.place.displayName.text}</h3>
+                            <h3 class="popup-title">{marker.place.displayName.text}</h3>
+                            <p class="popup-address">{marker.place.formattedAddress}</p>
+                            {#if marker.place.rating}
+                                <p class="popup-rating">⭐ {marker.place.rating}</p>
+                            {/if}
                         </div>
                     </Popup>
-                </DefaultMarker>
-
-
-                <!-- <Marker
-                    lngLat={marker.lngLat}
-                    onclick={() => handleMarkerClick(marker)}
-                    class="grid h-8 w-8 place-items-center rounded-full border-2 border-white bg-red-500 text-white shadow-lg hover:scale-110 transition-transform cursor-pointer font-bold"
-                >
-                </Marker> -->
+                </Marker>
             {/each}
+            
+            <!-- Test marker - should always be visible -->
+            <Marker lngLat={[-74.006, 40.7128]}>
+                <div style="background: red; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px;">
+                    !
+                </div>
+            </Marker>
         </MapLibre>
     </div>
     
@@ -649,5 +687,64 @@
         margin: 0;
         color: #64748b;
         font-size: 0.875rem;
+    }
+
+    /* Custom marker styles (equivalent to Tailwind classes from example) */
+    :global(.custom-marker) {
+        display: grid;
+        height: 2rem;           /* h-8 */
+        width: 2rem;            /* w-8 */
+        place-items: center;    /* place-items-center */
+        border-radius: 50%;     /* rounded-full */
+        border: 1px solid #e5e7eb; /* border border-gray-200 */
+        background-color: #fca5a5; /* bg-red-300 */
+        color: #000000;         /* text-black */
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    
+    :global(.custom-marker:hover) {
+        background-color: #f87171; /* Slightly darker on hover */
+        transform: scale(1.1);
+    }
+    
+    :global(.custom-marker:focus) {
+        outline: 2px solid #000000; /* focus:outline-2 focus:outline-black */
+        outline-offset: 2px;
+    }
+    
+    .marker-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1;
+    }
+    
+    /* Popup styles */
+    .popup-content {
+        background: white;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        min-width: 200px;
+    }
+    
+    .popup-title {
+        font-weight: 700;
+        font-size: 1.125rem;
+        margin: 0 0 0.5rem 0;
+        color: #1f2937;
+    }
+    
+    .popup-address {
+        font-size: 0.875rem;
+        color: #6b7280;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    .popup-rating {
+        font-size: 0.875rem;
+        margin: 0;
+        color: #374151;
     }
 </style>

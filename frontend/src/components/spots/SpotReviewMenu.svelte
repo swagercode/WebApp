@@ -1,6 +1,6 @@
 <script lang="ts">
     import FiveStarRating from "../common/FiveStarRating.svelte";
-    let { toggleOpen } = $props();
+    let { closeReviewMenu } = $props();
     let page = $state(0);
     const categories = ["Atmosphere", "Comfort", "Quiet", "Seating"];
     let reviewText = $state("");
@@ -9,7 +9,7 @@
         page = 2;
         console.log("Posting review");
         setTimeout(() => {
-            toggleOpen();
+            closeReviewMenu();
         }, 3000);
     }
 
@@ -43,7 +43,7 @@
     {/if}
     <footer class="review-menu-footer">
         {#if page === 0}
-            <button class="review-menu-footer-button" onclick={() => toggleOpen()}>Cancel</button>
+            <button class="review-menu-footer-button" onclick={closeReviewMenu}>Cancel</button>
             <button class="review-menu-footer-button" onclick={() => page = 1}>Next</button>
         {:else if page === 1}
             <button class="review-menu-footer-button" onclick={() => page = 0}>Back</button>

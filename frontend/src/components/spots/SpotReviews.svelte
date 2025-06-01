@@ -5,8 +5,8 @@
 
     let reviewOpen = $state(false);
 
-    export function toggleOpen() {
-        reviewOpen = !reviewOpen;
+    export function closeReviewMenu() {
+        reviewOpen = false;
     }
 </script>
 
@@ -14,12 +14,12 @@
     {#if reviewOpen}
         <button class="review-menu-container-background" onclick={() => reviewOpen = false} aria-label="Close review menu" transition:fade={{ duration: 300 }}></button>
         <div class="review-menu-container" transition:fly={{ y: 200, duration: 300 }}>
-            <SpotReviewMenu {toggleOpen} />
+            <SpotReviewMenu {closeReviewMenu} />
         </div>
     {/if}
     <div class="reviews-header">
         <h2>Reviews</h2>
-        <button class="leave-review-btn" onclick={toggleOpen} aria-label="Click to leave a review">Leave a review</button>
+        <button class="leave-review-btn" onclick={() => reviewOpen = true} aria-label="Click to leave a review">Leave a review</button>
     </div>
     
     <div class="reviews-list">
