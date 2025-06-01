@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { slide, scale } from "svelte/transition";
-	import { backOut } from "svelte/easing";
+	import { slide } from "svelte/transition";
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
     import TopRoutes from "./TopRoutes.svelte";
