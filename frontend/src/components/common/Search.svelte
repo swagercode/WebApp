@@ -24,8 +24,8 @@
         display: flex;
         align-items: center;
         width: 100%;
-        height: 3.5rem;
-        border-radius: 2rem;
+        height: 4.3rem;
+        border-radius: 10rem;
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -44,8 +44,8 @@
     }
 
     .search-bar-button svg {
-        width: 80%;
-        height: 80%;
+        width: 70%;
+        height: 70%;
         display: block;
     }
 

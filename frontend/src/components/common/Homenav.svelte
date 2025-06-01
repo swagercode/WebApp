@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { slide } from "svelte/transition";
-    import Carousel from "./Carousel.svelte";
+	import { slide, scale } from "svelte/transition";
+	import { backOut } from "svelte/easing";
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
+    import TopRoutes from "./TopRoutes.svelte";
 
     let { transition = true } = $props();
 
@@ -32,26 +33,19 @@
             <img src="/stot.png" alt="logo" />
         </a>
         <div class="middle-wrapper">
-            <h1>
-            Find your next <span>study spot</span>
-            </h1>
+            {#if carouselOpen}
+                <div class="top-routes-wrapper" transition:slide>
+                    <TopRoutes />
+                </div>
+            {/if}
             <div class="search-wrapper">
                 <Search />
-            </div>
+            </div>         
         </div>
         <div class="user-wrapper">
             <UserButton />
         </div>
     </div>
-    {#if carouselOpen && transition}
-        <div class="carousel-wrapper" transition:slide> 
-                <Carousel />
-        </div>
-    {:else if carouselOpen && !transition}
-        <div class="carousel-wrapper"> 
-            <Carousel />
-        </div>
-    {/if}
 </nav>
 
 <style>
@@ -70,20 +64,31 @@
 
     .top-wrapper {
         width: 100%;
+        height: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+        margin-block: 1rem;
     }
 
 
     .logo-wrapper, .user-wrapper {
         flex: 1 1 0;
         display: flex;
-        justify-content: center;
-        align-items: center;
         min-width: 0;
     }
+
+    .logo-wrapper {
+        justify-content: flex-start;
+        padding-inline-start: 1rem;
+    }
+
+    .user-wrapper {
+        justify-content: flex-end;
+        padding-inline-end: 1rem;
+    }
+
 
     .logo-wrapper img {
         width: 70%;
@@ -101,39 +106,17 @@
     }
 
     .search-wrapper {
-        width: 80%;
+        width: 70%;
         height: 100%;
-        margin-block-end: .2rem;
     }
 
-    .carousel-wrapper {
-        max-height: 300px;
-        opacity: 1;
-        overflow: hidden;
-        transition: 
-            max-height 0.3s cubic-bezier(0.4,0,0.2,1),
-            opacity 0.3s,
-            transform 0.3s;
-        width: 35%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    h1 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        text-align: center;
-        color: var(--font-clr);
-        user-select: none;
-    }
-
-    h1 span {
-        color: var(--primary-clr);
+    .top-routes-wrapper {
+        padding-block: 1rem;
+   
     }
 
     @media (max-width: 784px) {
-        .logo-wrapper, .logo-wrapper img, .middle-wrapper > h1{
+        .logo-wrapper, .logo-wrapper img {
             display: none;
         }
 
@@ -155,10 +138,6 @@
         .user-wrapper {
             padding-inline-end: 1rem;
             justify-content: flex-end;
-        }
-
-        .carousel-wrapper {
-            width: 100%;
         }
 
     }
