@@ -6,7 +6,7 @@
     let reviewText = $state("");
 
     function postReview() {
-        page = 2;
+        page = 3;
         console.log("Posting review");
         setTimeout(() => {
             closeReviewMenu();
@@ -17,7 +17,7 @@
 
 
 <div class="review-menu">
-    {#if page !== 2}
+    {#if page !== 3}
         <h1 class="review-menu-title">Leave a review</h1>
     {/if}
     {#if page === 0}
@@ -37,6 +37,11 @@
         </form>
     {:else if page === 2}
         <div class="review-menu-content">
+            <input type="range" min="0" max="1000" value="5" class="capacity-slider" />
+        </div>
+
+    {:else if page === 3}
+        <div class="review-menu-content">
             <h2>Thank you for your review!</h2>
             <p>You're helping others find the best study spots!</p>
         </div>
@@ -47,7 +52,10 @@
             <button class="review-menu-footer-button" onclick={() => page = 1}>Next</button>
         {:else if page === 1}
             <button class="review-menu-footer-button" onclick={() => page = 0}>Back</button>
-            <button class="review-menu-footer-button" onclick={postReview}>{reviewText ? "Post" : "Skip"}</button>
+            <button class="review-menu-footer-button" onclick={() => page = 2}>Next</button>
+        {:else if page === 2}
+            <button class="review-menu-footer-button" onclick={() => page = 1}>Back</button>
+            <button class="review-menu-footer-button" onclick={postReview}>Post</button>
         {/if}
     </footer>
 </div>
@@ -103,6 +111,11 @@
     .review-menu-rating {
         height: 3rem;
         width: 70%;
+    }
+
+    .capacity-slider {
+        width: 100%;
+        height: 1rem;
     }
 
     .review-menu-footer {

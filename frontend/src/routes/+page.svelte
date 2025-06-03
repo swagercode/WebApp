@@ -269,6 +269,7 @@
     :global(:root) {
         font-family: 'Gotham';
         --font-clr: #7A7A7A;
+        --font-clr-dark: #000000;
         --font-weight: 550;
 
         --primary-clr: #EF934B;

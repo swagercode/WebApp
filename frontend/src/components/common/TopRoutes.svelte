@@ -13,7 +13,9 @@
     </button>
     <button class="button" transition:scale={{duration: 550, easing: gentleBack}}>
     </button>
-    <button class="button" transition:scale={{duration: 600, easing: gentleBack}}>
+    <button class="button" transition:scale={{duration: 500, easing: gentleBack}}>
+    </button>
+    <button class="button" transition:scale={{duration: 500, easing: gentleBack}}>
     </button>
 </div>
 

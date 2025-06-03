@@ -6,7 +6,6 @@
     import SpotInfo from '../../../components/spots/SpotInfo.svelte';
     import SpotRatings from '../../../components/spots/SpotRatings.svelte';
     import SpotFeatures from '../../../components/spots/SpotFeatures.svelte';
-    import SpotsMap from '../../../components/maps/SpotsMap.svelte';
     import SpotReviews from '../../../components/spots/SpotReviews.svelte';
     
     const spotId = $derived(page.params.id);
