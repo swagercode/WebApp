@@ -117,14 +117,14 @@
 
     .search-header-text {
         font-size: 1.2rem;
-        font-weight: 600;
+        font-weight: 300;
         color: var(--font-clr-dark);
         margin: 0;
         padding: 0;
     }
 
     .search-text-normal {
-        font-size: 1rem;
+        font-size: .8rem;
         color: var(--font-clr);
         margin: 0;
         padding: 0;
