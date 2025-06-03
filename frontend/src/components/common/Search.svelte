@@ -46,7 +46,7 @@
 
     .search-submit-button {
         aspect-ratio: 1/1;
-        width: 3.5rem;
+        width: 8rem;
         border: transparent;
         background-color: var(--primary-clr);
         cursor: pointer;
@@ -57,8 +57,8 @@
     }
 
     .search-submit-button svg {
-        width: 60%;
-        height: 60%;
+        width: 50%;
+        height: 50%;
         display: block;
     }
 
