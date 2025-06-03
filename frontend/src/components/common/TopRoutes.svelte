@@ -10,12 +10,13 @@
 
 <div class="wrapper">
     <button class="button" transition:scale={{duration: 500, easing: gentleBack}}>
+        <p>Search</p>
     </button>
     <button class="button" transition:scale={{duration: 550, easing: gentleBack}}>
+        <p>Maps</p>
     </button>
     <button class="button" transition:scale={{duration: 500, easing: gentleBack}}>
-    </button>
-    <button class="button" transition:scale={{duration: 500, easing: gentleBack}}>
+        <p>Groups</p>
     </button>
 </div>
 

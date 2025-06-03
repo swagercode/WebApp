@@ -14,17 +14,13 @@
         <p class="search-text-normal">Find your next <span class="search-text-highlight">study spot</span></p>
     </button>
 
-    <div class="search-bar-divider-wrapper">
-        <hr class="search-bar-divider"/>
-    </div>
+    <hr class="search-bar-divider"/>
 
 
-    <div class="search-bar-filter-wrapper">
-        <button class="search-bar-filter-button">
-            <h2 class="search-header-text">Filter</h2>
-            <p class="search-text-highlight">{currentFilter}</p>
-        </button>
-    </div>
+    <button class="search-bar-filter-button">
+        <h2 class="search-header-text">Filter</h2>
+        <p class="search-text-highlight">{currentFilter}</p>
+    </button>
 
     <button class="search-submit-button" aria-label="Search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -41,7 +37,7 @@
         display: flex;
         align-items: center;
         width: 100%;
-        height: 4.3rem;
+        height: 5rem;
         border-radius: 10rem;
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;
@@ -66,30 +62,20 @@
         display: block;
     }
 
-    .search-bar-filter-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
     .search-bar-filter-button {
         width: 100%;
         height: 100%;
         border: transparent;
         background-color: transparent;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-    }
-
-    .search-bar-divider-wrapper {
-        width: 100%;
-        height: 100%;
+        text-align: center;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        gap: .2rem;
     }
 
     .search-bar-divider {
@@ -115,6 +101,10 @@
         gap: .2rem;
     }
 
+    .search-bar-input-button, .search-bar-filter-button {
+        cursor: pointer;
+    }
+
     .search-header-text {
         font-size: 1.2rem;
         font-weight: 300;
@@ -130,9 +120,10 @@
         padding: 0;
     }
 
-    .search-bar-input-button .search-text-highlight {
+    .search-bar-input-button, .search-text-highlight {
         color: var(--primary-clr);
-        margin: 0;
-        padding: 0;
+        margin-block: 0 0 !important;
+        padding: 0 !important;
     }
+
 </style>
