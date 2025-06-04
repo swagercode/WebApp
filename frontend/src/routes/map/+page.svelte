@@ -73,6 +73,7 @@
     }
     
     :global(:root) {
+        --font-family: 'Nunito';
         --font-clr: #7A7A7A;
         --font-clr-light: #cbcbcb;
         --font-clr-dark: #000000;
@@ -134,8 +135,14 @@
     }
 
     .map-wrapper {
-        width: 100%;
-        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 98%;
+        height: 98%;
+        margin: 1rem;
+        border-radius: 1rem;
+        overflow: hidden;
     }
 </style>
 

@@ -206,66 +206,10 @@
 </script>
 
 <div class="map-container">
-    <!-- Search and Controls -->
-    <div class="map-controls">
-        <!-- Search Bar -->
-        <div class="search-container">
-            <input 
-                type="text" 
-                bind:value={searchQuery}
-                onkeypress={handleSearchKeyPress}
-                placeholder="Search for places..."
-                class="search-input"
-                disabled={isSearching}
-            />
-            <button 
-                onclick={searchPlaces} 
-                disabled={isSearching || !searchQuery.trim()}
-                class="search-button"
-                title="Search places"
-            >
-                {#if isSearching}
-                    <span class="spinner">⟳</span>
-                {:else}
-                    🔍
-                {/if}
-            </button>
-        </div>
-        
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-            <button 
-                class="action-button" 
-                onclick={getCurrentLocation} 
-                disabled={isGettingLocation}
-                title={isGettingLocation ? "Getting location..." : "Get current location"}
-            >
-                {#if isGettingLocation}
-                    <span class="spinner">⟳</span>
-                {:else}
-                    📍
-                {/if}
-            </button>
-            
-            <button 
-                class="action-button" 
-                onclick={searchStudySpots} 
-                disabled={isSearching}
-                title="Find study spots nearby"
-            >
-                {#if isSearching}
-                    <span class="spinner">⟳</span>
-                {:else}
-                    📚
-                {/if}
-            </button>
-        </div>
-    </div>
-    
     <!-- Error Display -->
     {#if error}
         <div class="error-notice">
-            <p>❌ {error}</p>
+            <p>{error}</p>
             <button onclick={() => error = ""} class="close-error">×</button>
         </div>
     {/if}
@@ -321,69 +265,6 @@
         </MapLibre>
     </div>
     
-    <!-- Place Details Panel -->
-    {#if selectedPlace}
-        <div class="details-panel">
-            <div class="details-header">
-                <h3>{selectedPlace.displayName?.text || "Place Details"}</h3>
-                <button class="close-button" onclick={() => selectedPlace = null}>×</button>
-            </div>
-            
-            <div class="details-content">
-                <p class="address">{selectedPlace.formattedAddress}</p>
-                
-                <div class="details-meta">
-                    {#if selectedPlace.rating}
-                        <div class="rating-section">
-                            <span class="rating">⭐ {selectedPlace.rating.toFixed(1)}</span>
-                            {#if selectedPlace.userRatingCount}
-                                <span class="rating-count">({selectedPlace.userRatingCount} reviews)</span>
-                            {/if}
-                        </div>
-                    {/if}
-                    
-                    {#if selectedPlace.priceLevel}
-                        <div class="price-section">
-                            <span class="price-level">💰 {formatPriceLevel(selectedPlace.priceLevel)}</span>
-                        </div>
-                    {/if}
-                    
-                    {#if selectedPlace.primaryType}
-                        <div class="type-section">
-                            <span class="place-type">🏷️ {selectedPlace.primaryType.replace(/_/g, ' ')}</span>
-                        </div>
-                    {/if}
-                    
-                    {#if selectedPlace.phoneNumber}
-                        <div class="contact-section">
-                            <a href="tel:{selectedPlace.phoneNumber}" class="phone-link">📞 {selectedPlace.phoneNumber}</a>
-                        </div>
-                    {/if}
-                    
-                    {#if selectedPlace.websiteUri}
-                        <div class="contact-section">
-                            <a href={selectedPlace.websiteUri} target="_blank" rel="noopener noreferrer" class="website-link">
-                                🌐 Visit Website
-                            </a>
-                        </div>
-                    {/if}
-                    
-                    {#if selectedPlace.regularOpeningHours}
-                        <div class="hours-section">
-                            <h4>Hours</h4>
-                            <p class="hours">{formatOpeningHours(selectedPlace.regularOpeningHours)}</p>
-                            {#if selectedPlace.regularOpeningHours.openNow !== undefined}
-                                <p class="open-status" class:open={selectedPlace.regularOpeningHours.openNow}>
-                                    {selectedPlace.regularOpeningHours.openNow ? "🟢 Open now" : "🔴 Closed"}
-                                </p>
-                            {/if}
-                        </div>
-                    {/if}
-                </div>
-            </div>
-        </div>
-    {/if}
-    
     <!-- Results Info -->
     {#if markers.length > 0 && !isSearching}
         <div class="results-info">
@@ -396,98 +277,11 @@
     .map-container {
         position: relative;
         width: 100%;
-        height: 100vh;
+        height: 100%;
         display: flex;
         flex-direction: column;
     }
     
-    .map-controls {
-        position: absolute;
-        top: 1rem;
-        left: 1rem;
-        right: 1rem;
-        z-index: 1000;
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        padding: 1rem;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-    
-    .search-container {
-        display: flex;
-        flex: 1;
-        gap: 0.5rem;
-    }
-    
-    .search-input {
-        flex: 1;
-        padding: 0.75rem;
-        border: 2px solid #e2e8f0;
-        border-radius: 0.375rem;
-        font-size: 1rem;
-        transition: border-color 0.2s;
-    }
-    
-    .search-input:focus {
-        outline: none;
-        border-color: #3b82f6;
-    }
-    
-    .search-input:disabled {
-        background-color: #f1f5f9;
-        cursor: not-allowed;
-    }
-    
-    .search-button,
-    .action-button {
-        padding: 0.75rem;
-        background: #3b82f6;
-        color: white;
-        border: none;
-        border-radius: 0.375rem;
-        font-size: 1.2rem;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 3rem;
-        min-height: 3rem;
-    }
-    
-    .search-button:hover:not(:disabled),
-    .action-button:hover:not(:disabled) {
-        background: #2563eb;
-    }
-    
-    .search-button:disabled,
-    .action-button:disabled {
-        background: #9ca3af;
-        cursor: not-allowed;
-    }
-    
-    .action-buttons {
-        display: flex;
-        gap: 0.5rem;
-    }
-    
-    .action-button {
-        background: #10b981;
-    }
-    
-    .action-button:hover:not(:disabled) {
-        background: #059669;
-    }
-    
-    .spinner {
-        display: inline-block;
-        animation: spin 1s linear infinite;
-        font-size: 1.2rem;
-    }
     
     @keyframes spin {
         from { transform: rotate(0deg); }
@@ -506,7 +300,7 @@
     
     .error-notice {
         position: absolute;
-        top: 6rem;
+        top: 1rem;
         left: 1rem;
         right: 1rem;
         background: rgba(239, 68, 68, 0.95);
