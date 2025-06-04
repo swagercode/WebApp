@@ -110,7 +110,9 @@
     }
 
     .top-routes-wrapper {
+        width: 100%;
         padding-block-end: 1rem;
+        z-index: 1000;
     }
 
     @media (max-width: 784px) {

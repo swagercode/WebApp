@@ -34,7 +34,7 @@
 
 <div class="page-wrapper">
     <div class="head-wrapper">
-        <Homenav transition={false} bind:this={header}/>
+        <Homenav transition={true} bind:this={header}/>
     </div>
 
     <div class="map-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);" bind:this={mapWrapper}>
@@ -43,22 +43,39 @@
 </div>
 
 <style>
+ 
     @font-face {
-        font-family: 'Gotham';
-        src: url('/Gotham Font Family/Gotham-font-family/Gotham/Gotham-Black.otf') format('opentype');
-        font-weight: 900;
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-Regular.ttf') format('truetype');
+        font-weight: 400;
         font-style: normal;
     }
+
     @font-face {
-        font-family: 'Gotham';
-        src: url('/Gotham Font Family/Gotham-font-family/Gotham/Gotham-Light.otf') format('opentype');
-        font-weight: 300;
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-SemiBold.ttf') format('truetype');
+        font-weight: 600;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-Bold.ttf') format('truetype');
+        font-weight: 700;
         font-style: normal;
     }
     
     :global(:root) {
-        font-family: 'Gotham';
         --font-clr: #7A7A7A;
+        --font-clr-light: #cbcbcb;
+        --font-clr-dark: #000000;
         --font-weight: 550;
 
         --primary-clr: #EF934B;
@@ -87,6 +104,14 @@
 
     }
 
+    :global(body) {
+        margin: 0;
+        padding: 0;
+    }
+
+    :global(.sr-only) {
+        display: none;
+    }
     :global(body) {
         margin: 0;
         padding: 0;

@@ -150,9 +150,39 @@
 
 <style>
 
+   @font-face {
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-Regular.ttf') format('truetype');
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-Medium.ttf') format('truetype');
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-SemiBold.ttf') format('truetype');
+        font-weight: 600;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'Nunito';
+        src: url('/Nunito/static/Nunito-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+    }
+    
+    
     :global(:root) {
-        font-family: 'Gotham';
         --font-clr: #7A7A7A;
+        --font-clr-light: #cbcbcb;
+        --font-clr-dark: #000000;
         --font-weight: 550;
 
         --primary-clr: #EF934B;
@@ -179,6 +209,11 @@
         margin: 0;
         padding: 0;
 
+    }
+
+    :global(body) {
+        margin: 0;
+        padding: 0;
     }
 
     .spot-page {
