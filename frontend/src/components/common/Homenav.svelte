@@ -110,8 +110,7 @@
     }
 
     .top-routes-wrapper {
-        padding-block: 1rem;
-   
+        padding-block-end: 1rem;
     }
 
     @media (max-width: 784px) {

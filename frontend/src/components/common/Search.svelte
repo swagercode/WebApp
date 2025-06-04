@@ -3,6 +3,9 @@
 
     let currentFilter = $props();
 
+    let searchMenuOpen = $state(false);
+    let preferenceMenuOpen = $state(false);
+
      onMount(() => {
         console.log("Search mounted");
     });
@@ -21,7 +24,7 @@
 
     <div class="right-side-wrapper">
         <button class="search-bar-filter-button">
-            <h2 class="search-header-text">Filter</h2>
+            <h2 class="search-header-text">Preference</h2>
             <p class="search-text-highlight">{currentFilter}</p>
     </button>
 
@@ -105,7 +108,7 @@
 
     .search-bar-divider {
         height: 80%;
-        background-color: var(--font-clr-light);
+        border: var(--font-clr-light) 1px solid;
     }
 
     .search-bar-input-button {
