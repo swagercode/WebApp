@@ -9,25 +9,29 @@
 </script>
 
 <div class="search-bar">
-    <button class="search-bar-input-button" >
-        <h2 class="search-header-text">Search</h2>
-        <p class="search-text-normal">Find your next <span class="search-text-highlight">study spot</span></p>
-    </button>
+    <div class="left-side-wrapper">
+        <div class="spacer"></div>
+        <button class="search-bar-input-button" >
+            <h2 class="search-header-text">Search</h2>
+            <p class="search-text-normal">Find your next <span class="search-text-highlight">study spot</span></p>
+        </button>
+    </div>
 
     <hr class="search-bar-divider"/>
 
-
-    <button class="search-bar-filter-button">
-        <h2 class="search-header-text">Filter</h2>
-        <p class="search-text-highlight">{currentFilter}</p>
+    <div class="right-side-wrapper">
+        <button class="search-bar-filter-button">
+            <h2 class="search-header-text">Filter</h2>
+            <p class="search-text-highlight">{currentFilter}</p>
     </button>
 
     <button class="search-submit-button" aria-label="Search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <path fill="none" stroke="#ffffff" stroke-width="36" stroke-linecap="round"
-            d="m280,278a153,153 0 1,0-2,2l170,170m-91-117 110,110-26,26-110-110"/>
-        </svg> 
-    </button>
+                d="m280,278a153,153 0 1,0-2,2l170,170m-91-117 110,110-26,26-110-110"/>
+            </svg> 
+        </button>
+    </div>
 </div>
 
 <style>
@@ -44,9 +48,30 @@
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
 
+    .right-side-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .left-side-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .spacer {
+        width: 1rem;
+        height: 100%;
+    }
+
     .search-submit-button {
         aspect-ratio: 1/1;
-        width: 8rem;
+        width: 5rem;
         border: transparent;
         background-color: var(--primary-clr);
         cursor: pointer;
@@ -79,8 +104,8 @@
     }
 
     .search-bar-divider {
-        height: 100%;
-        background-color: var(--font-clr);
+        height: 80%;
+        background-color: var(--font-clr-light);
     }
 
     .search-bar-input-button {
@@ -95,7 +120,6 @@
         background-color: transparent;
         padding: 0;
         margin: 0;
-        margin-inline-start: 1rem;
         text-align: left;
         gap: .2rem;
     }
@@ -105,7 +129,7 @@
     }
 
     .search-header-text {
-        font-size: 1.2rem;
+        font-size: 1rem;
         font-weight: 300;
         color: var(--font-clr-dark);
         margin: 0;

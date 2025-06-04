@@ -284,6 +284,7 @@
     
     :global(:root) {
         --font-clr: #7A7A7A;
+        --font-clr-light: #999999;
         --font-clr-dark: #000000;
         --font-weight: 550;
 
