@@ -1,3 +1,9 @@
+// DEPRECATED: This file is deprecated in favor of backend.ts
+// The Google Places API calls have been moved to the Go backend for better security and rate limiting.
+// Use the backendAPI from './backend.ts' instead.
+//
+// This file will be removed in a future version.
+
 // Google Places API (New) utility functions
 export interface PlaceSearchRequest {
     textQuery: string;

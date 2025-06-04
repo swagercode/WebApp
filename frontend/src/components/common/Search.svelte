@@ -81,7 +81,6 @@
     .search-bar-divider {
         height: 100%;
         background-color: var(--font-clr);
-
     }
 
     .search-bar-input-button {
