@@ -21,7 +21,7 @@
     // Default map settings
     let center: [number, number] = $state([-74.006, 40.7128]); // NYC default
     let zoom = $state(12);
-    let currentStyle = OPENFREEMAP_STYLES.liberty;
+    let currentStyle = OPENFREEMAP_STYLES.positron;
     
     // Component state
     let selectedPlace: BackendPlace | null = $state(null);
