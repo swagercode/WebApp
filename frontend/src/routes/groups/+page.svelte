@@ -10,13 +10,10 @@
     ]);
 
     let header: Homenav;
-    let lastScrollY = $state(0);
     let offsetHeight = $state(0);
     let mainWrapper: HTMLElement;
-    let headerWrapper: HTMLElement;
 
     onMount(() => {
-        // Use requestAnimationFrame to ensure DOM is fully rendered
         requestAnimationFrame(() => {
             if (header) {
                 const height = header.getOffsetHeight();
@@ -41,18 +38,12 @@
             }
         });
 
-        window.addEventListener('scroll', () => {
-            if ((window.scrollY === 0 && lastScrollY !== 0) || (window.scrollY !== 0 && lastScrollY === 0)) {
-                header.toggleActive();
-            }
-            lastScrollY = window.scrollY;
-        });
     });
 
 </script>
 
 <div class="page-wrapper">
-    <div class="head-wrapper" bind:this={headerWrapper}>
+    <div class="head-wrapper">
         <Homenav bind:this={header}/>
     </div>
 
@@ -82,6 +73,15 @@
         height: 100%;
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .main-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
         justify-content: space-between;
         align-items: center;
     }
