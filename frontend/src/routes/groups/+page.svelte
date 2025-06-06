@@ -44,7 +44,7 @@
 
 <div class="page-wrapper">
     <div class="head-wrapper">
-        <Homenav bind:this={header}/>
+        <Homenav transition={true} bind:this={header}/>
     </div>
 
     <div class="main-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);" bind:this={mainWrapper}>
@@ -60,21 +60,15 @@
 
 <style>
     .page-wrapper {
-        width: 100%;
-        height: 100%;
+        height: 100dvh;
+        width: 100dvw;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
     }
 
     .head-wrapper {
+        top: 0;
         width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
     }
 
     .main-wrapper {
@@ -82,7 +76,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
     }
 </style>
