@@ -4,7 +4,7 @@
 
     let header: Homenav;
     let offsetHeight = $state(0);
-    let mapWrapper: HTMLElement;
+    let mainWrapper: HTMLElement;
 
     let groups = $state([
         { name: 'Group 1' },
@@ -18,8 +18,8 @@
                 const height = header.getOffsetHeight();
                 if (height !== null && height !== undefined) {
                     offsetHeight = height;
-                    if (mapWrapper) {
-                        mapWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
+                    if (mainWrapper) {
+                        mainWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
                     }
                 }
                 
@@ -27,8 +27,8 @@
                     const height = header.getOffsetHeight();
                     if (height !== null && height !== undefined) {
                         offsetHeight = height;
-                        if (mapWrapper) {
-                            mapWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
+                        if (mainWrapper) {
+                            mainWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
                         }
                     }
                 });
@@ -42,7 +42,7 @@
         <Homenav transition={true} bind:this={header}/>
     </div>
 
-    <div class="groups-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);" bind:this={mapWrapper}>
+    <div class="main-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);" bind:this={mainWrapper}>
         {#each groups as group}
             <div class="group-card">
                 <h2>{group.name}</h2>
