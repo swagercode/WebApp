@@ -81,6 +81,8 @@
         background-color: var(--font-clr-dark);
         margin: 0;
         padding: 0;
+
+        view-transition-name: top-routes-selected-line;
     }
 
 </style>
