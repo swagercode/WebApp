@@ -48,6 +48,7 @@
     }
 
     a {
+        width: 3rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -55,20 +56,19 @@
         background-color: transparent;
         border: transparent;
         cursor: pointer;
-        width: 4rem;
         text-decoration: none;
+        padding: 0;
+        margin: 0;
     }
 
     a img {
-        width: 100%;
-        aspect-ratio: 1/1;
-        object-fit: fill;
+        width: 125%;
         padding: 0;
         margin: 0;
     }
 
     a h1 {
-        font-size: 1rem;
+        font-size: 0.9rem;
         font-weight: 300;
         color: var(--font-clr);
         padding: 0;

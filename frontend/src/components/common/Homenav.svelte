@@ -105,7 +105,7 @@
     }
 
     .search-wrapper {
-        width: 85%;
+        width: 90%;
         height: 100%;
     }
 

@@ -15,8 +15,7 @@
     <div class="left-side-wrapper">
         <div class="spacer"></div>
         <button class="search-bar-input-button" >
-            <h2 class="search-header-text">Search</h2>
-            <p class="search-text-normal">Find your next <span class="search-text-highlight">study spot</span></p>
+            <p class="search-text-normal">Start your search for a <span class="search-text-highlight">study spot</span></p>
         </button>
     </div>
 
@@ -24,8 +23,7 @@
 
     <div class="right-side-wrapper">
         <button class="search-bar-filter-button">
-            <h2 class="search-header-text">Preference</h2>
-            <p class="search-text-highlight">{currentFilter}</p>
+            <p class="search-text-normal">Preference: <span class="search-text-highlight">{currentFilter}</span></p>
     </button>
 
     <button class="search-submit-button" aria-label="Search">
@@ -44,7 +42,7 @@
         display: flex;
         align-items: center;
         width: 100%;
-        height: 5rem;
+        height: 4rem;
         border-radius: 10rem;
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;
@@ -74,7 +72,7 @@
 
     .search-submit-button {
         aspect-ratio: 1/1;
-        width: 5rem;
+        width: 3.75rem;
         border: transparent;
         background-color: var(--primary-clr);
         cursor: pointer;

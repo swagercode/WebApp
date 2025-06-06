@@ -2,7 +2,7 @@
     import { getContext, onMount } from "svelte";
     import { MapLibre, Marker, Popup } from "svelte-maplibre";
     import type { Map } from "maplibre-gl";
-    import { backendAPI, type BackendPlace, formatPriceLevel, formatOpeningHours } from "$lib/api/backend";
+    import { backendAPI, type BackendPlace, formatPriceLevel } from "$lib/api/backend";
     
     // Get location context
     const location = getContext("location");
@@ -21,7 +21,7 @@
     // Default map settings
     let center: [number, number] = $state([-74.006, 40.7128]); // NYC default
     let zoom = $state(12);
-    let currentStyle = OPENFREEMAP_STYLES.liberty;
+    let currentStyle = OPENFREEMAP_STYLES.positron;
     
     // Component state
     let selectedPlace: BackendPlace | null = $state(null);

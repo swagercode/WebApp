@@ -142,7 +142,6 @@
         height: 98%;
         margin: 1rem;
         border-radius: 1rem;
-        overflow: hidden;
     }
 </style>
 

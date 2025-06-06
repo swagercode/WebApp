@@ -84,7 +84,7 @@
 
     .spot-name {
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: 300;
         margin: 0;
         padding: 0;
         display: flex;
@@ -95,7 +95,7 @@
     .spot-name span {
         display: inline-block;
         font-size: 1.5rem;
-        font-weight: 600;
+        font-weight: 300;
         margin: 0;
         padding: 0;
     }
