@@ -3,6 +3,7 @@
     import Homenav from '../../components/common/Homenav.svelte';
 
     import { onMount } from 'svelte';
+    
     let header: Homenav;
     let offsetHeight = $state(0);
     let mapWrapper: HTMLElement;
@@ -30,7 +31,8 @@
             }
         });
     });
-</script>
+
+    </script>
 
 <div class="page-wrapper">
     <div class="head-wrapper">
