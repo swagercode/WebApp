@@ -1,24 +1,47 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
-
+    import { fly } from "svelte/transition";
+    import SearchMenu from "./SearchMenu.svelte";
     let currentFilter = $props();
 
     let searchMenuOpen = $state(false);
     let preferenceMenuOpen = $state(false);
 
+    let searchMenuElem: SearchMenu;
+    let searchLeftButton: HTMLButtonElement;
+    let searchLeftWrapper: HTMLDivElement;
+    let searchLeftText: HTMLParagraphElement;
+    let searchLeftHighlight: HTMLSpanElement;
+
+
      onMount(() => {
         console.log("Search mounted");
+        let searchLeftList: Array<any> = [searchMenuElem, searchLeftButton, searchLeftWrapper, searchLeftText, searchLeftHighlight];
+
+        document.addEventListener("click", (event) => {
+            if (!searchLeftList.includes(event.target) && searchMenuOpen) {
+                searchMenuOpen = false;
+            }
+        });
     });
+
+    $inspect(searchMenuOpen);
 </script>
 
 <div class="search-bar">
-    <div class="left-side-wrapper">
+    <div class="left-side-wrapper" bind:this={searchLeftWrapper}>
         <div class="spacer"></div>
         <button class="search-bar-input-button" onclick={() => {
-            searchMenuOpen = true;
-        }}>
-            <p class="search-text-normal">Start your search for a <span class="search-text-highlight">study spot</span></p>
+            searchMenuOpen = !searchMenuOpen;
+        }}
+        bind:this={searchLeftButton}>
+            <p class="search-text-normal" bind:this={searchLeftText}>Start your search for a <span class="search-text-highlight" bind:this={searchLeftHighlight}>study spot</span></p>
         </button>
+        {#if searchMenuOpen}
+            <div class="search-menu-wrapper" transition:fly={{duration: 200}}>
+                    <SearchMenu bind:this={searchMenuElem}/>  
+            </div>
+        {/if}
     </div>
 
     <hr class="search-bar-divider"/>
@@ -38,6 +61,7 @@
         </button>
     </div>
 </div>
+
 
 <style>
 
@@ -62,6 +86,7 @@
     }
 
     .left-side-wrapper {
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -146,4 +171,12 @@
         padding: 0 !important;
     }
 
+    .search-menu-wrapper {
+        position: absolute;
+        top: 4rem;
+        left: -1rem;
+        width: 18rem;
+        height: 30rem;
+        z-index: 1000;
+    }
 </style>
