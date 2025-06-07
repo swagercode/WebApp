@@ -116,7 +116,22 @@
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
+    overflow-y: hidden;
 }
+
+.search-menu-list:hover {
+    overflow-y: auto;
+}
+
+.search-menu-list::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.search-menu-list::-webkit-scrollbar-thumb {
+    background: #F2F2F2;
+    border-radius: 0.5rem;
+}
+
 .search-menu-item {
     display: flex;
     align-items: center;

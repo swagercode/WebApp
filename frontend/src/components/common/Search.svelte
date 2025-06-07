@@ -7,20 +7,28 @@
     let searchMenuOpen = $state(false);
     let preferenceMenuOpen = $state(false);
 
-    let searchMenuElem: SearchMenu;
+    let searchMenuElem: SearchMenu | null = $state(null);
     let searchLeftButton: HTMLButtonElement;
     let searchLeftWrapper: HTMLDivElement;
     let searchLeftText: HTMLParagraphElement;
     let searchLeftHighlight: HTMLSpanElement;
 
+    let preferenceRightButton: HTMLButtonElement;
+    let preferenceRightWrapper: HTMLDivElement;
+    let preferenceRightText: HTMLParagraphElement;
+    let preferenceRightHighlight: HTMLSpanElement;
 
      onMount(() => {
         console.log("Search mounted");
         let searchLeftList: Array<any> = [searchMenuElem, searchLeftButton, searchLeftWrapper, searchLeftText, searchLeftHighlight];
+        let preferenceRightList: Array<any> = [preferenceRightButton, preferenceRightWrapper, preferenceRightText, preferenceRightHighlight];
 
         document.addEventListener("click", (event) => {
             if (!searchLeftList.includes(event.target) && searchMenuOpen) {
                 searchMenuOpen = false;
+            }
+            else if (!preferenceRightList.includes(event.target) && preferenceMenuOpen) {
+                preferenceMenuOpen = false;
             }
         });
     });
@@ -46,11 +54,11 @@
 
     <hr class="search-bar-divider"/>
 
-    <div class="right-side-wrapper">
+    <div class="right-side-wrapper" bind:this={preferenceRightWrapper} >
         <button class="search-bar-filter-button" onclick={() => {
-            preferenceMenuOpen = true;
-        }}>
-            <p class="search-text-normal">Preference: <span class="search-text-highlight">{currentFilter}</span></p>
+            preferenceMenuOpen = !preferenceMenuOpen;
+        }} bind:this={preferenceRightButton}>
+            <p class="search-text-normal" bind:this={preferenceRightText}>Preference: <span class="search-text-highlight" bind:this={preferenceRightHighlight}>{currentFilter}</span></p>
     </button>
 
     <button class="search-submit-button" aria-label="Search">
@@ -60,6 +68,14 @@
             </svg> 
         </button>
     </div>
+
+    {#if preferenceMenuOpen}
+        <div class="left-side-cover"></div>
+    {/if}
+
+    {#if searchMenuOpen}
+        <div class="right-side-cover"></div>
+    {/if}
 </div>
 
 
@@ -136,6 +152,7 @@
     .search-bar-divider {
         height: 80%;
         border: var(--font-clr-light) 1px solid;
+        background-color: var(--font-clr-light);
     }
 
     .search-bar-input-button {
@@ -179,4 +196,6 @@
         height: 30rem;
         z-index: 1000;
     }
+
+
 </style>
