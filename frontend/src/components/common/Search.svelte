@@ -6,7 +6,12 @@
 
     let searchMenuOpen = $state(false);
     let preferenceMenuOpen = $state(false);
+    
+    // Reactive states for divider animation
+    let dividerExpandLeft = $derived(searchMenuOpen);
+    let dividerExpandRight = $derived(preferenceMenuOpen);
 
+    // Element references and dimensions
     let searchMenuElem: SearchMenu | null = $state(null);
     let searchLeftButton: HTMLButtonElement;
     let searchLeftWrapper: HTMLDivElement;
@@ -17,6 +22,35 @@
     let preferenceRightWrapper: HTMLDivElement;
     let preferenceRightText: HTMLParagraphElement;
     let preferenceRightHighlight: HTMLSpanElement;
+
+    let dividerElement: HTMLHRElement;
+    let searchBarElement: HTMLDivElement;
+
+    // Dynamic scaling values
+    let leftScaleX = $state(50);
+    let rightScaleX = $state(50);
+    let scaleY = $state(6);
+
+    // Function to calculate dynamic scaling
+    function calculateScaling(): void {
+        if (!searchBarElement || !dividerElement || !searchLeftWrapper || !preferenceRightWrapper) return;
+        
+        const searchBarRect = searchBarElement.getBoundingClientRect();
+        const dividerRect = dividerElement.getBoundingClientRect();
+        const leftWrapperRect = searchLeftWrapper.getBoundingClientRect();
+        const rightWrapperRect = preferenceRightWrapper.getBoundingClientRect();
+        
+        // Calculate scale needed to cover each side
+        const dividerWidth = dividerRect.width;
+        const searchBarHeight = searchBarRect.height;
+        
+        // Scale X to cover the width of each wrapper
+        leftScaleX = Math.max(1, (rightWrapperRect.width / dividerWidth) * 1.1);
+        rightScaleX = Math.max(1, (leftWrapperRect.width / dividerWidth) * 1.1);
+        
+        // Scale Y to cover the height of the search bar
+        scaleY = Math.max(1, (searchBarHeight / dividerRect.height) * 1.2);
+    }
 
      onMount(() => {
         console.log("Search mounted");
@@ -31,16 +65,28 @@
                 preferenceMenuOpen = false;
             }
         });
+
+        // Calculate initial scaling and set up resize listener
+        setTimeout(calculateScaling, 100); // Small delay to ensure elements are rendered
+        
+        const resizeObserver = new ResizeObserver(() => {
+            calculateScaling();
+        });
+        
+        if (searchBarElement) {
+            resizeObserver.observe(searchBarElement);
+        }
+
+        return () => {
+            resizeObserver.disconnect();
+        };
     });
 
     $inspect(searchMenuOpen);
 </script>
 
-<div class="search-bar">
+<div class="search-bar" bind:this={searchBarElement}>
     <div class="left-side-wrapper" bind:this={searchLeftWrapper}>
-        {#if preferenceMenuOpen}
-            <div class="left-side-cover" transition:fly={{duration: 200}}></div>
-        {/if}
         <div class="spacer"></div>
         <button class="search-bar-input-button" onclick={() => {
             searchMenuOpen = !searchMenuOpen;
@@ -55,12 +101,9 @@
         {/if}
     </div>
 
-    <hr class="search-bar-divider"/>
+    <hr class="search-bar-divider" class:expand-left={dividerExpandLeft} class:expand-right={dividerExpandRight} bind:this={dividerElement} style="--scale-x-left: {rightScaleX}; --scale-x-right: {leftScaleX}; --scale-y: {scaleY};" />
 
     <div class="right-side-wrapper" bind:this={preferenceRightWrapper} >
-        {#if searchMenuOpen}
-            <div class="right-side-cover" transition:fly={{duration: 200}}></div>
-        {/if}
         <button class="search-bar-filter-button" onclick={() => {
             preferenceMenuOpen = !preferenceMenuOpen;
         }} bind:this={preferenceRightButton}>
@@ -112,28 +155,6 @@
         height: 100%;
     }
 
-    .left-side-cover {
-        position: absolute;
-        top: -.5rem;
-        left: -.5rem;
-        width: calc(100% + .7rem);
-        height: 4rem;
-        background-color: var(--font-clr-light);
-        border-radius: 10rem 0 0 10rem;
-        z-index: -1;
-    }
-
-    .right-side-cover {
-        position: absolute;
-        top: -.5rem;
-        right: -.5rem;
-        width: calc(100% + .7rem);
-        height: 4rem;
-        background-color: var(--font-clr-light);
-        border-radius: 0 10rem 10rem 0;
-        z-index: -1;
-    }
-
     .spacer {
         width: 1rem;
         height: 100%;
@@ -177,6 +198,28 @@
         height: 80%;
         border: var(--font-clr-light) 1px solid;
         background-color: var(--font-clr-light);
+        transition: all 0.3s ease-in-out;
+        transform-origin: center;
+        position: relative;
+        z-index: 1;
+    }
+
+    .search-bar-divider.expand-left {
+        transform: scaleX(var(--scale-x-right)) scaleY(var(--scale-y));
+        transform-origin: left center;
+        background-color: var(--font-clr-light);
+        opacity: 0.8;
+        z-index: -1;
+        border-radius: 0 10rem 10rem 0;
+    }
+
+    .search-bar-divider.expand-right {
+        transform: scaleX(var(--scale-x-left)) scaleY(var(--scale-y));
+        transform-origin: right center;
+        background-color: var(--font-clr-light);
+        opacity: 0.8;
+        z-index: -1;
+        border-radius: 10rem 0 0 10rem;
     }
 
     .search-bar-input-button {
