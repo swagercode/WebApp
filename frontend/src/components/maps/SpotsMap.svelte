@@ -525,29 +525,4 @@
         color: #374151;
     }
     
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-        .map-controls {
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-        
-        .search-container {
-            width: 100%;
-        }
-        
-        .action-buttons {
-            width: 100%;
-            justify-content: center;
-        }
-        
-        .details-panel {
-            left: 1rem;
-            right: 1rem;
-            width: auto;
-            top: auto;
-            bottom: 1rem;
-            max-height: 50vh;
-        }
-    }
 </style>
