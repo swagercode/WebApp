@@ -14,7 +14,9 @@
 <div class="search-bar">
     <div class="left-side-wrapper">
         <div class="spacer"></div>
-        <button class="search-bar-input-button" >
+        <button class="search-bar-input-button" onclick={() => {
+            searchMenuOpen = true;
+        }}>
             <p class="search-text-normal">Start your search for a <span class="search-text-highlight">study spot</span></p>
         </button>
     </div>
@@ -22,7 +24,9 @@
     <hr class="search-bar-divider"/>
 
     <div class="right-side-wrapper">
-        <button class="search-bar-filter-button">
+        <button class="search-bar-filter-button" onclick={() => {
+            preferenceMenuOpen = true;
+        }}>
             <p class="search-text-normal">Preference: <span class="search-text-highlight">{currentFilter}</span></p>
     </button>
 
@@ -127,14 +131,6 @@
 
     .search-bar-input-button, .search-bar-filter-button {
         cursor: pointer;
-    }
-
-    .search-header-text {
-        font-size: 1rem;
-        font-weight: 300;
-        color: var(--font-clr-dark);
-        margin: 0;
-        padding: 0;
     }
 
     .search-text-normal {
