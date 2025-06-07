@@ -193,7 +193,6 @@
     onMount(() => {
         console.log("SpotsMap component mounted");
         
-        // Try to get user's location on mount
         getCurrentLocation();
     });
 </script>
