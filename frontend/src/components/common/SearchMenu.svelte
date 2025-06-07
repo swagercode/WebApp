@@ -5,6 +5,36 @@
             icon: "☕",
             time: "12 mins away",
             rating: 4.3
+        },
+        {
+            name: "Green Bean Coffee",
+            icon: "☕",
+            time: "10 mins away",
+            rating: 4.3
+        },
+        {
+            name: "Green Bean Coffee",
+            icon: "☕",
+            time: "10 mins away",
+            rating: 4.3
+        },
+        {
+            name: "Green Bean Coffee",
+            icon: "☕",
+            time: "10 mins away",
+            rating: 4.3
+        },
+        {
+            name: "Green Bean Coffee",
+            icon: "☕",
+            time: "10 mins away",
+            rating: 4.3
+        },
+        {
+            name: "Green Bean Coffee",
+            icon: "☕",
+            time: "10 mins away",
+            rating: 4.3
         }
     ]);
     let menuRef: HTMLDivElement | null;

@@ -175,7 +175,7 @@
         position: absolute;
         top: 4rem;
         left: -1rem;
-        width: 18rem;
+        width: 95%;
         height: 30rem;
         z-index: 1000;
     }
