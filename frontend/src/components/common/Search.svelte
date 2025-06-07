@@ -7,11 +7,6 @@
     let searchMenuOpen = $state(false);
     let preferenceMenuOpen = $state(false);
     
-    // Reactive states for divider animation
-    let dividerExpandLeft = $derived(searchMenuOpen);
-    let dividerExpandRight = $derived(preferenceMenuOpen);
-
-    // Element references and dimensions
     let searchMenuElem: SearchMenu | null = $state(null);
     let searchLeftButton: HTMLButtonElement;
     let searchLeftWrapper: HTMLDivElement;
@@ -26,31 +21,6 @@
     let dividerElement: HTMLHRElement;
     let searchBarElement: HTMLDivElement;
 
-    // Dynamic scaling values
-    let leftScaleX = $state(50);
-    let rightScaleX = $state(50);
-    let scaleY = $state(6);
-
-    // Function to calculate dynamic scaling
-    function calculateScaling(): void {
-        if (!searchBarElement || !dividerElement || !searchLeftWrapper || !preferenceRightWrapper) return;
-        
-        const searchBarRect = searchBarElement.getBoundingClientRect();
-        const dividerRect = dividerElement.getBoundingClientRect();
-        const leftWrapperRect = searchLeftWrapper.getBoundingClientRect();
-        const rightWrapperRect = preferenceRightWrapper.getBoundingClientRect();
-        
-        // Calculate scale needed to cover each side
-        const dividerWidth = dividerRect.width;
-        const searchBarHeight = searchBarRect.height;
-        
-        // Scale X to cover the width of each wrapper
-        leftScaleX = Math.max(1, (rightWrapperRect.width / dividerWidth) * 1.1);
-        rightScaleX = Math.max(1, (leftWrapperRect.width / dividerWidth) * 1.1);
-        
-        // Scale Y to cover the height of the search bar
-        scaleY = Math.max(1, (searchBarHeight / dividerRect.height) * 1.2);
-    }
 
      onMount(() => {
         console.log("Search mounted");
@@ -65,21 +35,6 @@
                 preferenceMenuOpen = false;
             }
         });
-
-        // Calculate initial scaling and set up resize listener
-        setTimeout(calculateScaling, 100); // Small delay to ensure elements are rendered
-        
-        const resizeObserver = new ResizeObserver(() => {
-            calculateScaling();
-        });
-        
-        if (searchBarElement) {
-            resizeObserver.observe(searchBarElement);
-        }
-
-        return () => {
-            resizeObserver.disconnect();
-        };
     });
 
     $inspect(searchMenuOpen);
@@ -101,7 +56,7 @@
         {/if}
     </div>
 
-    <hr class="search-bar-divider" class:expand-left={dividerExpandLeft} class:expand-right={dividerExpandRight} bind:this={dividerElement} style="--scale-x-left: {rightScaleX}; --scale-x-right: {leftScaleX}; --scale-y: {scaleY};" />
+    <hr class="search-bar-divider" bind:this={dividerElement} />
 
     <div class="right-side-wrapper" bind:this={preferenceRightWrapper} >
         <button class="search-bar-filter-button" onclick={() => {
@@ -118,6 +73,14 @@
         </button>
     </div>
 
+    {#if preferenceMenuOpen}
+        <div class="right-side-cover" transition:fly={{duration: 200, x: 100}}>
+        </div>
+    {:else if searchMenuOpen}
+        <div class="left-side-cover" transition:fly={{duration: 200, x: -100}}>
+        </div>
+    {/if}
+
 
     
 </div>
@@ -126,6 +89,7 @@
 <style>
 
     .search-bar {
+        position: relative;
         box-sizing: border-box;
         display: flex;
         align-items: center;
@@ -135,6 +99,24 @@
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .right-side-cover {
+        position: absolute;
+        top: 0;
+        right: 50%;
+        width: 50%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .left-side-cover {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 50%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
     }
 
     .left-side-wrapper {
