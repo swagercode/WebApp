@@ -37,7 +37,6 @@
         });
     });
 
-    $inspect(searchMenuOpen);
 </script>
 
 <div class="search-bar" bind:this={searchBarElement}>
@@ -74,11 +73,13 @@
     </div>
 
     {#if preferenceMenuOpen}
-        <div class="right-side-cover" transition:fly={{duration: 200, x: 100}}>
+        <div class="right-side-cover" transition:fly={{duration: 500, x: searchBarElement.clientWidth / 2}}>
         </div>
+        <div class="left-side-cover" style="z-index: 2; background-color: var(--bg-clr); opacity: 1;"></div>
     {:else if searchMenuOpen}
-        <div class="left-side-cover" transition:fly={{duration: 200, x: -100}}>
+        <div class="left-side-cover" transition:fly={{duration: 500, x: -searchBarElement.clientWidth / 2}}>
         </div>
+        <div class="right-side-cover" style="z-index: 2; background-color: var(--bg-clr); opacity: 1;"></div>
     {/if}
 
 
@@ -99,6 +100,7 @@
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        z-index: 1;
     }
 
     .right-side-cover {
@@ -190,24 +192,6 @@
         z-index: 1;
     }
 
-    .search-bar-divider.expand-left {
-        transform: scaleX(var(--scale-x-right)) scaleY(var(--scale-y));
-        transform-origin: left center;
-        background-color: var(--font-clr-light);
-        opacity: 0.8;
-        z-index: -1;
-        border-radius: 0 10rem 10rem 0;
-    }
-
-    .search-bar-divider.expand-right {
-        transform: scaleX(var(--scale-x-left)) scaleY(var(--scale-y));
-        transform-origin: right center;
-        background-color: var(--font-clr-light);
-        opacity: 0.8;
-        z-index: -1;
-        border-radius: 10rem 0 0 10rem;
-    }
-
     .search-bar-input-button {
         width: 100%;
         height: 100%;
@@ -248,6 +232,10 @@
         width: 95%;
         height: 30rem;
         z-index: 1000;
+    }
+
+    .search-menu-wrapper, .search-bar-divider, .search-bar-input-button, .search-bar-filter-button, .search-text-normal, .search-text-highlight, .search-submit-button {
+        z-index: 3;
     }
 
 
