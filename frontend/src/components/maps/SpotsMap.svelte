@@ -190,13 +190,6 @@
         }
     }
     
-    // Handle search input key press
-    function handleSearchKeyPress(event: KeyboardEvent) {
-        if (event.key === 'Enter') {
-            searchPlaces();
-        }
-    }
-    
     onMount(() => {
         console.log("SpotsMap component mounted");
         
