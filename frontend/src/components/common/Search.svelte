@@ -38,6 +38,9 @@
 
 <div class="search-bar">
     <div class="left-side-wrapper" bind:this={searchLeftWrapper}>
+        {#if preferenceMenuOpen}
+            <div class="left-side-cover" transition:fly={{duration: 200}}></div>
+        {/if}
         <div class="spacer"></div>
         <button class="search-bar-input-button" onclick={() => {
             searchMenuOpen = !searchMenuOpen;
@@ -55,6 +58,9 @@
     <hr class="search-bar-divider"/>
 
     <div class="right-side-wrapper" bind:this={preferenceRightWrapper} >
+        {#if searchMenuOpen}
+            <div class="right-side-cover" transition:fly={{duration: 200}}></div>
+        {/if}
         <button class="search-bar-filter-button" onclick={() => {
             preferenceMenuOpen = !preferenceMenuOpen;
         }} bind:this={preferenceRightButton}>
@@ -69,13 +75,8 @@
         </button>
     </div>
 
-    {#if preferenceMenuOpen}
-        <div class="left-side-cover"></div>
-    {/if}
 
-    {#if searchMenuOpen}
-        <div class="right-side-cover"></div>
-    {/if}
+    
 </div>
 
 
@@ -93,14 +94,6 @@
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
 
-    .right-side-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-    }
-
     .left-side-wrapper {
         position: relative;
         display: flex;
@@ -108,6 +101,37 @@
         justify-content: center;
         width: 100%;
         height: 100%;
+    }
+
+    .right-side-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .left-side-cover {
+        position: absolute;
+        top: -.5rem;
+        left: -.5rem;
+        width: calc(100% + .7rem);
+        height: 4rem;
+        background-color: var(--font-clr-light);
+        border-radius: 10rem 0 0 10rem;
+        z-index: -1;
+    }
+
+    .right-side-cover {
+        position: absolute;
+        top: -.5rem;
+        right: -.5rem;
+        width: calc(100% + .7rem);
+        height: 4rem;
+        background-color: var(--font-clr-light);
+        border-radius: 0 10rem 10rem 0;
+        z-index: -1;
     }
 
     .spacer {
