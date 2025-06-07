@@ -107,7 +107,9 @@
         right: 50%;
         width: 50%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: var(--font-clr-light);
+        opacity: 0.8;
+        border-radius: 10rem 0 0 10rem;
     }
 
     .left-side-cover {
@@ -116,7 +118,9 @@
         left: 50%;
         width: 50%;
         height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: var(--font-clr-light);
+        opacity: 0.8;
+        border-radius: 0 10rem 10rem 0;
     }
 
     .left-side-wrapper {
