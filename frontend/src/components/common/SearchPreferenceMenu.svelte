@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts">  //  TODO: this is just a placeholder
     let recentSearches = $state([
         {
             name: "Better Buzz",
