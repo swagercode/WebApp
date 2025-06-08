@@ -9,7 +9,6 @@
     
     // Map configuration
     let map: Map;
-    let mapContainer: HTMLElement;
     
     // OpenFreeMap style URLs
     const OPENFREEMAP_STYLES = {

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onNavigate } from '$app/navigation';
+    import '../global.css';
 
     let { children } = $props();
 
@@ -15,117 +16,6 @@
 </script>
 
 {@render children()}
-
-<style>
-
-
-    @font-face {
-        font-family: 'Nunito';
-        src: url('/Nunito/static/Nunito-Regular.ttf') format('truetype');
-        font-weight: 400;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Nunito';
-        src: url('/Nunito/static/Nunito-Medium.ttf') format('truetype');
-        font-weight: 500;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Nunito';
-        src: url('/Nunito/static/Nunito-SemiBold.ttf') format('truetype');
-        font-weight: 600;
-        font-style: normal;
-    }
-
-    @font-face {
-        font-family: 'Nunito';
-        src: url('/Nunito/static/Nunito-Bold.ttf') format('truetype');
-        font-weight: 700;
-        font-style: normal;
-    }
-    
-    
-    :global(:root) {
-        font-family: 'Nunito';
-        --font-clr: #7A7A7A;
-        --font-clr-light: #cbcbcb;
-        --font-clr-dark: #000000;
-        --font-weight: 550;
-
-        --primary-clr: #EF934B;
-        --brighter-primary-clr: #ff903c;
-        --faded-primary-clr: #edd3be;
-        --hover-clr: #F5F5F5;
-        --open-clr: #628F66;
-        --closed-clr: #C60000;
-        --gray-button-clr: #F2F2F2;
-        --gray-button-hover-clr: #EBEBEB;
-
-        --rating-clr: #F0C0A2;
-
-        --bg-clr: #ffffff;
-
-        --carousel-width: 100%;
-        --carousel-height: 100%;
-        --carousel-border: 1px solid black;
-
-        --button-size: 3rem;
-
-        --box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-
-        margin: 0;
-        padding: 0;
-
-    }
-
-    :global(body) {
-        margin: 0;
-        padding: 0;
-    }
-
-    :global(.sr-only) {
-        display: none;
-    }
-    
-    @keyframes fade-in {
-        from {
-            opacity: 0;
-        }
-    }
-
-    @keyframes fade-out {
-        to {
-            opacity: 0;
-        }
-    }
-
-    @keyframes slide-from-right {
-        from {
-            transform: translateX(30px);
-        }
-    }
-
-    @keyframes slide-to-left {
-        to {
-            transform: translateX(-30px);
-        }
-    }
-
-    :root::view-transition-old(root) {
-        animation:
-            90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-            300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
-    }
-
-    :root::view-transition-new(root) {
-        animation:
-            210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-            300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
-    }
-</style>
 
 
 
