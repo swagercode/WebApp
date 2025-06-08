@@ -2,6 +2,7 @@
     import { onMount } from "svelte";
     import { fly } from "svelte/transition";
     import SearchMenu from "./SearchMenu.svelte";
+    import SearchPreferenceMenu from "./SearchPreferenceMenu.svelte";
     let currentFilter = $props();
 
     let searchMenuOpen = $state(false);
@@ -13,6 +14,7 @@
     let searchLeftText: HTMLParagraphElement;
     let searchLeftHighlight: HTMLSpanElement;
 
+    let searchPreferenceMenuElem: SearchPreferenceMenu | null = $state(null);
     let preferenceRightButton: HTMLButtonElement;
     let preferenceRightWrapper: HTMLDivElement;
     let preferenceRightText: HTMLParagraphElement;
@@ -28,7 +30,7 @@
         let preferenceRightList: Array<any> = [preferenceRightButton, preferenceRightWrapper, preferenceRightText, preferenceRightHighlight];
 
         document.addEventListener("click", (event) => {
-            if (!searchLeftList.includes(event.target) && searchMenuOpen) {
+                if (!searchLeftList.includes(event.target) && searchMenuOpen) {
                 searchMenuOpen = false;
             }
             else if (!preferenceRightList.includes(event.target) && preferenceMenuOpen) {
@@ -62,7 +64,12 @@
             preferenceMenuOpen = !preferenceMenuOpen;
         }} bind:this={preferenceRightButton}>
             <p class="search-text-normal" bind:this={preferenceRightText}>Preference: <span class="search-text-highlight" bind:this={preferenceRightHighlight}>{currentFilter}</span></p>
-    </button>
+        </button>
+        {#if preferenceMenuOpen}
+            <div class="search-preference-menu-wrapper" transition:fly={{duration: 200}}>
+                <SearchPreferenceMenu bind:this={searchPreferenceMenuElem}/>  
+            </div>
+        {/if}
 
     <button class="search-submit-button" aria-label="Search">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -229,6 +236,15 @@
         position: absolute;
         top: 4rem;
         left: -1rem;
+        width: 95%;
+        height: 30rem;
+        z-index: 1000;
+    }
+
+    .search-preference-menu-wrapper {
+        position: absolute;
+        top: 4rem;
+        right: 2rem;
         width: 95%;
         height: 30rem;
         z-index: 1000;
