@@ -1,5 +1,5 @@
 <script lang="ts">
-    import FiveStarRating from "../common/FiveStarRating.svelte";
+    import FiveStarRating from "../../common/FiveStarRating.svelte";
     let { closeReviewMenu } = $props();
     let page = $state(0);
     const categories = ["Atmosphere", "Comfort", "Quiet", "Seating"];

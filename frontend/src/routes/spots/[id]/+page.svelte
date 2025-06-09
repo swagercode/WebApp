@@ -1,13 +1,12 @@
 <script lang="ts">
     import SpotsMap from "../../../components/maps/SpotsMap.svelte";
-	import SpotImageGallery from "../../../components/spots/SpotImageGallery.svelte";
     import type { Rating } from "../../../components/types";
 
     let spot = $state({
-        name: "Spot Name",
+        name: "Muri Cafe",
         images: [],
         description: "Spot Description",
-        location: "Spot Location",
+        location: "North Park",
         rating: {
             overall: 5,
             atmosphere: 5,
@@ -22,11 +21,10 @@
 
 <div class="main-wrapper">
     <div class="title-wrapper">
-        <h1>{spot.name}</h1>
+        <h1 class="title">{spot.name} located in {spot.location}!</h1>
     </div>
 
     <div class="image-gallery-wrapper">
-        <SpotImageGallery images={spot.images} spotName={spot.name} />
     </div>
 
     <div class="map-wrapper">
@@ -44,13 +42,17 @@
         justify-content: center;
     }
 
+    .title {
+        font-size: 2rem;
+        font-weight: 600;
+        text-align: left;
+    }
+
     .title-wrapper {
         width: 100%;
-        height: 100%;
         display: flex;
-        flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
-        justify-content: center;
     }
 
     .image-gallery-wrapper {
