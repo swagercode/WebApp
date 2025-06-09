@@ -23,14 +23,14 @@
         <button class="nav-btn next-btn" onclick={nextImage}>›</button>
     </div>
     <div class="image-dots">
-                {#each images as _, index}
-                    <button 
-                        class="dot"
-                        class:active={index === currentImageIndex}
-                        onclick={() => goToImage(index)}
-                        aria-label="Go to image {index + 1}"
-                    ></button>
-                {/each}
+        {#each images as _, index}
+            <button 
+                class="dot"
+                class:active={index === currentImageIndex}
+                onclick={() => goToImage(index)}
+                aria-label="Go to image {index + 1}"
+            ></button>
+        {/each}
     </div>
 </section>
 
