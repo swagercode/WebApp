@@ -1,8 +1,6 @@
 <script lang="ts">
-    import Homenav from '../components/common/Homenav.svelte';
     import SpotComponent from '../components/spots/searchGallery/SpotComponent.svelte';
     import type { Spot, Rating } from '../components/types';
-    import { onMount } from 'svelte';
 
     let rating: Rating = {
         overall: 3.2,
