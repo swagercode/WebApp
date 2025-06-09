@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { goto } from '$app/navigation';
-    import { currentCategory } from "../../lib/index.svelte";
+    import { currentCategory } from "../../../lib/index.svelte";
 
     let { spot } = $props();
 
