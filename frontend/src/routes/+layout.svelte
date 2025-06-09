@@ -1,52 +1,47 @@
 <script lang="ts">
-    import { onNavigate } from '$app/navigation';
+    import { onNavigate, afterNavigate } from '$app/navigation';
     import '../global.css';
     import Homenav from '../components/common/Homenav.svelte';
     import { onMount } from 'svelte';
-    
+	import { page } from '$app/state';
+
     let { children } = $props();
 
     onNavigate((navigation) => {
-           if (!document.startViewTransition) return;
-           return new Promise((resolve) => {
-            document.startViewTransition( async () => {
+        
+
+        if (!document.startViewTransition) return;
+        return new Promise((resolve) => {
+            document.startViewTransition(async () => {
                 resolve();
                 await navigation.complete;
             });
-           });
+        });
+    });
+
+    $effect(() => {
+        if (header) {
+            if (page.url.pathname.includes("/spots/")) {
+                const height = header.getOffsetHeight();
+                const topRoutesHeight = header.getTopRoutesOffsetHeight();
+                if (height !== null && topRoutesHeight !== null) {
+                    document.documentElement.style.setProperty('--header-height', `${height - topRoutesHeight}px`);
+                }
+            }
+            else {
+                const height = header.getOffsetHeight();
+                if (height !== null) {
+                    document.documentElement.style.setProperty('--header-height', `${height}px`);
+                }
+            }
+        }
     });
 
     let header: Homenav;
     let lastScrollY = $state(0);
-    let offsetHeight = $state(0);
     let mainWrapper: HTMLElement;
 
     onMount(() => {
-        // Use requestAnimationFrame to ensure DOM is fully rendered
-        requestAnimationFrame(() => {
-            if (header) {
-                const height = header.getOffsetHeight();
-                if (height !== null && height !== undefined) {
-                    offsetHeight = height;
-                    if (mainWrapper) {
-                        mainWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
-                    }
-                }
-            }
-        });
-        
-        window.addEventListener('resize', () => {
-            if (header) {
-                const height = header.getOffsetHeight();
-                if (height !== null && height !== undefined) {
-                    offsetHeight = height;
-                    if (mainWrapper) {
-                        mainWrapper.style.marginTop = `calc(${offsetHeight}px + 1rem)`;
-                    }
-                }
-            }
-        });
-
         window.addEventListener('scroll', () => {
             if ((window.scrollY === 0 && lastScrollY !== 0) || (window.scrollY !== 0 && lastScrollY === 0)) {
                 if (header) {
@@ -63,7 +58,7 @@
         <Homenav bind:this={header}/>
     </div>
 
-    <div class="main-wrapper" style="margin-top: calc({offsetHeight}px + 1rem);" bind:this={mainWrapper}>
+    <div class="main-wrapper" bind:this={mainWrapper}>
         {@render children()}
     </div>
 </div>
@@ -89,7 +84,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0;
+        padding-top: calc(var(--header-height, 0px) + 1rem);
         margin: 0;
     }
 </style>

@@ -2,6 +2,12 @@
     import { scale } from 'svelte/transition';
     import { page } from '$app/state';
 
+    let wrapper: HTMLElement;
+
+    export function getOffsetHeight() {
+        return wrapper.getBoundingClientRect().height;
+    }
+
     const gentleBack = (t: number) => {
         const s = 1.2;
         return --t * t * ((s + 1) * t + s) + 1;
@@ -9,7 +15,7 @@
 </script>
 
 
-<div class="wrapper">
+<div class="wrapper" bind:this={wrapper}>
     <a href="/" transition:scale={{duration: 500, easing: gentleBack}}>
         <img src="/nav-icons/search-icon.png" alt="search" />
         {#if page.url.pathname === "/"}

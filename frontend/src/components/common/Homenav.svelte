@@ -3,17 +3,30 @@
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
     import TopRoutes from "./TopRoutes.svelte";
+    import { page } from "$app/state";
 
     let { transition = true } = $props();
 
     let active = $state(transition);
     let wrapper: HTMLElement;
+    let topRoutesWrapper: HTMLElement;
 
     export function getOffsetHeight() {
         if (!wrapper) {
             return null;
         }
         return wrapper.offsetHeight || 0;
+    }
+
+    export function getTopRoutesOffsetHeight() {
+        if (!topRoutesWrapper) {
+            return null;
+        }
+        return topRoutesWrapper.offsetHeight || 0;
+    }
+
+    export function getActive() {
+        return active;
     }
 
     export function setActive(active: boolean) {
@@ -32,8 +45,8 @@
             <img src="/stot.png" alt="logo" />
         </a>
         <div class="middle-wrapper">
-            {#if active}
-                <div class="top-routes-wrapper" transition:slide>
+            {#if active && !page.url.pathname.includes("/spots/")}
+                <div class="top-routes-wrapper" transition:slide bind:this={topRoutesWrapper}>
                     <TopRoutes />
                 </div>
             {/if}
