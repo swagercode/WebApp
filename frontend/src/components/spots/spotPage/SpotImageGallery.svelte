@@ -16,7 +16,7 @@
         flex-direction: row;
         gap: 1rem;
     }
-
+    
     .image-container {
         width: 100%;
         height: 100%;

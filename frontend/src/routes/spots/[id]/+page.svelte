@@ -1,10 +1,11 @@
 <script lang="ts">
     import SpotsMap from "../../../components/maps/SpotsMap.svelte";
     import type { Rating } from "../../../components/types";
+    import SpotImageGallery from "../../../components/spots/spotPage/SpotImageGallery.svelte";
 
     let spot = $state({
         name: "Muri Cafe",
-        images: [],
+        images: ["https://s3-media0.fl.yelpcdn.com/bphoto/djSccIFUKU2n9aqCzGm2FA/348s.jpg", "https://img1.wsimg.com/isteam/ip/cefd2c51-c7ba-45bc-b26a-407487dfdc42/IMG_9377%20copy.jpg", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWQNgyVDUeon7uUzTBdLsUcRYaNZdu3rEOdQ&s", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVRF51uz1QppZfDWUvKrCPxQDrKZdYcLnV-g&s"],
         description: "Spot Description",
         location: "North Park",
         rating: {
@@ -25,6 +26,7 @@
     </div>
 
     <div class="image-gallery-wrapper">
+        <SpotImageGallery images={spot.images} />
     </div>
 
     <div class="map-wrapper">
