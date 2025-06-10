@@ -2,10 +2,10 @@ export interface Spot {
     id: string;
     name: string;
     location: string;
-    image: string;
+    images: string[];
     description: string;
-    distance: string;
-    openStatus: boolean;
+    distance?: string;
+    openStatus?: boolean;
     rating: Rating;
 }
 
@@ -25,4 +25,11 @@ export interface User {
     profilePicture: string;
     username: string;
     city: string;
+}
+
+export interface PageData {
+    spots?: Spot[];
+    mapSpots?: Spot[];
+    recentSpots?: Spot[];
+    serverRendered?: boolean;
 }

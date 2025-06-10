@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import { goto } from '$app/navigation';
     import { currentCategory } from "../../../lib/index.svelte";
 
@@ -23,18 +22,14 @@
     }
 
     function navigateToSpot() {
-        // Navigate to the individual spot page using the spot's ID
         goto(`/spots/${spot.id}`);
     }
 
-    onMount(() => {
-        console.log("Spot mounted");
-    });
 </script>
 
 <button class="spot" onclick={navigateToSpot}>
     <div class="spot-image">
-        <img src={spot.image} alt="spot" aria-label={spot.name}/>
+        <img src={spot.images[0]} alt="spot" aria-label={spot.name}/>
     </div>
     <div class="spot-info">
         <h2 class="spot-name">

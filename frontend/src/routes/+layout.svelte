@@ -24,7 +24,7 @@
             document.documentElement.style.setProperty('--header-height', `calc(96px + 1rem)`);
         }
         else {
-            document.documentElement.style.setProperty('--header-height', `calc(96px + 82.333333px + .5rem)`);
+            document.documentElement.style.setProperty('--header-height', `calc(96px + 82.333333px + 1rem)`);
         }
     });
 
