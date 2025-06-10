@@ -4,10 +4,6 @@
 
     let wrapper: HTMLElement;
 
-    export function getOffsetHeight() {
-        return wrapper.getBoundingClientRect().height;
-    }
-
     const gentleBack = (t: number) => {
         const s = 1.2;
         return --t * t * ((s + 1) * t + s) + 1;

@@ -19,21 +19,12 @@
         });
     });
 
-    $effect(() => {
-        if (header) {
-            if (page.url.pathname.includes("/spots/")) {
-                const height = header.getOffsetHeight();
-                const topRoutesHeight = header.getTopRoutesOffsetHeight();
-                if (height !== null && topRoutesHeight !== null) {
-                    document.documentElement.style.setProperty('--header-height', `${height - topRoutesHeight}px`);
-                }
-            }
-            else {
-                const height = header.getOffsetHeight();
-                if (height !== null) {
-                    document.documentElement.style.setProperty('--header-height', `${height}px`);
-                }
-            }
+    afterNavigate(() => {
+        if (page.url.pathname.includes("/spots/")) {
+            document.documentElement.style.setProperty('--header-height', `calc(96px + 1rem)`);
+        }
+        else {
+            document.documentElement.style.setProperty('--header-height', `calc(96px + 82.333333px + .5rem)`);
         }
     });
 
