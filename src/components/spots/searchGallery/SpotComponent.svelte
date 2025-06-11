@@ -114,17 +114,12 @@
     }
 
     .spot-category {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 0.2rem;
-        text-align: right;
+        display: inline-block;
     }
 
     .spot-category-star {
         font-size: 1.5rem;
         color: var(--rating-clr);
-        text-align: right;
     }
 </style>
 
