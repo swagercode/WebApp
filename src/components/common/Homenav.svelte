@@ -29,9 +29,11 @@
 
 <nav class="wrapper" bind:this={wrapper}>
     <div class="top-wrapper" >
-        <a href="/" class="logo-wrapper" aria-label="Home">
-            <img src="/stot.png" alt="logo" />
-        </a>
+        {#if !isMobile.current}
+            <a href="/" class="logo-wrapper" aria-label="Home">
+                <img src="/stot.png" alt="logo" />
+            </a>
+        {/if}
         <div class="middle-wrapper">
             {#if active && !page.url.pathname.includes("/spots/") && !isMobile.current}
                 <div class="top-routes-wrapper" transition:slide>

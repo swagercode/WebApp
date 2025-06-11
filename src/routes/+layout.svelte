@@ -4,8 +4,11 @@
     import Homenav from '../components/common/Homenav.svelte';
     import { onMount } from 'svelte';
 	import { page } from '$app/state';
+    import { MediaQuery } from 'svelte/reactivity';
 
     let { children } = $props();
+
+    const isMobile = new MediaQuery("max-width: 650px");
 
     onNavigate((navigation) => {
         
@@ -20,6 +23,10 @@
     });
 
     afterNavigate(() => {
+        if (isMobile.current) {
+            document.documentElement.style.setProperty('--header-height', `60px`);
+            return;
+        }
         if (page.url.pathname.includes("/spots/")) {
             document.documentElement.style.setProperty('--header-height', `calc(96px + 1rem)`);
         }
