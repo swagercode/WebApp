@@ -115,9 +115,16 @@
         padding: 0;
     }
 
+    .spot-category {
+        display: inline-block;
+        text-align: right;
+    }
+
     .spot-category-star {
         font-size: 1.5rem;
         color: var(--rating-clr);
+        display: inline-block;
+        text-align: right;
     }
 </style>
 
