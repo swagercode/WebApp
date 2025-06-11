@@ -33,8 +33,8 @@
     </div>
     <div class="spot-info">
         <h2 class="spot-name">
-            <span>{spot.name}</span>
-            <span>{getCurrCategory()}<span>★</span></span>
+            <span class="spot-name-text">{spot.name}</span>
+            <span class="spot-category">{getCurrCategory()}<span class="spot-category-star">★</span></span>
         </h2>
         <p class="spot-distance">{spot.distance}</p>
         <p class="spot-open-status" style={spot.openStatus ? "color: var(--open-clr)" : "color: var(--closed-clr)"}>{spot.openStatus ? "Open now" : "Closed"}</p>
@@ -80,6 +80,7 @@
     .spot-name {
         font-size: 1.5rem;
         font-weight: 300;
+        color: var(--font-clr-dark) !important;
         margin: 0;
         padding: 0;
         display: flex;
@@ -87,12 +88,14 @@
         justify-content: space-between;
     }
 
-    .spot-name span {
+    .spot-name-text {
         display: inline-block;
         font-size: 1.5rem;
         font-weight: 300;
         margin: 0;
         padding: 0;
+        text-align: left;
+        color: var(--font-clr-dark) !important;
     }
 
     .spot-distance {
@@ -110,9 +113,18 @@
         padding: 0;
     }
 
-    span > span {
-        font-size: 5rem;
+    .spot-category {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.2rem;
+        text-align: right;
+    }
+
+    .spot-category-star {
+        font-size: 1.5rem;
         color: var(--rating-clr);
+        text-align: right;
     }
 </style>
 
