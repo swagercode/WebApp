@@ -32,13 +32,14 @@
         <img src={spot.images[0]} alt="spot" aria-label={spot.name}/>
     </div>
     <div class="spot-info">
-        <h2 class="spot-name">
+        <div class="spot-top-info">
             <span class="spot-name-text">{spot.name}</span>
             <span class="spot-category">{getCurrCategory()}<span class="spot-category-star">★</span></span>
-        </h2>
+        </div>
         <p class="spot-distance">{spot.distance}</p>
         <p class="spot-open-status" style={spot.openStatus ? "color: var(--open-clr)" : "color: var(--closed-clr)"}>{spot.openStatus ? "Open now" : "Closed"}</p>
-        </div></button>
+    </div>
+</button>
 
 <style>
     .spot {       
@@ -67,6 +68,7 @@
         object-fit: cover;
         border-radius: 2rem;
         aspect-ratio: 1/1;
+        width: 100%;
     }
 
     .spot-info {
@@ -77,19 +79,19 @@
         margin-top: 0.5rem;
     }
 
-    .spot-name {
+    .spot-top-info {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
         font-size: 1.5rem;
         font-weight: 300;
         color: var(--font-clr-dark) !important;
         margin: 0;
         padding: 0;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
     }
 
     .spot-name-text {
-        display: inline-block;
         font-size: 1.5rem;
         font-weight: 300;
         margin: 0;
@@ -111,10 +113,6 @@
         font-weight: 100;
         margin: 0;
         padding: 0;
-    }
-
-    .spot-category {
-        display: inline-block;
     }
 
     .spot-category-star {
