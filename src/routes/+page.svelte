@@ -19,7 +19,7 @@
     const fallbackSpots: Spot[] = [
         {
             id: "darkhorse-cafe",
-            name: "DarkHorse Cafe",
+            name: "Dark Horse Cafe",
             location: "123 Main St, College Town",
             images: ["https://images.squarespace-cdn.com/content/v1/55049669e4b030d1c7f84cad/1551055694822-D8GGVSKED06I9SB062MC/North+Park+exterior"],
             description: "A cozy cafe perfect for studying with comfortable seating and great coffee.",

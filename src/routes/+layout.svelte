@@ -90,8 +90,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: calc(var(--header-height, 0px) + 1rem);
-        margin: 0;
+        padding-block-start: calc(var(--header-height, 0px) + 1rem);
+        overflow-y: auto;
+        margin-block-end: 100px;
     }
 </style>
 
