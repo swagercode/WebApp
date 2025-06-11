@@ -23,8 +23,12 @@
     });
 
     afterNavigate(() => {
+        doHeaderHeightFix();
+    });
+
+    function doHeaderHeightFix() {
         if (isMobile.current) {
-            document.documentElement.style.setProperty('--header-height', `60px`);
+            document.documentElement.style.setProperty('--header-height', `104px`);
             return;
         }
         if (page.url.pathname.includes("/spots/")) {
@@ -33,7 +37,7 @@
         else {
             document.documentElement.style.setProperty('--header-height', `calc(96px + 82.333333px + 1rem)`);
         }
-    });
+    }
 
     let header: Homenav;
     let lastScrollY = $state(0);
@@ -47,6 +51,10 @@
                 }
             }
             lastScrollY = window.scrollY;
+        });
+
+        window.addEventListener('resize', () => {
+            doHeaderHeightFix();
         });
     });
 </script>
