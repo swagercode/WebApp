@@ -1,14 +1,17 @@
 <script lang="ts">
 	import { slide } from "svelte/transition";
+    import { MediaQuery } from "svelte/reactivity";
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
     import TopRoutes from "./TopRoutes.svelte";
+    import MobileRoutes from "./MobileRoutes.svelte";
     import { page } from "$app/state";
 
     let { transition = true } = $props();
 
     let active = $state(transition);
     let wrapper: HTMLElement;
+    const isMobile = new MediaQuery("max-width: 650px");
 
     export function getActive() {
         return active;
@@ -30,7 +33,7 @@
             <img src="/stot.png" alt="logo" />
         </a>
         <div class="middle-wrapper">
-            {#if active && !page.url.pathname.includes("/spots/")}
+            {#if active && !page.url.pathname.includes("/spots/") && !isMobile.current}
                 <div class="top-routes-wrapper" transition:slide>
                     <TopRoutes />
                 </div>
@@ -39,11 +42,21 @@
                 <Search />
             </div>         
         </div>
+        {#if !isMobile.current}
         <div class="user-wrapper">
             <UserButton />
         </div>
+        {/if}
+
     </div>
 </nav>
+
+{#if isMobile.current}
+    <div class="mobile-wrapper">
+        <MobileRoutes />
+    </div>
+{/if}
+
 
 <style>
 
@@ -113,6 +126,18 @@
         width: 100%;
         padding-block-end: 1rem;
         z-index: 1000;
+    }
+
+    .mobile-wrapper {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        z-index: 1000;
+        background-color: var(--bg-clr);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        display: flex;
+        padding-block-end: 1rem;
+        transform: translateY(5%);
     }
 
     @media (max-width: 784px) {

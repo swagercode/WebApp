@@ -8,6 +8,8 @@
         const s = 1.2;
         return --t * t * ((s + 1) * t + s) + 1;
     };
+
+    
 </script>
 
 
@@ -46,7 +48,7 @@
         display: flex;
         width: 100%;
         justify-content: center;
-        gap: 2.5rem;    
+        gap: 2.5rem;
     }
 
     a {

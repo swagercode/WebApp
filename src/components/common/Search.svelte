@@ -21,7 +21,7 @@
     let preferenceRightHighlight: HTMLSpanElement;
 
     let dividerElement: HTMLHRElement;
-    let searchBarElement: HTMLDivElement;
+    let searchBarElement = $state<HTMLDivElement>();
 
 
      onMount(() => {
