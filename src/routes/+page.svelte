@@ -137,7 +137,6 @@
 
     .spot-container {
         opacity: 0;
-        transform: translateY(30px) scale(0.95);
         animation: cascadeIn 0.8s ease-out forwards;
         animation-delay: var(--delay);
         transition: transform 0.3s ease;
