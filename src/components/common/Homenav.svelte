@@ -156,12 +156,6 @@
             width: 100%;
         }
 
-        .search-wrapper {
-            padding-inline-start: 1rem;
-            padding-block-start: .5rem;
-            width: 100%;
-        }
-
         .user-wrapper {
             padding-inline-end: 1rem;
             justify-content: flex-end;

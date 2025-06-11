@@ -1,6 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { currentCategory } from "../../../lib/index.svelte";
+    import '../../../global.css';
 
     let { spot } = $props();
 
@@ -30,7 +31,7 @@
         </figure>
         <dl>
             <dt>
-                <span>{spot.name}</span><span>{getCurrCategory()}<span style="color: var(--rating-clr)">★</span></span>
+                <span>{spot.name}</span><span>{getCurrCategory()}<span style="color: var(--rating-clr)">★</span><span class="sr-only">Rating Category is {currentCategory.name}</span></span>
             </dt>
             <dd>
                 {spot.distance}
