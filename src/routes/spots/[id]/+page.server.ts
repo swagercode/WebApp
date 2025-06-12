@@ -19,6 +19,38 @@ const placeHolderSpot: Spot = {
         quiet: 3.8,
         seating: 4.0
     },
+    reviews: [
+        {
+            rating: {
+                overall: 4.2,
+                atmosphere: 4.5,
+                comfort: 4.3,
+                quiet: 3.8,
+                seating: 4.0
+            },
+            comment: "I love this place! The coffee is great and the atmosphere is so cozy.",
+            user: {
+                profilePicture: "/common/default-user.png", 
+                username: "John Doe",
+                city: "New York"
+            }
+        },
+        {
+            rating: {
+                overall: 4.2,
+                atmosphere: 4.5,    
+                comfort: 4.3,
+                quiet: 3.8,
+                seating: 4.0
+            },
+            comment: "I love this place! The coffee is great and the atmosphere is so cozy.",
+            user: {
+                profilePicture: "/common/default-user.png",
+                username: "Jane Doe",
+                city: "New York"
+            }
+        }
+    ],
     hours: {
         periods: [
             {
@@ -123,6 +155,12 @@ const placeHolderSpot: Spot = {
 
 export const load: PageServerLoad = async () => {
     return {
-        spot: placeHolderSpot
+        spotName: placeHolderSpot.name,
+        spotCity: placeHolderSpot.location.split(",")[1].trim(),
+        spotRating: placeHolderSpot.rating,
+        spotReviews: placeHolderSpot.reviews,
+        spotHours: "8am - 5pm",
+        spotImages: placeHolderSpot.images,
+        openNow: placeHolderSpot.hours.openNow
     };
 };

@@ -67,8 +67,8 @@
     
     return {
       container: `
-        width: 100%;
-        height: 100%;
+        width: calc(100% - 0.5rem);
+        height: calc(100% - 0.5rem);
         display: grid;
         grid-template-columns: ${colWidths[0] * 100}% ${colWidths[1] * 100}%;
         grid-template-rows: ${rowHeights[0] * 100}% ${rowHeights[1] * 100}%;
@@ -139,7 +139,7 @@
     object-fit: cover;
     object-position: center;
     transition: transform 0.3s ease;
-    border-radius: 1rem;
+    border-radius: 0.75rem;
   }
   
   .photo-item:hover img {

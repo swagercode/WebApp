@@ -7,7 +7,14 @@ export interface Spot {
     distance?: string;
     openStatus?: boolean;
     rating: Rating;
+    reviews: Review[];
     hours: Hours;
+}
+
+export interface Review {
+    rating: Rating;
+    comment: string;
+    user: User;
 }
 
 export interface Rating {
@@ -43,20 +50,20 @@ export interface SpecialDay {
 }
 
 export enum SecondaryHoursType {
-    SECONDARY_HOURS_TYPE_UNSPECIFIED = "SECONDARY_HOURS_TYPE_UNSPECIFIED",
-    DRIVE_THROUGH = "DRIVE_THROUGH",
-    HAPPY_HOUR = "HAPPY_HOUR",
-    DELIVERY = "DELIVERY",
-    TAKEOUT = "TAKEOUT",
-    KITCHEN = "KITCHEN",
-    BREAKFAST = "BREAKFAST",
-    LUNCH = "LUNCH",
-    DINNER = "DINNER",
-    BRUNCH = "BRUNCH",
-    PICKUP = "PICKUP",
-    ACCESS = "ACCESS",
-    SENIOR_HOURS = "SENIOR_HOURS",
-    ONLINE_SERVICE_HOURS = "ONLINE_SERVICE_HOURS"
+    UNSPECIFIED = "Unspecified",
+    DRIVE_THROUGH = "Drive-through",
+    HAPPY_HOUR = "Happy hour", 
+    DELIVERY = "Delivery",
+    TAKEOUT = "Takeout",
+    KITCHEN = "Kitchen",
+    BREAKFAST = "Breakfast",
+    LUNCH = "Lunch",
+    DINNER = "Dinner",
+    BRUNCH = "Brunch",
+    PICKUP = "Pickup",
+    ACCESS = "Access",
+    SENIOR_HOURS = "Senior hours",
+    ONLINE_SERVICE_HOURS = "Online service hours"
 }
 
 export interface Hours {

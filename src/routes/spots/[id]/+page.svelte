@@ -1,12 +1,17 @@
 <script lang="ts">
-    import SpotsMap from "../../../components/maps/SpotsMap.svelte";
     import SpotImageGallery from "../../../components/spots/spotPage/SpotImageGallery.svelte";
     import FractionalStarReviews from "../../../components/spots/spotPage/FractionalStarReviews.svelte";
     import type { PageData } from './$types';
 
     const { data }: { data: PageData } = $props();
     
-    let spot = $state(data.spot);
+    let spotName = $state(data.spotName);
+    let spotCity = $state(data.spotCity);
+    let spotRating = $state(data.spotRating);
+    let spotReviews = $state(data.spotReviews);
+    let spotHours = $state(data.spotHours);
+    let spotImages = $state(data.spotImages);
+    let openNow = $state(data.openNow);
 
     const placeholderImages = [
         "https://picsum.photos/1000?random=1",
@@ -23,7 +28,7 @@
 <div class="main-wrapper">
     <figure>
         <div class="title-wrapper">
-            <h1 class="title">{spot.name} located in {spot.location}!</h1>
+            <h1 class="title">{spotName} located in {spotCity}!</h1>
         </div>
 
         <div class="image-gallery-wrapper">
@@ -31,20 +36,34 @@
         </div>
         <figcaption>
             <div class="rating-wrapper">
-                <dt>Rating</dt>
-                <dd><h1>{spot.rating.overall} {currentCategory}</h1></dd>
-                <dd>
-                    <FractionalStarReviews rating={spot.rating} />
+                <dt class="sr-only">Rating</dt>
+                <dd><h1>{spotRating.overall} {currentCategory}</h1></dd>
+                <dd class="rating-stars">
+                    <FractionalStarReviews rating={spotRating} />
                 </dd>
             </div>
             <hr />
             <div class="hours-wrapper">
                 <dl>
-                    <dt>Open</dt>
-                    <dd>{spot.openStatus ? "Open" : "Closed"}</dd>
-                    <dd>{spot.hours}</dd>
+                    <dt class="sr-only">Open</dt>
+                    <dd>{openNow ? "Open" : "Closed"}</dd>
+                    <dd>{spotHours}</dd>
                 </dl>
             </div>
+            <hr />
+            <div class="reviews-wrapper">
+                <dl>
+                    <dt class="sr-only">Reviews</dt>
+                    <dd>
+                        <h2>{spotReviews.length}</h2>
+                    </dd>
+                    <dd>
+                        <h2>Reviews</h2>
+                    </dd>
+
+                </dl>
+            </div>
+            <hr />
 
         </figcaption>
     </figure>
@@ -83,6 +102,31 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+
+    figcaption {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1rem;
+    }
+
+    .rating-stars {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    hr {
+        width: 3px;
+        height: 3rem;
+        background-color: var(--font-clr-light);
+        border: none;
+        border-radius: 1rem;
     }
 
 </style>

@@ -72,7 +72,7 @@
         {/if}
 
     <button class="search-submit-button" aria-label="Search">
-        <img src="search/search-magnify.png" alt="Search" />
+        <img src="/search/search-magnify.png" alt="Search" />
     </button>
     </div>
 
