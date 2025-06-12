@@ -35,36 +35,39 @@
             <SpotImageGallery images={placeholderImages} />
         </div>
         <figcaption>
-            <div class="rating-wrapper">
-                <dt class="sr-only">Rating</dt>
-                <dd><h1>{spotRating.overall} {currentCategory}</h1></dd>
-                <dd class="rating-stars">
-                    <FractionalStarReviews rating={spotRating} />
-                </dd>
-            </div>
-            <hr />
-            <div class="hours-wrapper">
-                <dl>
-                    <dt class="sr-only">Open</dt>
-                    <dd style="color: var(--{openNow ? "open-clr" : "closed-clr"});">{openNow ? "Open" : "Closed"}</dd>
-                    <dd>{spotHours}</dd>
-                </dl>
-            </div>
-            <hr />
-            <div class="reviews-wrapper">
-                <dl>
-                    <dt class="sr-only">Reviews</dt>
-                    <dd>
-                        <h2>{spotReviews.length}</h2>
+            <div class="info-container">
+                <div class="rating-wrapper">
+                    <dt class="sr-only">Rating</dt>
+                    <dd>{spotRating.overall} {currentCategory}</dd>
+                    <dd class="rating-stars">
+                        <FractionalStarReviews rating={spotRating} />
                     </dd>
-                    <dd>
-                        <h2>Reviews</h2>
-                    </dd>
-
-                </dl>
+                </div>
+                <hr />
+                <div class="hours-wrapper">
+                    <dl>
+                        <dt class="sr-only">Open</dt>
+                        <dd style="color: var(--{openNow ? "open-clr" : "closed-clr"});">{openNow ? "Open" : "Closed"}</dd>
+                        <dd>{spotHours}</dd>
+                    </dl>
+                </div>
+                <hr />
+                <div class="reviews-wrapper">
+                    <dl>
+                        <dt class="sr-only">Reviews</dt>
+                        <dd>
+                            {spotReviews.length}
+                        </dd>
+                        <dd>
+                            Reviews
+                        </dd>
+                    </dl>
+                </div>
+                <hr />
             </div>
-            <hr />
-
+            <div class="verdict-wrapper">
+                <span class="verdict">This place is loved by the community! Great Find!</span>
+            </div>
         </figcaption>
     </figure>
 
@@ -109,16 +112,28 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: flex-start;
-        gap: 1rem;
+        justify-content: space-between;
     }
 
-    .rating-stars {
-        width: 100%;
+    .info-container {
+        width: 50%;
         display: flex;
-        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .rating-wrapper {
+        display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: center;
+    }
+
+    .verdict-wrapper {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     hr {
@@ -129,12 +144,21 @@
         border-radius: 1rem;
     }
 
-    h2 {
-        font-size: 1.2rem;
-    }
-
     dd {
+        font-size: 1.2rem;
         text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
+    .verdict {
+        font-size: 1.2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
