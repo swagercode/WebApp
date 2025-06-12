@@ -1,26 +1,11 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
-    import { currentCategory } from "../../../lib/index.svelte";
+    import { currentCategory, getCurrCategory } from "../../../lib/index.svelte";
     import '../../../global.css';
 
     let { spot } = $props();
 
-    function getCurrCategory() {
-        switch (currentCategory.name) {
-            case "overall":
-                return String(spot.rating.overall);
-            case "atmosphere":
-                return String(spot.rating.atmosphere);
-            case "comfort":
-                return String(spot.rating.comfort);
-            case "open-late":
-                return String(spot.rating.openLate);
-            case "seating":
-                return String(spot.rating.seating);
-            default:
-                return String(spot.rating.overall);
-        }
-    }
+    
 </script>
 
 
@@ -31,7 +16,7 @@
         </figure>
         <dl>
             <dt>
-                <span>{spot.name}</span><span>{getCurrCategory()}<span style="color: var(--rating-clr)">★</span><span class="sr-only">Rating Category is {currentCategory.name}</span></span>
+                <span>{spot.name}</span><span>{getCurrCategory(spot.rating, currentCategory.name)}<span style="color: var(--rating-clr)">★</span><span class="sr-only">Rating Category is {currentCategory.name}</span></span>
             </dt>
             <dd>
                 {spot.distance}
@@ -70,6 +55,7 @@
     article figure img {
         width: 100%;
         aspect-ratio: 1/1;
+        object-fit: cover;
         border-radius: 2rem;
     }
 

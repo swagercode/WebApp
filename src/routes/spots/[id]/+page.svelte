@@ -1,14 +1,20 @@
 <script lang="ts">
     import SpotsMap from "../../../components/maps/SpotsMap.svelte";
-    import type { Rating } from "../../../components/types";
     import SpotImageGallery from "../../../components/spots/spotPage/SpotImageGallery.svelte";
+    import FractionalStarReviews from "../../../components/spots/spotPage/FractionalStarReviews.svelte";
     import type { PageData } from './$types';
 
-    // Receive the server-loaded data using Svelte 5 runes
     const { data }: { data: PageData } = $props();
     
-    // Use reactive state with server-loaded data
     let spot = $state(data.spot);
+
+    const placeholderImages = [
+        "https://picsum.photos/1000?random=1",
+        "https://picsum.photos/300/200?random=2",
+        "https://picsum.photos/1000/250?random=3",
+        "https://picsum.photos/700/400?random=4",
+        "https://picsum.photos/200/200?random=5"
+    ];
 </script>
 
 
@@ -18,12 +24,13 @@
     </div>
 
     <div class="image-gallery-wrapper">
-        <SpotImageGallery images={spot.images} />
+        <SpotImageGallery images={placeholderImages} />
     </div>
 
-    <div class="map-wrapper">
-        <SpotsMap />
+    <div class="rating-wrapper">
+        <FractionalStarReviews rating={spot.rating} />
     </div>
+
 </div>
 
 <style> 
@@ -32,8 +39,8 @@
         height: 100%;
         display: flex;
         flex-direction: column;
+        justify-content: flex-start;
         align-items: center;
-        justify-content: center;
     }
 
     .title {
@@ -52,19 +59,11 @@
 
     .image-gallery-wrapper {
         width: 100%;
-        height: 100%;
+        height: 30rem;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
 
-    .map-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
 </style>
