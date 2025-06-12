@@ -59,7 +59,7 @@
     <button class="user-button morph-btn" aria-haspopup="true" aria-expanded={open} onclick={toggleOpen} tabindex="0">
         {#if user}
             <div class="img-wrapper" style="opacity: {open ? 0 : 1}; transform: scale({open ? 0.5 : 1}); transition: opacity 0.2s, transform 0.2s;">
-                <img src={user?.profilePicture || '/default-profile.png'} alt="profile" />
+                <img src={user?.profilePicture || '/common/default-user.png'} alt="profile" />
             </div>
         {/if}
         <span class="sr-only">Menu</span>

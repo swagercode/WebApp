@@ -30,9 +30,11 @@
 <nav class="wrapper" bind:this={wrapper}>
     <div class="top-wrapper" >
         {#if !isMobile.current}
-            <a href="/" class="logo-wrapper" aria-label="Home">
-                <img src="/stot.png" alt="logo" />
-            </a>
+            <div class="logo-wrapper">
+                <a href="/" class="logo-anchor" aria-label="Home">
+                    <img src="/main-logos/stot.png" alt="logo" />
+                </a>
+            </div>
         {/if}
         <div class="middle-wrapper">
             {#if active && !page.url.pathname.includes("/spots/") && !isMobile.current}
@@ -98,6 +100,11 @@
         padding-inline-start: 1rem;
     }
 
+    .logo-anchor {
+        width: 10rem;
+        height: 25%;
+    }
+
     .user-wrapper {
         justify-content: flex-end;
         padding-inline-end: 1rem;
@@ -105,8 +112,7 @@
 
 
     .logo-wrapper img {
-        width: 70%;
-        max-width: 7rem;
+        width: 100%;
         object-fit: contain;
     }
 

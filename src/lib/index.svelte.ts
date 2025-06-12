@@ -4,7 +4,7 @@ export const currentCategory: Category = $state({ name: "overall" });
 
 
 export const user: User = {
-    profilePicture: "default-user.png",
+    profilePicture: "/common/default-user.png",
     username: "John Doe",
     city: "New York"
 }

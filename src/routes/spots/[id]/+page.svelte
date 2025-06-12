@@ -15,21 +15,40 @@
         "https://picsum.photos/700/400?random=4",
         "https://picsum.photos/200/200?random=5"
     ];
+
+    let currentCategory = $state("Overall");
 </script>
 
 
 <div class="main-wrapper">
-    <div class="title-wrapper">
-        <h1 class="title">{spot.name} located in {spot.location}!</h1>
-    </div>
+    <figure>
+        <div class="title-wrapper">
+            <h1 class="title">{spot.name} located in {spot.location}!</h1>
+        </div>
 
-    <div class="image-gallery-wrapper">
-        <SpotImageGallery images={placeholderImages} />
-    </div>
+        <div class="image-gallery-wrapper">
+            <SpotImageGallery images={placeholderImages} />
+        </div>
+        <figcaption>
+            <div class="rating-wrapper">
+                <dt>Rating</dt>
+                <dd><h1>{spot.rating.overall} {currentCategory}</h1></dd>
+                <dd>
+                    <FractionalStarReviews rating={spot.rating} />
+                </dd>
+            </div>
+            <hr />
+            <div class="hours-wrapper">
+                <dl>
+                    <dt>Open</dt>
+                    <dd>{spot.openStatus ? "Open" : "Closed"}</dd>
+                    <dd>{spot.hours}</dd>
+                </dl>
+            </div>
 
-    <div class="rating-wrapper">
-        <FractionalStarReviews rating={spot.rating} />
-    </div>
+        </figcaption>
+    </figure>
+
 
 </div>
 

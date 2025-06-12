@@ -25,7 +25,12 @@
             description: "A cozy cafe perfect for studying with comfortable seating and great coffee.",
             distance: "5 minute walk",
             openStatus: true,
-            rating: fallbackRating
+            rating: fallbackRating,
+            hours: {
+                periods: [],
+                weekdayDescriptions: [],
+                openNow: false
+            }
         },
         {
             id: "study-lounge",
@@ -35,7 +40,12 @@
             description: "Modern study space with fast WiFi and quiet atmosphere.",
             distance: "8 minute walk",
             openStatus: true,
-            rating: fallbackRating
+            rating: fallbackRating,
+            hours: {
+                periods: [],
+                weekdayDescriptions: [],
+                openNow: false
+            }
         },
         {
             id: "green-bean-coffee",
@@ -45,7 +55,12 @@
             description: "Organic coffee shop with outdoor seating and study-friendly environment.",
             distance: "12 minute walk",
             openStatus: false,
-            rating: fallbackRating
+            rating: fallbackRating,
+            hours: {
+                periods: [],
+                weekdayDescriptions: [],
+                openNow: false
+            }
         },
         {
             id: "campus-library",
@@ -55,7 +70,12 @@
             description: "Quiet library with individual study rooms and group areas.",
             distance: "3 minute walk",
             openStatus: true,
-            rating: fallbackRating
+            rating: fallbackRating,
+            hours: {
+                periods: [],
+                weekdayDescriptions: [],
+                openNow: false
+            }
         },
         {
             id: "bookworm-cafe",
@@ -65,7 +85,12 @@
             description: "Literary-themed cafe with comfortable reading nooks.",
             distance: "15 minute walk",
             openStatus: true,
-            rating: fallbackRating
+            rating: fallbackRating,
+            hours: {
+                periods: [],
+                weekdayDescriptions: [],
+                openNow: false
+            }
         },
         {
             id: "tech-hub",
@@ -75,7 +100,12 @@
             description: "Co-working space with high-speed internet and coding-friendly atmosphere.",
             distance: "20 minute walk",
             openStatus: true,
-            rating: fallbackRating
+            rating: fallbackRating,
+            hours: {
+                periods: [],
+                weekdayDescriptions: [],
+                openNow: false
+            }
         }
     ];
 

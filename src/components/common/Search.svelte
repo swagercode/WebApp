@@ -72,11 +72,8 @@
         {/if}
 
     <button class="search-submit-button" aria-label="Search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <path fill="none" stroke="#ffffff" stroke-width="36" stroke-linecap="round"
-                d="m280,278a153,153 0 1,0-2,2l170,170m-91-117 110,110-26,26-110-110"/>
-            </svg> 
-        </button>
+        <img src="search/search-magnify.png" alt="Search" />
+    </button>
     </div>
 
     {#if preferenceMenuOpen}
@@ -167,9 +164,9 @@
         justify-content: center;
     }
 
-    .search-submit-button svg {
-        width: 50%;
-        height: 50%;
+    .search-submit-button img {
+        width: 70%;
+        height: 70%;
         display: block;
     }
 
