@@ -160,9 +160,5 @@
             padding-inline-end: 1rem;
             justify-content: flex-end;
         }
-
     }
-
-
-
 </style>

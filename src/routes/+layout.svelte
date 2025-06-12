@@ -45,10 +45,8 @@
 
     onMount(() => {
         window.addEventListener('scroll', () => {
-            if ((window.scrollY === 0 && lastScrollY !== 0) || (window.scrollY !== 0 && lastScrollY === 0)) {
-                if (header) {
+            if (header && (window.scrollY === 0 && lastScrollY !== 0) || (window.scrollY !== 0 && lastScrollY === 0) && !isMobile.current) {
                     header.toggleActive();
-                }
             }
             lastScrollY = window.scrollY;
         });
@@ -91,7 +89,6 @@
         align-items: center;
         justify-content: center;
         padding-block-start: calc(var(--header-height, 0px) + 1rem);
-        overflow-y: auto;
         margin-block-end: 100px;
     }
 </style>
