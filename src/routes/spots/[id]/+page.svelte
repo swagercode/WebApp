@@ -46,7 +46,7 @@
             <div class="hours-wrapper">
                 <dl>
                     <dt class="sr-only">Open</dt>
-                    <dd>{openNow ? "Open" : "Closed"}</dd>
+                    <dd style="color: var(--{openNow ? "open-clr" : "closed-clr"});">{openNow ? "Open" : "Closed"}</dd>
                     <dd>{spotHours}</dd>
                 </dl>
             </div>
@@ -127,6 +127,14 @@
         background-color: var(--font-clr-light);
         border: none;
         border-radius: 1rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    dd {
+        text-align: center;
     }
 
 </style>
