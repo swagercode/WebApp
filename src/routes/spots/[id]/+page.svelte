@@ -1,23 +1,14 @@
 <script lang="ts">
     import SpotImageGallery from "../../../components/spots/spotPage/SpotImageGallery.svelte";
-    import FractionalStarReviews from "../../../components/spots/spotPage/FractionalStarReviews.svelte";
     import type { PageData } from './$types';
 
     const { data }: { data: PageData } = $props();
     
-    let spotName = $state(data.spotName);
-    let spotCity = $state(data.spotCity);
-    let spotRating = $state(data.spotRating);
-    let spotReviews = $state(data.spotReviews);
-    let spotHours = $state(data.spotHours);
-    let spotImages = $state(data.spotImages);
-    let openNow = $state(data.openNow);
-
     const placeholderImages = [
         "https://picsum.photos/1000?random=1",
         "https://picsum.photos/300/200?random=2",
         "https://picsum.photos/1000/250?random=3",
-        "https://picsum.photos/700/400?random=4",
+        "https://picsum.photos/700/450?random=4",
         "https://picsum.photos/200/200?random=5"
     ];
 
@@ -25,53 +16,36 @@
 </script>
 
 
-<div class="main-wrapper">
-    <figure>
-        <div class="title-wrapper">
-            <h1 class="title">{spotName} located in {spotCity}!</h1>
-        </div>
 
+<div class="main-wrapper">
+    <div class="title-wrapper">
+        <h1 class="title">{data.name} located in {data.city}!</h1>
+    </div>
+    <figure>
         <div class="image-gallery-wrapper">
             <SpotImageGallery images={placeholderImages} />
         </div>
+
         <figcaption>
             <div class="info-container">
-                <div class="rating-wrapper">
-                    <dt class="sr-only">Rating</dt>
-                    <dd>{spotRating.overall} {currentCategory}</dd>
-                    <dd class="rating-stars">
-                        <FractionalStarReviews rating={spotRating} />
-                    </dd>
-                </div>
-                <hr />
-                <div class="hours-wrapper">
-                    <dl>
-                        <dt class="sr-only">Open</dt>
-                        <dd style="color: var(--{openNow ? "open-clr" : "closed-clr"});">{openNow ? "Open" : "Closed"}</dd>
-                        <dd>{spotHours}</dd>
-                    </dl>
-                </div>
-                <hr />
-                <div class="reviews-wrapper">
-                    <dl>
-                        <dt class="sr-only">Reviews</dt>
-                        <dd>
-                            {spotReviews.length}
-                        </dd>
-                        <dd>
-                            Reviews
-                        </dd>
-                    </dl>
-                </div>
+                <dl>
+                    <dt><h1>{data.description}</h1></dt>
+                    <dd>{data.openNow ? "Open Now" : "Closed"} ・ {data.hours} ・ <span class="distance-wrapper"><img src={data.distanceByTime[0]} alt="" /> {data.distanceByTime[1]}</span></dd>
+                    <dd>⭐{data.rating.overall} ・ {data.reviewCount} reviews</dd>
+                    <dd>📞{data.phoneNumber}</dd>
+                </dl>
                 <hr />
             </div>
-            <div class="verdict-wrapper">
-                <span class="verdict">This place is loved by the community! Great Find!</span>
+            <div class="things-to-know-wrapper">
+                <h1>Things to Know</h1>
+                <ul class="things-to-know-list">
+                    {#each data.thingsToKnow as thing}
+                        <li><img src={thing[0]} alt="" /> {thing[1]}</li>
+                    {/each}
+                </ul>
             </div>
         </figcaption>
     </figure>
-
-
 </div>
 
 <style> 
@@ -118,47 +92,51 @@
     .info-container {
         width: 50%;
         display: flex;
+        align-items: flex-start;
         justify-content: space-between;
-    }
-
-    .rating-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .verdict-wrapper {
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
     }
 
     hr {
         width: 3px;
-        height: 3rem;
+        height: 20rem;
         background-color: var(--font-clr-light);
         border: none;
         border-radius: 1rem;
     }
 
-    dd {
-        font-size: 1.2rem;
-        text-align: center;
+    dl {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        gap: 0.5rem;
     }
 
-    .verdict {
-        font-size: 1.2rem;
-        text-align: center;
+    img {
+        width: 1.2rem;
+        height: 1.2rem;
+        display: inline;
+    }
+
+    .things-to-know-wrapper {
+        width: 50%;
+        padding-inline-start: 1rem;
+    }
+
+    .things-to-know-list {
+        padding: 1rem;
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
+        gap: 0.5rem;
+        list-style: none;
+
+    }
+
+    .things-to-know-list li img {
+        width: 1.2rem;
+        height: 1.2rem;
+        display: inline;
     }
 </style>

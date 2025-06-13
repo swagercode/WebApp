@@ -10,7 +10,7 @@ const placeHolderSpot: Spot = {
         "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=60",
         "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&auto=format&fit=crop&q=60"
     ],
-    description: "A charming cafe with comfortable seating, free WiFi, and a quiet atmosphere perfect for studying or working. We serve specialty coffee, fresh pastries, and light meals throughout the day.",
+    description: "Small coffee shop",
     location: "123 Main Street, Downtown",
     rating: {
         overall: 4.2,
@@ -155,12 +155,16 @@ const placeHolderSpot: Spot = {
 
 export const load: PageServerLoad = async () => {
     return {
-        spotName: placeHolderSpot.name,
-        spotCity: placeHolderSpot.location.split(",")[1].trim(),
-        spotRating: placeHolderSpot.rating,
-        spotReviews: placeHolderSpot.reviews,
-        spotHours: "8am - 5pm",
-        spotImages: placeHolderSpot.images,
-        openNow: placeHolderSpot.hours.openNow
+        name: placeHolderSpot.name,
+        city: placeHolderSpot.location.split(",")[1].trim(),
+        rating: placeHolderSpot.rating,
+        hours: "8am - 5pm",
+        images: placeHolderSpot.images,
+        openNow: placeHolderSpot.hours.openNow,
+        description: placeHolderSpot.description,
+        phoneNumber: "123-456-7890",
+        reviewCount: placeHolderSpot.reviews.length,
+        thingsToKnow: [["/common/car.png", "Free WiFi"], ["/common/car.png", "Pet Friendly"], ["/common/car.png", "Wheelchair Accessible"], ["/common/car.png", "Inside/Outside Charging"], ["/common/car.png", "No Dogs"], ["/common/car.png", "Expensive Menu"]],
+        distanceByTime: ["/common/car.png", "10 min drive"]
     };
 };
