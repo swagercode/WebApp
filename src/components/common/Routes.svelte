@@ -51,11 +51,11 @@
         display: flex;
         width: 100%;
         justify-content: center;
-        gap: 2.5rem;
+        gap: 4.75rem;
     }
 
     .wrapper.desktop a {
-        width: 3rem;
+        width: 3.75rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -69,16 +69,19 @@
     }
 
     .wrapper.desktop a img {
-        width: 4rem;
-        height: 4rem;
+        height: 2.5rem;
         object-fit: contain;
         padding: 0;
         margin: 0;
     }
 
+    .wrapper.desktop a:nth-child(1) img {
+        height: 3rem;
+    }
+
     .wrapper.desktop a h1 {
-        font-size: 0.9rem;
-        font-weight: 300;
+        font-size: 1.1rem;
+        font-weight: 400;
         color: var(--font-clr);
         padding: 0;
         margin: 0;

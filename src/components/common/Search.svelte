@@ -99,7 +99,7 @@
         display: flex;
         align-items: center;
         width: 100%;
-        height: 4rem;
+        height: 5rem;
         border-radius: 10rem;
         padding: .5rem .5rem .5rem .5rem;
         margin: 0;

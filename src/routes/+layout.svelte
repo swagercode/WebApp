@@ -32,10 +32,10 @@
             return;
         }
         if (page.url.pathname.includes("/spots/")) {
-            document.documentElement.style.setProperty('--header-height', `calc(96px + 1rem)`);
+            document.documentElement.style.setProperty('--header-height', `calc(96px + 3rem)`);
         }
         else {
-            document.documentElement.style.setProperty('--header-height', `calc(96px + 82.333333px + 1rem)`);
+            document.documentElement.style.setProperty('--header-height', `calc(96px + 82.333333px + 3rem)`);
         }
     }
 
