@@ -3,15 +3,14 @@
     import { MediaQuery } from "svelte/reactivity";
     import Search from "./Search.svelte";
     import UserButton from "./UserButton.svelte";
-    import TopRoutes from "./TopRoutes.svelte";
-    import MobileRoutes from "./MobileRoutes.svelte";
+    import Routes from "./Routes.svelte";
     import { page } from "$app/state";
 
     let { transition = true } = $props();
 
     let active = $state(transition);
     let wrapper: HTMLElement;
-    const isMobile = new MediaQuery("max-width: 650px");
+    const isMobile = new MediaQuery("max-width: 784px");
 
     export function getActive() {
         return active;
@@ -39,7 +38,7 @@
         <div class="middle-wrapper">
             {#if active && !page.url.pathname.includes("/spots/") && !isMobile.current}
                 <div class="top-routes-wrapper" transition:slide>
-                    <TopRoutes />
+                    <Routes isMobile={false} />
                 </div>
             {/if}
             <div class="search-wrapper">
@@ -57,7 +56,7 @@
 
 {#if isMobile.current}
     <div class="mobile-wrapper">
-        <MobileRoutes />
+        <Routes isMobile={true} />
     </div>
 {/if}
 

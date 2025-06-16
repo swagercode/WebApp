@@ -63,7 +63,7 @@
         <button class="search-bar-filter-button" onclick={() => {
             preferenceMenuOpen = !preferenceMenuOpen;
         }} bind:this={preferenceRightButton}>
-            <p class="search-text-normal" bind:this={preferenceRightText}>Preference: <span class="search-text-highlight" bind:this={preferenceRightHighlight}>{currentFilter}</span></p>
+            <p class="search-text-normal" bind:this={preferenceRightText}>Filter: <span class="search-text-highlight" bind:this={preferenceRightHighlight}>{currentFilter}</span></p>
         </button>
         {#if preferenceMenuOpen}
             <div class="search-preference-menu-wrapper" transition:fly={{duration: 200}}>
