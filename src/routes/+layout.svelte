@@ -28,7 +28,7 @@
 
     function doHeaderHeightFix() {
         if (isMobile.current) {
-            document.documentElement.style.setProperty('--header-height', `104px`);
+            document.documentElement.style.setProperty('--header-height', `144px`);
             return;
         }
         if (page.url.pathname.includes("/spots/")) {
