@@ -24,16 +24,16 @@
         active = !active;
     }
 
+    let currentFilter = $state("All");
+
 </script>
 
 <nav class="wrapper" bind:this={wrapper}>
-    <div class="top-wrapper" >
+    <div class="top-wrapper" style="width: {page.url.pathname.includes("/spots/") ? "70%" : "100%"}">
         {#if !isMobile.current}
-            <div class="logo-wrapper">
-                <a href="/" class="logo-anchor" aria-label="Home">
+                <a href="/" class="logo-wrapper" aria-label="Home" style="padding-inline-start: {page.url.pathname.includes("/spots/") ? "0" : "1rem"}">
                     <img src="/main-logos/stot.png" alt="logo" />
                 </a>
-            </div>
         {/if}
         <div class="middle-wrapper">
             {#if active && !page.url.pathname.includes("/spots/") && !isMobile.current}
@@ -42,11 +42,11 @@
                 </div>
             {/if}
             <div class="search-wrapper">
-                <Search />
+                <Search {currentFilter} />
             </div>         
         </div>
         {#if !isMobile.current}
-        <div class="user-wrapper">
+        <div class="user-wrapper" style="padding-inline-end: {page.url.pathname.includes("/spots/") ? "0" : "1rem"}">
             <UserButton />
         </div>
         {/if}
@@ -97,22 +97,22 @@
     .logo-wrapper {
         justify-content: flex-start;
         padding-inline-start: 1rem;
+        width: 3rem;
+        height: 3rem;
+
+        view-transition-name: home-nav-logo;
     }
 
-    .logo-anchor {
-        width: 10rem;
-        height: 25%;
+    .logo-wrapper img {
+        height: 100%;
+        object-fit: contain;
     }
 
     .user-wrapper {
         justify-content: flex-end;
         padding-inline-end: 1rem;
-    }
 
-
-    .logo-wrapper img {
-        width: 100%;
-        object-fit: contain;
+        view-transition-name: home-nav-user;
     }
 
     .middle-wrapper {
@@ -133,6 +133,14 @@
         width: 100%;
         padding-block-end: 1rem;
         z-index: 1000;
+    }
+
+    .logo-wrapper, .user-wrapper {
+        transition: transform 0.3s ease-in-out;
+
+        @media (prefers-reduced-motion: reduce) {
+            view-transition-name: none !important;
+        } 
     }
 
     .mobile-wrapper {

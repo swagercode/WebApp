@@ -3,7 +3,7 @@
     import { fly } from "svelte/transition";
     import SearchMenu from "./SearchMenu.svelte";
     import SearchPreferenceMenu from "./SearchPreferenceMenu.svelte";
-    let currentFilter = $props();
+    let currentFilter = $props<string>();
 
     let searchMenuOpen = $state(false);
     let preferenceMenuOpen = $state(false);
@@ -162,6 +162,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    .search-submit-button:hover {
+        background-color: var(--primary-clr-dark);
     }
 
     .search-submit-button img {

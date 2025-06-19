@@ -30,12 +30,12 @@
             <div class="info-container">
                 <dl>
                     <dt><h1>{data.description}</h1></dt>
-                    <dd>{data.openNow ? "Open Now" : "Closed"} ・ {data.hours} ・ <span class="distance-wrapper"><img src={data.distanceByTime[0]} alt="" /> {data.distanceByTime[1]}</span></dd>
+                    <dd><span style="color: var(--{data.openNow ? "open-clr" : "closed-clr"});">{data.openNow ? "Open Now" : "Closed"}</span>  {data.hours} ・ <span class="distance-wrapper"><img src={data.distanceByTime[0]} alt="" /> {data.distanceByTime[1]}</span></dd>
                     <dd>⭐{data.rating.overall} ・ {data.reviewCount} reviews</dd>
-                    <dd>📞{data.phoneNumber}</dd>
+                    <dd>📞<a href={`tel:${data.phoneNumber}`}>{data.phoneNumber}</a></dd>
                 </dl>
-                <hr />
             </div>
+            <hr />
             <div class="things-to-know-wrapper">
                 <h1>Things to Know</h1>
                 <ul class="things-to-know-list">
@@ -55,7 +55,7 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        align-items: center;
+        align-items: flex-start;
     }
 
     .title {
@@ -85,7 +85,7 @@
         width: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
     }
 
@@ -93,7 +93,7 @@
         width: 50%;
         display: flex;
         align-items: flex-start;
-        justify-content: space-between;
+        justify-content: flex-start;
     }
 
     hr {
@@ -102,13 +102,14 @@
         background-color: var(--font-clr-light);
         border: none;
         border-radius: 1rem;
+        align-self: center;
     }
 
     dl {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 0.5rem;
     }
 
@@ -116,6 +117,10 @@
         width: 1.2rem;
         height: 1.2rem;
         display: inline;
+    }
+
+    a {
+        color: var(--font-clr-dark);
     }
 
     .things-to-know-wrapper {
@@ -131,7 +136,6 @@
         justify-content: center;
         gap: 0.5rem;
         list-style: none;
-
     }
 
     .things-to-know-list li img {

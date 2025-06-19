@@ -93,6 +93,7 @@
         background-color: var(--font-clr-dark);
         margin: 0;
         padding: 0;
+        
         view-transition-name: top-routes-selected-line;
     }
 
@@ -123,10 +124,9 @@
     }
 
     .wrapper.mobile a img {
-        width: 90%;
-        height: 90%;
-        aspect-ratio: 1/1;
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
     }
 
 </style>
-
