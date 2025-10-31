@@ -1,4 +1,4 @@
-# StudySpot Frontend
+# StudySpot (WIP)
 
 This is the Svelte frontend for the StudySpot application, providing an interactive map interface for finding and exploring study spots.
 
