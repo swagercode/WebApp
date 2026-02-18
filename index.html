@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Find your study spot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="static/styles.css" />
+</head>
+<body>
+    <div class="layout">
+        <div class="head-wrapper">
+            <nav class="nav-wrapper" id="nav">
+                <div class="nav-top-wrapper">
+                    <a href="/" class="logo-wrapper" aria-label="Home"><img src="static/main-logos/stot.png" alt="logo" /></a>
+                    <div class="middle-wrapper">
+                        <div class="top-routes-wrapper">
+                            <div class="routes-desktop" id="routes-desktop">
+                                <a href="/"><img src="static/nav-icons/spots-icon.png" alt="SPOTS" /><h1 class="button-text" style="color: var(--font-clr-dark);">SPOTS</h1><hr class="selected-line" /></a>
+                                <a href="groups.html"><img src="static/nav-icons/groups-icon.png" alt="GROUPS" /><h1 class="button-text">GROUPS</h1></a>
+                                <a href="#"><img src="static/nav-icons/housing-icon.png" alt="HOUSING" /><h1 class="button-text">HOUSING</h1></a>
+                                <a href="#"><img src="static/nav-icons/tutoring-icon.png" alt="TUTORING" /><h1 class="button-text">TUTORING</h1></a>
+                            </div>
+                        </div>
+                        <div class="search-wrapper">
+                            <div class="search-bar" id="search-bar">
+                                <div class="search-left-wrapper">
+                                    <button type="button" class="search-bar-input-button" id="search-left-btn" aria-expanded="false">
+                                        <p class="search-text-normal">Start your search for a <span class="search-text-highlight">study spot</span></p>
+                                    </button>
+                                    <div class="search-menu-wrapper" id="search-menu" hidden>
+                                        <div class="search-menu-container">
+                                            <div class="search-menu-header">
+                                                <span class="search-menu-header-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFA53B" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#FFA53B" stroke-width="2" stroke-linecap="round"/></svg></span>
+                                                <div class="search-menu-header-text">
+                                                    <div class="search-menu-title">Recent searches</div>
+                                                    <div class="search-menu-desc">Find your previous <span class="highlight">study spots</span></div>
+                                                </div>
+                                            </div>
+                                            <hr class="search-menu-divider" />
+                                            <div class="search-menu-list" id="search-menu-list"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="search-bar-divider" />
+                                <div class="search-right-wrapper">
+                                    <button type="button" class="search-bar-filter-button" id="filter-btn" aria-expanded="false">
+                                        <p class="search-text-normal">Filter: <span class="search-text-highlight" id="filter-label">All</span></p>
+                                    </button>
+                                    <div class="search-preference-menu-wrapper" id="preference-menu" hidden>
+                                        <div class="search-menu-container">
+                                            <div class="search-menu-header">
+                                                <span class="search-menu-header-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFA53B" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#FFA53B" stroke-width="2" stroke-linecap="round"/></svg></span>
+                                                <div class="search-menu-header-text">
+                                                    <div class="search-menu-title">Recent searches</div>
+                                                    <div class="search-menu-desc">Find your previous <span class="highlight">study spots</span></div>
+                                                </div>
+                                            </div>
+                                            <hr class="search-menu-divider" />
+                                            <div class="search-menu-list" id="preference-menu-list"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="search-submit-button" aria-label="Search"><img src="static/search/search-magnify.png" alt="Search" /></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="main-wrapper">
+            <div class="page-main-wrapper">
+                <div class="content-wrapper" id="content">
+                    <div class="spot-container" style="--delay: 0ms;"><a href="spot.html" class="spot-card"><article><figure><img src="https://images.squarespace-cdn.com/content/v1/55049669e4b030d1c7f84cad/1551055694822-D8GGVSKED06I9SB062MC/North+Park+exterior" alt="Dark Horse Cafe" /></figure><dl><dt><span>Dark Horse Cafe</span><span>3.2<span style="color: var(--rating-clr)">★</span></span></dt><dd>5 minute walk</dd><dd style="color: var(--open-clr)">Open now</dd></dl></article></a></div>
+                    <div class="spot-container" style="--delay: 50ms;"><a href="spot.html" class="spot-card"><article><figure><img src="https://studios.imgix.net/img/gallery-images/assets/uploads/UCSD_Canyon_Vista_Half_Width_Study_Lounge.jpg?q=85" alt="Study Lounge" /></figure><dl><dt><span>Study Lounge</span><span>3.2<span style="color: var(--rating-clr)">★</span></span></dt><dd>8 minute walk</dd><dd style="color: var(--open-clr)">Open now</dd></dl></article></a></div>
+                    <div class="spot-container" style="--delay: 100ms;"><a href="spot.html" class="spot-card"><article><figure><img src="https://cdn.shopify.com/s/files/1/0909/2906/files/PXL_20230609_193736155.jpg?v=1740439409" alt="Green Bean Coffee" /></figure><dl><dt><span>Green Bean Coffee</span><span>3.2<span style="color: var(--rating-clr)">★</span></span></dt><dd>12 minute walk</dd><dd style="color: var(--closed-clr)">Closed</dd></dl></article></a></div>
+                    <div class="spot-container" style="--delay: 50ms;"><a href="spot.html" class="spot-card"><article><figure><img src="https://blogs.chapman.edu/wp-content/uploads/sites/37/2022/11/20221020_084122.jpg" alt="Campus Library" /></figure><dl><dt><span>Campus Library</span><span>3.2<span style="color: var(--rating-clr)">★</span></span></dt><dd>3 minute walk</dd><dd style="color: var(--open-clr)">Open now</dd></dl></article></a></div>
+                    <div class="spot-container" style="--delay: 100ms;"><a href="spot.html" class="spot-card"><article><figure><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/09/84/bf/photo3jpg.jpg?w=900&h=500&s=1" alt="Bookworm Cafe" /></figure><dl><dt><span>Bookworm Cafe</span><span>3.2<span style="color: var(--rating-clr)">★</span></span></dt><dd>15 minute walk</dd><dd style="color: var(--open-clr)">Open now</dd></dl></article></a></div>
+                    <div class="spot-container" style="--delay: 150ms;"><a href="spot.html" class="spot-card"><article><figure><img src="https://ml5enisp4q1t.i.optimole.com/w:1600/h:899/q:mauto/f:best/https://interiorarchitects.com/wp-content/uploads/2022/06/MasterCard-NYC_02.jpg" alt="Tech Hub" /></figure><dl><dt><span>Tech Hub</span><span>3.2<span style="color: var(--rating-clr)">★</span></span></dt><dd>20 minute walk</dd><dd style="color: var(--open-clr)">Open now</dd></dl></article></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Groups - Find your study spot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="static/styles.css" />
+</head>
+<body>
+    <div class="layout">
+        <div class="head-wrapper">
+            <nav class="nav-wrapper" id="nav">
+                <div class="nav-top-wrapper">
+                    <a href="/" class="logo-wrapper" aria-label="Home"><img src="static/main-logos/stot.png" alt="logo" /></a>
+                    <div class="middle-wrapper">
+                        <div class="top-routes-wrapper">
+                            <div class="routes-desktop" id="routes-desktop">
+                                <a href="/"><img src="static/nav-icons/spots-icon.png" alt="SPOTS" /><h1 class="button-text">SPOTS</h1></a>
+                                <a href="groups.html"><img src="static/nav-icons/groups-icon.png" alt="GROUPS" /><h1 class="button-text" style="color: var(--font-clr-dark);">GROUPS</h1><hr class="selected-line" /></a>
+                                <a href="#"><img src="static/nav-icons/housing-icon.png" alt="HOUSING" /><h1 class="button-text">HOUSING</h1></a>
+                                <a href="#"><img src="static/nav-icons/tutoring-icon.png" alt="TUTORING" /><h1 class="button-text">TUTORING</h1></a>
+                            </div>
+                        </div>
+                        <div class="search-wrapper">
+                            <div class="search-bar" id="search-bar">
+                                <div class="search-left-wrapper">
+                                    <button type="button" class="search-bar-input-button" id="search-left-btn" aria-expanded="false">
+                                        <p class="search-text-normal">Start your search for a <span class="search-text-highlight">study spot</span></p>
+                                    </button>
+                                    <div class="search-menu-wrapper" id="search-menu" hidden>
+                                        <div class="search-menu-container">
+                                            <div class="search-menu-header">
+                                                <span class="search-menu-header-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFA53B" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#FFA53B" stroke-width="2" stroke-linecap="round"/></svg></span>
+                                                <div class="search-menu-header-text">
+                                                    <div class="search-menu-title">Recent searches</div>
+                                                    <div class="search-menu-desc">Find your previous <span class="highlight">study spots</span></div>
+                                                </div>
+                                            </div>
+                                            <hr class="search-menu-divider" />
+                                            <div class="search-menu-list" id="search-menu-list"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="search-bar-divider" />
+                                <div class="search-right-wrapper">
+                                    <button type="button" class="search-bar-filter-button" id="filter-btn" aria-expanded="false">
+                                        <p class="search-text-normal">Filter: <span class="search-text-highlight" id="filter-label">All</span></p>
+                                    </button>
+                                    <div class="search-preference-menu-wrapper" id="preference-menu" hidden>
+                                        <div class="search-menu-container">
+                                            <div class="search-menu-header">
+                                                <span class="search-menu-header-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFA53B" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#FFA53B" stroke-width="2" stroke-linecap="round"/></svg></span>
+                                                <div class="search-menu-header-text">
+                                                    <div class="search-menu-title">Recent searches</div>
+                                                    <div class="search-menu-desc">Find your previous <span class="highlight">study spots</span></div>
+                                                </div>
+                                            </div>
+                                            <hr class="search-menu-divider" />
+                                            <div class="search-menu-list" id="preference-menu-list"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="search-submit-button" aria-label="Search"><img src="static/search/search-magnify.png" alt="Search" /></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="main-wrapper">
+            <div class="groups-main-wrapper">
+                <div class="group-card"><h2>Group 1</h2></div>
+                <div class="group-card"><h2>Group 2</h2></div>
+                <div class="group-card"><h2>Group 3</h2></div>
+            </div>
+        </div>
+    </div>
+    <script src="static/app.js"></script>
+</body>
+</html>
