@@ -144,10 +144,21 @@
         syncForViewport();
     }
 
+    function initAddSpotButton() {
+        var addSpotBtn = document.getElementById('add-spot-btn');
+        if (addSpotBtn) {
+            addSpotBtn.addEventListener('click', function () {
+                // TODO: navigate to add-spot page or open add-spot modal
+                window.location.hash = 'add-spot';
+            });
+        }
+    }
+
     function init() {
         initSearchMenus();
         initHeaderHeight();
         initHeaderFold();
+        initAddSpotButton();
         window.addEventListener('resize', initHeaderHeight);
     }
 

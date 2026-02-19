@@ -140,6 +140,7 @@ body {
     content: '';
     flex: 1 1 0;
     min-width: 0;
+    order: 0;
 }
 
 .nav-top-wrapper.on-spot-page {
@@ -164,9 +165,37 @@ body {
     object-fit: contain;
 }
 
-.user-wrapper {
+.user-wrapper,
+.nav-right-wrapper {
     justify-content: flex-end;
     padding-inline-end: 1rem;
+}
+
+.nav-right-wrapper {
+    flex: 0 0 auto;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    padding-inline-end: 1rem;
+    order: 1;
+}
+
+.add-spot-button {
+    padding: 0.6rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--bg-clr);
+    background-color: var(--primary-clr);
+    border: none;
+    border-radius: 10rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.add-spot-button:hover {
+    background-color: var(--primary-clr-dark);
 }
 
 .middle-wrapper {
