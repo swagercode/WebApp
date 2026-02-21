@@ -4,11 +4,15 @@ import os, uuid, sqlite3
 app = Flask('__name__')
 app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000
 
-SPOTS_IMAGE_FOLDER = "static/spots-images"
+SPOTS_IMAGE_FOLDER = "./spots-images"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename: str) -> bool:
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def dict_factory(cursor, row):
+    fields = [column[0] for column in cursor.description]
+    return {key: value for key, value in zip(fields, row)}
 
 @app.before_request
 def before_request():
@@ -46,21 +50,27 @@ def spot():
     g.cur.execute('''
         SELECT * FROM spots WHERE id=?;
     ''', (id, ))
-    rows = g.cur.fetchall()
-    if not rows:
+    spot = g.cur.fetchone()
+    print(spot)
+    if not spot:
         return jsonify({'error': 'Not found'})
-    return jsonify(dict(rows))
+    return jsonify(dict(spot))
 
 @app.route('/api/add-spot', methods=['POST'])
 def add_spot():
     data: dict = request.get_json()
     REQUIRED_KEYS: set[str] = {'name', 'description', 'address', 'hours', 'phone', 'rating', 'tags', 'pictures'}
+    print('attempted to print', data['pictures'])
     if not data or set(data.keys()) != REQUIRED_KEYS:
         flash('Please fill out all fields')
         return redirect(request.url)
+    pictures: str = ''
+    if type(data['pictures']) == list:
+        pictures = ','.join(data['pictures'])
+
     g.cur.execute('''
         INSERT INTO spots (name, description, address, hours, phone, rating, tags, pictures) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-    ''', (data['name'], data['description'], data['address'], data['hours'], data['phone'], data['rating'], data['tags'], data['pictures']))
+    ''', (data['name'], data['description'], data['address'], data['hours'], data['phone'], data['rating'], data['tags'], pictures))
     g.db.commit()
     return redirect(url_for('spot_add_success'))
 
@@ -76,10 +86,19 @@ def upload():
     if allowed_file(file.filename):
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f'{uuid.uuid4()}.{ext}'
+        if not os.path.isdir(SPOTS_IMAGE_FOLDER):
+            os.mkdir(SPOTS_IMAGE_FOLDER)
         file.save(os.path.join(SPOTS_IMAGE_FOLDER, filename))
-        return jsonify({'success': 'File uploaded successfully'})
+        return jsonify({'success': 'File uploaded successfully', 'filename': filename})
     else:
         return jsonify({'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'})
+
+@app.route('/api/download-image')
+def download_image():
+    name = request.args.get('name', '')
+    if not name:
+        return jsonify({'error': 'Missing name'}), 400
+    return send_from_directory(SPOTS_IMAGE_FOLDER, name)
 
 @app.route('/spot-add-success')
 def spot_add_success():

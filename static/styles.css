@@ -143,6 +143,10 @@ body {
     order: 0;
 }
 
+.nav-top-wrapper.with-right::after {
+    display: none;
+}
+
 .nav-top-wrapper.on-spot-page {
     width: 70%;
 }
@@ -182,6 +186,11 @@ body {
     align-items: center;
     padding-inline-end: 1rem;
     order: 1;
+}
+
+.nav-top-wrapper.with-right .nav-right-wrapper {
+    flex: 1 1 0;
+    min-width: 0;
 }
 
 .add-spot-button {
@@ -625,6 +634,12 @@ body {
 }
 .spot-card article dd { font-size: 0.8rem; color: var(--font-clr-dark); }
 
+.home-load-status {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 0;
+}
+
 /* Skeleton */
 .skeleton-container {
     opacity: 0;
@@ -690,69 +705,192 @@ body {
 }
 .group-card h2 { font-size: 1.25rem; font-weight: 600; }
 
-/* Spot detail page */
-.spot-detail-wrapper {
-    width: 70%;
+/* Spot view page */
+.spot-view {
+    width: min(1100px, 94%);
+    margin: 0 auto;
+    padding: 1.5rem 0 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.spot-view-header {
+    padding-bottom: 0.25rem;
+}
+
+.spot-view-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--font-clr-dark);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+}
+
+.spot-view-address {
+    font-size: 0.95rem;
+    color: var(--font-clr);
+    margin-top: 0.35rem;
+    font-weight: 500;
+}
+
+.spot-view-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.spot-view-hero {
+    grid-row: span 2;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: var(--hover-clr);
+    box-shadow: var(--box-shadow);
+    aspect-ratio: 4 / 3;
+    min-height: 280px;
+}
+
+.spot-view-hero img {
+    width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
+    object-fit: cover;
+    display: block;
 }
-.spot-detail-title { font-size: 2rem; font-weight: 600; text-align: left; }
-.spot-detail-title-wrapper { width: 100%; padding-block-start: 1rem; }
-.image-gallery-wrapper {
+
+.spot-view-thumbs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    align-content: start;
+}
+
+.spot-view-thumbs .photo-item {
+    border-radius: 0.875rem;
+    overflow: hidden;
+    background: var(--hover-clr);
+    aspect-ratio: 1;
+}
+
+.spot-view-thumbs .photo-item img {
     width: 100%;
-    height: 30rem;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.spot-view-content {
+    background: var(--bg-clr);
+    border-radius: 1.25rem;
+    box-shadow: var(--box-shadow);
+    padding: 1.75rem;
+}
+
+.spot-view-description {
+    font-size: 1.1rem;
+    line-height: 1.65;
+    color: var(--font-clr-dark);
+    margin-bottom: 1.25rem;
+}
+
+.spot-view-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.spot-view-detail {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    gap: 0.2rem;
 }
-.spot-detail figcaption {
-    width: 100%;
+
+.spot-view-detail dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--font-clr);
+}
+
+.spot-view-detail dd {
+    font-size: 1rem;
+    color: var(--font-clr-dark);
+    font-weight: 500;
+}
+
+.spot-view-detail a {
+    color: var(--primary-clr);
+    text-decoration: none;
+}
+
+.spot-view-detail a:hover {
+    text-decoration: underline;
+}
+
+.spot-view-rating {
+    color: var(--font-clr-dark);
+}
+
+.spot-view-rating-star {
+    color: var(--rating-clr);
+    margin-left: 0.2rem;
+}
+
+.spot-view-tags-wrap {
+    padding-top: 1rem;
+    border-top: 1px solid var(--font-clr-light);
+}
+
+.spot-view-tags-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--font-clr);
+    margin-bottom: 0.6rem;
+}
+
+.spot-view-tags {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-}
-.spot-detail .info-container { width: 50%; }
-.spot-detail hr {
-    width: 3px;
-    height: 20rem;
-    background-color: var(--font-clr-light);
-    border: none;
-    border-radius: 1rem;
-    align-self: center;
-}
-.spot-detail dl { display: flex; flex-direction: column; gap: 0.5rem; }
-.spot-detail .info-container img { width: 1.2rem; height: 1.2rem; display: inline; }
-.spot-detail a { color: var(--font-clr-dark); }
-.things-to-know-wrapper { width: 50%; padding-inline-start: 1rem; }
-.things-to-know-list {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.5rem;
     list-style: none;
+    padding: 0;
+    margin: 0;
 }
-.things-to-know-list li img { width: 1.2rem; height: 1.2rem; display: inline; }
 
-.image-gallery { width: 100%; height: 100%; display: flex; gap: 1rem; }
-.image-gallery .main-image { width: 100%; height: 100%; }
-.image-gallery .main-image img {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1/1;
-    object-fit: cover;
-    border-radius: 1rem;
+.spot-view-tags li {
+    display: inline-block;
+    padding: 0.4rem 0.85rem;
+    background: var(--faded-primary-clr);
+    color: var(--font-clr-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 10rem;
 }
-.photo-grid { overflow: visible; box-sizing: border-box; }
-.photo-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 0.75rem;
+
+.spot-load-status {
+    font-size: 0.9rem;
+    color: var(--font-clr);
+    min-height: 1.5em;
+}
+
+.spot-load-status.error {
+    color: var(--closed-clr);
+}
+
+@media (max-width: 560px) {
+    .spot-view-gallery {
+        grid-template-columns: 1fr;
+    }
+    .spot-view-hero {
+        grid-row: span 1;
+    }
+    .spot-view-thumbs {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 /* Add spot page */
@@ -959,17 +1097,26 @@ body {
     margin-bottom: 0.4rem;
 }
 
-.spot-success-home-link {
+.spot-success-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 1.25rem;
+}
+
+.spot-success-btn {
     display: inline-block;
-    margin-top: 1.1rem;
     border-radius: 10rem;
     padding: 0.7rem 1.25rem;
     background: var(--primary-clr);
     color: var(--bg-clr);
     text-decoration: none;
     font-weight: 700;
+    border: none;
+    cursor: pointer;
 }
 
-.spot-success-home-link:hover {
+.spot-success-btn:hover {
     background: var(--primary-clr-dark);
 }

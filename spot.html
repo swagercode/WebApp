@@ -60,50 +60,47 @@
             </nav>
         </div>
         <div class="main-wrapper">
-            <div class="spot-detail-wrapper">
-                <div class="spot-detail-title-wrapper">
-                    <h1 class="spot-detail-title" id="spot-title">The Cozy Corner Cafe located in Downtown!</h1>
-                </div>
-                <figure class="spot-detail">
-                    <div class="image-gallery-wrapper">
-                        <div class="image-gallery">
-                            <figure class="main-image">
-                                <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=60" alt="spot" />
-                            </figure>
-                            <figure class="gallery-container">
-                                <div class="photo-grid" style="display: grid; grid-template-columns: 50% 50%; grid-template-rows: 50% 50%; gap: 0.5rem; width: 100%; height: 100%;">
-                                    <div class="photo-item"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&auto=format&fit=crop&q=60" alt="Spot" loading="lazy" /></div>
-                                    <div class="photo-item"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=60" alt="Spot" loading="lazy" /></div>
-                                    <div class="photo-item"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=800&auto=format&fit=crop&q=60" alt="Spot" loading="lazy" /></div>
-                                    <div class="photo-item"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=60" alt="Spot" loading="lazy" /></div>
-                                </div>
-                            </figure>
-                        </div>
+            <article class="spot-view">
+                <header class="spot-view-header">
+                    <h1 class="spot-view-title" id="spot-title">Loading spot...</h1>
+                    <p class="spot-view-address" id="spot-address-line">Address unavailable</p>
+                </header>
+
+                <div class="spot-view-gallery">
+                    <div class="spot-view-hero">
+                        <img id="spot-main-image" src="" alt="" />
                     </div>
-                    <figcaption>
-                        <div class="info-container">
-                            <dl>
-                                <dt><h1>Small coffee shop</h1></dt>
-                                <dd><span style="color: var(--open-clr);">Open Now</span> 8am - 5pm ・ <span class="distance-wrapper"><img src="static/common/car.png" alt="" /> 10 min drive</span></dd>
-                                <dd>⭐4.2 ・ 2 reviews</dd>
-                                <dd>📞 <a href="tel:123-456-7890">123-456-7890</a></dd>
-                            </dl>
+                    <div id="spot-gallery-grid" class="spot-view-thumbs"></div>
+                </div>
+
+                <section class="spot-view-content">
+                    <p class="spot-view-description" id="spot-description">Loading description...</p>
+                    <dl class="spot-view-details">
+                        <div class="spot-view-detail">
+                            <dt>Rating</dt>
+                            <dd><span id="spot-rating" class="spot-view-rating">-</span><span class="spot-view-rating-star">★</span></dd>
                         </div>
-                        <hr />
-                        <div class="things-to-know-wrapper">
-                            <h1>Things to Know</h1>
-                            <ul class="things-to-know-list">
-                                <li><img src="static/common/car.png" alt="" /> Free WiFi</li>
-                                <li><img src="static/common/car.png" alt="" /> Pet Friendly</li>
-                                <li><img src="static/common/car.png" alt="" /> Wheelchair Accessible</li>
-                                <li><img src="static/common/car.png" alt="" /> Inside/Outside Charging</li>
-                                <li><img src="static/common/car.png" alt="" /> No Dogs</li>
-                                <li><img src="static/common/car.png" alt="" /> Expensive Menu</li>
-                            </ul>
+                        <div class="spot-view-detail">
+                            <dt>Hours</dt>
+                            <dd><span id="spot-open-status">—</span> <span id="spot-hours"></span></dd>
                         </div>
-                    </figcaption>
-                </figure>
-            </div>
+                        <div class="spot-view-detail">
+                            <dt>Phone</dt>
+                            <dd><a id="spot-phone" href="#">Not available</a></dd>
+                        </div>
+                        <div class="spot-view-detail">
+                            <dt>Address</dt>
+                            <dd id="spot-address">—</dd>
+                        </div>
+                    </dl>
+                    <div class="spot-view-tags-wrap">
+                        <h2 class="spot-view-tags-title">Tags</h2>
+                        <ul id="spot-tags-list" class="spot-view-tags" aria-label="Tags"></ul>
+                    </div>
+                </section>
+
+                <p id="spot-load-status" class="spot-load-status" aria-live="polite"></p>
+            </article>
         </div>
     </div>
     <script src="static/app.js"></script>

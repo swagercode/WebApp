@@ -209,46 +209,77 @@
             });
         }
 
+        function fileKey(file) {
+            return [file.name, file.size, file.lastModified].join('::');
+        }
+
+        function mergeFiles(existingFiles, newFiles, maxCount) {
+            var map = {};
+            var merged = [];
+            var i;
+
+            for (i = 0; i < existingFiles.length; i++) {
+                map[fileKey(existingFiles[i])] = true;
+                merged.push(existingFiles[i]);
+            }
+
+            for (i = 0; i < newFiles.length; i++) {
+                var key = fileKey(newFiles[i]);
+                if (!map[key]) {
+                    map[key] = true;
+                    merged.push(newFiles[i]);
+                }
+            }
+
+            return merged.slice(0, maxCount);
+        }
+
         async function processSelectedFiles(fileLikeList) {
-            var files = normalizeFiles(fileLikeList);
-            if (!files || files.length === 0) {
-                selectedFiles = [];
-                uploadedImagePaths = [];
-                renderImagePreviews([]);
-                renderUploadRows([]);
+            var incomingFiles = normalizeFiles(fileLikeList);
+            if (!incomingFiles || incomingFiles.length === 0) {
                 setStatus('Please choose image files.', 'error');
                 return;
             }
 
-            if (files.length < MIN_IMAGE_COUNT || files.length > MAX_IMAGE_COUNT) {
+            var mergedFiles = mergeFiles(selectedFiles, incomingFiles, MAX_IMAGE_COUNT);
+
+            if (mergedFiles.length < MIN_IMAGE_COUNT || mergedFiles.length > MAX_IMAGE_COUNT) {
                 setStatus('Please upload between 1 and 3 images.', 'error');
-                selectedFiles = [];
-                uploadedImagePaths = [];
-                renderImagePreviews([]);
-                renderUploadRows([]);
                 return;
             }
 
-            selectedFiles = files;
+            var previousCount = selectedFiles.length;
+            selectedFiles = mergedFiles;
             renderImagePreviews(selectedFiles);
 
+            var newFiles = selectedFiles.slice(previousCount);
+            if (newFiles.length === 0) {
+                setStatus('Images ready.', 'success');
+                return;
+            }
+
+            var existingRows = uploadedImagePaths.slice(0, previousCount).map(function (_, i) {
+                return { state: 'ok', message: 'Image ' + (i + 1) + ' uploaded' };
+            });
+
             if (submitBtn) submitBtn.disabled = true;
-            setStatus('Uploading images...', null);
+            setStatus('Uploading new images...', null);
             try {
-                await uploadSelectedImages(selectedFiles);
+                var existingPaths = uploadedImagePaths.slice();
+                var newPaths = await uploadNewImagesOnly(newFiles, existingRows);
+                uploadedImagePaths = existingPaths.concat(newPaths);
                 setStatus('Images uploaded.', 'success');
             } catch (error) {
-                uploadedImagePaths = [];
                 setStatus(error.message || 'Image upload failed.', 'error');
             } finally {
                 if (submitBtn) submitBtn.disabled = false;
             }
         }
 
-        async function uploadSelectedImages(files) {
-            var rows = [];
-            uploadedImagePaths = [];
-            renderUploadRows([]);
+        async function uploadNewImagesOnly(files, existingRows) {
+            var filenames = [];
+            var rows = Array.isArray(existingRows) ? existingRows.slice() : [];
+            renderUploadRows(rows);
             isUploading = true;
 
             try {
@@ -260,24 +291,20 @@
                     var formData = new FormData();
                     formData.append('file', file);
 
-                    try {
-                        var response = await fetch('/api/upload-image', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        var result = await response.json();
-                        if (!response.ok) {
-                            throw new Error(result.error || 'Upload failed');
-                        }
-                        uploadedImagePaths.push(result.file_path || result.path || file.name);
-                        rows[rows.length - 1] = { state: 'ok', message: file.name + ' uploaded' };
-                    } catch (error) {
-                        rows[rows.length - 1] = { state: 'error', message: file.name + ' failed: ' + error.message };
-                        renderUploadRows(rows);
-                        throw error;
+                    var response = await fetch('/api/upload-image', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    var result = await response.json();
+                    if (!response.ok) {
+                        throw new Error(result.error || 'Upload failed');
                     }
+                    var filename = result.filename || file.name;
+                    filenames.push(filename);
+                    rows[rows.length - 1] = { state: 'ok', message: file.name + ' uploaded' };
                     renderUploadRows(rows);
                 }
+                return filenames;
             } finally {
                 isUploading = false;
             }
@@ -286,6 +313,7 @@
         if (imageInput) {
             imageInput.addEventListener('change', async function () {
                 await processSelectedFiles(imageInput.files);
+                imageInput.value = '';
             });
         }
 
@@ -353,12 +381,21 @@
                     tags: String(formData.get('tags') || '').trim(),
                     pictures: uploadedImagePaths
                 };
+                console.log('add-spot request payload:', payload);
 
                 var response = await fetch('/api/add-spot', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+
+                var addSpotResult = null;
+                try {
+                    addSpotResult = await response.clone().json();
+                    console.log('add-spot response json:', addSpotResult);
+                } catch (jsonParseError) {
+                    console.log('add-spot response was not JSON');
+                }
                 
                 if (response.redirected && response.url) {
                     window.location.href = response.url;
@@ -367,15 +404,15 @@
 
                 if (!response.ok) {
                     var errText = 'Failed to submit spot';
-                    try {
-                        var result = await response.json();
-                        errText = result.error || errText;
-                    } catch (e) {}
+                    if (addSpotResult && addSpotResult.error) {
+                        errText = addSpotResult.error;
+                    }
                     throw new Error(errText);
                 }
 
                 setStatus('Spot added successfully.', 'success');
-                window.location.href = '/spot-add-success';
+                var newId = addSpotResult && (addSpotResult.id != null) ? addSpotResult.id : '';
+                window.location.href = newId ? '/spot-add-success?id=' + encodeURIComponent(newId) : '/spot-add-success';
             } catch (error) {
                 setStatus(error.message || 'Something went wrong.', 'error');
             } finally {
@@ -384,12 +421,242 @@
         });
     }
 
+    function initSpotPage() {
+        if (window.location.pathname.indexOf('/spot') !== 0) return;
+
+        var params = new URLSearchParams(window.location.search);
+        var spotId = params.get('id');
+
+        var titleEl = document.getElementById('spot-title');
+        var addressLineEl = document.getElementById('spot-address-line');
+        var descEl = document.getElementById('spot-description');
+        var ratingEl = document.getElementById('spot-rating');
+        var phoneEl = document.getElementById('spot-phone');
+        var addressEl = document.getElementById('spot-address');
+        var mainImageEl = document.getElementById('spot-main-image');
+        var galleryEl = document.getElementById('spot-gallery-grid');
+        var tagsEl = document.getElementById('spot-tags-list');
+        var statusEl = document.getElementById('spot-load-status');
+        var hoursEl = document.getElementById('spot-hours');
+        var openStatusEl = document.getElementById('spot-open-status');
+
+        function setLoadStatus(message, isError) {
+            if (!statusEl) return;
+            statusEl.textContent = message || '';
+            statusEl.classList.remove('error', 'success');
+            if (isError) statusEl.classList.add('error');
+        }
+
+        function parsePictures(picturesField) {
+            if (Array.isArray(picturesField)) return picturesField;
+            if (typeof picturesField === 'string') {
+                return picturesField.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+            }
+            return [];
+        }
+
+        function parseTags(tagsField) {
+            if (Array.isArray(tagsField)) return tagsField;
+            if (typeof tagsField === 'string') {
+                return tagsField.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+            }
+            return [];
+        }
+
+        function renderGallery(images) {
+            if (!galleryEl) return;
+            galleryEl.innerHTML = images.slice(1, 5).map(function (img) {
+                return '<div class="photo-item"><img src="' + spotImageUrl(img) + '" alt="Spot image" loading="lazy" /></div>';
+            }).join('');
+        }
+
+        if (!spotId) {
+            setLoadStatus('Missing spot id in URL. Open a spot from the spots page.', true);
+            return;
+        }
+
+        setLoadStatus('Loading spot details...', false);
+
+        fetch('/api/spot?id=' + encodeURIComponent(spotId))
+            .then(async function (response) {
+                var json = await response.json();
+                if (!response.ok || (json && json.error)) {
+                    throw new Error((json && json.error) || 'Failed to load spot');
+                }
+                return json;
+            })
+            .then(function (rawSpot) {
+                var spot = rawSpot;
+                if (Array.isArray(rawSpot) && rawSpot.length > 0) {
+                    spot = rawSpot[0];
+                }
+
+                if (!spot || typeof spot !== 'object') {
+                    throw new Error('Spot data was invalid');
+                }
+
+                var pictures = parsePictures(spot.pictures);
+                var tags = parseTags(spot.tags);
+
+                if (titleEl) titleEl.textContent = spot.name || 'Spot';
+                var addr = spot.address || '';
+                if (addressLineEl) addressLineEl.textContent = addr || 'Address unavailable';
+                if (addressEl) addressEl.textContent = addr || '—';
+                if (descEl) descEl.textContent = spot.description || 'No description available.';
+                if (ratingEl) ratingEl.textContent = spot.rating != null ? String(spot.rating) : '—';
+                if (hoursEl) hoursEl.textContent = spot.hours ? (' ' + spot.hours) : '—';
+                if (openStatusEl) openStatusEl.textContent = '';
+                if (phoneEl) {
+                    var phone = spot.phone || '';
+                    phoneEl.textContent = phone || 'Not available';
+                    phoneEl.href = phone ? ('tel:' + phone) : '#';
+                }
+
+                if (mainImageEl) {
+                    if (pictures.length > 0) {
+                        mainImageEl.src = spotImageUrl(pictures[0]);
+                    } else {
+                        mainImageEl.removeAttribute('src');
+                        mainImageEl.alt = 'No image available';
+                    }
+                }
+
+                renderGallery(pictures);
+
+                if (tagsEl) {
+                    tagsEl.innerHTML = tags.length
+                        ? tags.map(function (tag) {
+                            return '<li>' + escapeHtml(tag) + '</li>';
+                        }).join('')
+                        : '<li>No tags</li>';
+                }
+
+                setLoadStatus('', false);
+            })
+            .catch(function (error) {
+                setLoadStatus(error.message || 'Failed to load spot.', true);
+            });
+    }
+
+    function escapeHtml(value) {
+        return String(value == null ? '' : value)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function parseCsvList(value) {
+        if (Array.isArray(value)) return value;
+        if (typeof value !== 'string') return [];
+        return value.split(',').map(function (item) { return item.trim(); }).filter(Boolean);
+    }
+
+    function spotImageUrl(picture) {
+        if (!picture) return '';
+        return '/api/download-image?name=' + encodeURIComponent(picture);
+    }
+
+    async function fetchHomeSpots() {
+        try {
+            var listResponse = await fetch('/api/spots');
+            if (listResponse.ok) {
+                var listJson = await listResponse.json();
+                if (Array.isArray(listJson)) return listJson;
+            }
+        } catch (e) {}
+
+        // Fallback when list endpoint is unavailable: probe by id.
+        var spots = [];
+        var misses = 0;
+        for (var id = 1; id <= 100 && misses < 20; id++) {
+            try {
+                var response = await fetch('/api/spot?id=' + id);
+                if (!response.ok) {
+                    misses += 1;
+                    continue;
+                }
+                var spot = await response.json();
+                if (spot && !spot.error) {
+                    spots.push(spot);
+                    misses = 0;
+                } else {
+                    misses += 1;
+                }
+            } catch (e) {
+                misses += 1;
+            }
+        }
+        return spots;
+    }
+
+    function renderHomeSpots(spots) {
+        var content = document.getElementById('content');
+        if (!content) return;
+
+        if (!spots || spots.length === 0) {
+            content.innerHTML = '<p class="add-spot-status error home-load-status">No spots found yet.</p>';
+            return;
+        }
+
+        content.innerHTML = spots.map(function (spot, index) {
+            var delay = (Math.floor(index / 3) * 50) + ((index % 3) * 100);
+            var pictures = parseCsvList(spot.pictures);
+            var imageSrc = pictures[0] ? spotImageUrl(pictures[0]) : 'static/categories/overall.svg';
+            var rating = (spot.rating != null && spot.rating !== '') ? spot.rating : '-';
+            var subtitle = spot.address || spot.hours || '';
+
+            return '<div class="spot-container" style="--delay: ' + delay + 'ms;">' +
+                '<a href="/spot?id=' + encodeURIComponent(spot.id) + '" class="spot-card">' +
+                '<article>' +
+                '<figure><img src="' + escapeHtml(imageSrc) + '" alt="' + escapeHtml(spot.name || 'Spot') + '" /></figure>' +
+                '<dl>' +
+                '<dt><span>' + escapeHtml(spot.name || 'Unnamed spot') + '</span><span>' + escapeHtml(rating) + '<span style="color: var(--rating-clr)">★</span></span></dt>' +
+                '<dd>' + escapeHtml(subtitle) + '</dd>' +
+                '</dl>' +
+                '</article>' +
+                '</a>' +
+                '</div>';
+        }).join('');
+    }
+
+    function initHomeSpots() {
+        var content = document.getElementById('content');
+        if (!content) return;
+
+        var pathname = window.location.pathname;
+        if (!(pathname === '/' || pathname === '/index.html')) return;
+
+        content.innerHTML = '<p class="add-spot-status home-load-status">Loading spots...</p>';
+        fetchHomeSpots()
+            .then(renderHomeSpots)
+            .catch(function () {
+                content.innerHTML = '<p class="add-spot-status error home-load-status">Failed to load spots.</p>';
+            });
+    }
+
+    function initSpotAddSuccessPage() {
+        var pathname = window.location.pathname;
+        if (pathname !== '/spot-add-success' && pathname !== '/spot_add_success.html') return;
+        var params = new URLSearchParams(window.location.search);
+        var id = params.get('id');
+        var viewLink = document.getElementById('spot-success-view-link');
+        if (viewLink && id) {
+            viewLink.href = '/spot?id=' + encodeURIComponent(id);
+            viewLink.removeAttribute('hidden');
+        }
+    }
+
     function init() {
         initSearchMenus();
         initHeaderHeight();
         initHeaderFold();
         initAddSpotButton();
         initAddSpotForm();
+        initSpotPage();
+        initHomeSpots();
+        initSpotAddSuccessPage();
         window.addEventListener('resize', initHeaderHeight);
     }
 
