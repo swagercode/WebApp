@@ -61,15 +61,30 @@
             }
         }
 
+        var searchPlaceholder = document.getElementById('search-placeholder');
+        var searchInput = document.getElementById('search-input');
+
         if (searchLeftBtn && searchMenu) {
             searchLeftBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
+                if (searchInput && !searchLeftBtn.classList.contains('search-input-active')) {
+                    searchLeftBtn.classList.add('search-input-active');
+                    searchInput.focus();
+                }
                 var open = !searchMenu.hidden;
-                if (open) closeSearchMenu();
-                else {
+                var inInputMode = searchLeftBtn.classList.contains('search-input-active');
+                if (open && !inInputMode) closeSearchMenu();
+                else if (!open) {
                     closePreferenceMenu();
                     searchMenu.hidden = false;
                     searchLeftBtn.setAttribute('aria-expanded', 'true');
+                }
+            });
+        }
+        if (searchInput && searchLeftBtn) {
+            searchInput.addEventListener('blur', function () {
+                if (!searchInput.value.trim()) {
+                    searchLeftBtn.classList.remove('search-input-active');
                 }
             });
         }
