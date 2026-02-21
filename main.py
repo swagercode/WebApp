@@ -56,6 +56,15 @@ def spot():
         return jsonify({'error': 'Not found'})
     return jsonify(dict(spot))
 
+@app.route('/api/search-spot')
+def search_spot():
+    frag = request.args.get('fragment', '')
+    if not frag:
+        return
+    g.cur.execute('''
+        SELECT * FROM spots WHERE name=?
+    ''')
+
 @app.route('/api/add-spot', methods=['POST'])
 def add_spot():
     data: dict = request.get_json()
