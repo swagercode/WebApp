@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Add Spot - Find your study spot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="static/styles.css" />
+</head>
+<body>
+    <div class="layout">
+        <div class="head-wrapper">
+            <nav class="nav-wrapper" id="nav">
+                <div class="nav-top-wrapper no-search">
+                    <a href="/" class="logo-wrapper" aria-label="Home"><img src="static/main-logos/stot.png" alt="logo" /></a>
+                    <div class="middle-wrapper">
+                        <div class="top-routes-wrapper">
+                            <div class="routes-desktop" id="routes-desktop">
+                                <a href="/"><img src="static/nav-icons/spots-icon.png" alt="SPOTS" /><h1 class="button-text">SPOTS</h1></a>
+                                <a href="/groups"><img src="static/nav-icons/groups-icon.png" alt="GROUPS" /><h1 class="button-text">GROUPS</h1></a>
+                                <a href="#"><img src="static/nav-icons/housing-icon.png" alt="HOUSING" /><h1 class="button-text">HOUSING</h1></a>
+                                <a href="#"><img src="static/nav-icons/tutoring-icon.png" alt="TUTORING" /><h1 class="button-text">TUTORING</h1></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nav-right-wrapper" aria-hidden="true"></div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="main-wrapper">
+            <main class="add-spot-page">
+                <section class="add-spot-card">
+                    <h1>Add New Spot</h1>
+                    <p class="add-spot-subtitle">Fill in all fields and upload 1 to 3 images.</p>
+
+                    <form id="add-spot-form" class="add-spot-form" novalidate>
+                        <label for="spot-name">Name</label>
+                        <input id="spot-name" name="name" type="text" required />
+
+                        <label for="spot-description">Description</label>
+                        <textarea id="spot-description" name="description" rows="4" required></textarea>
+
+                        <label for="spot-address">Address</label>
+                        <input id="spot-address" name="address" type="text" required />
+
+                        <label for="spot-hours">Hours</label>
+                        <input id="spot-hours" name="hours" type="text" placeholder="e.g. 8am - 5pm" required />
+
+                        <label for="spot-phone">Phone</label>
+                        <input id="spot-phone" name="phone" type="text" required />
+
+                        <label for="spot-rating">Rating</label>
+                        <input id="spot-rating" name="rating" type="number" min="0" max="5" step="0.1" required />
+
+                        <label for="spot-tags">Tags (comma separated)</label>
+                        <input id="spot-tags" name="tags" type="text" placeholder="wifi, cafe, quiet" required />
+
+                        <label for="spot-images">Images (1 to 3)</label>
+                        <div id="spot-image-drop" class="image-drop-zone" role="button" tabindex="0" aria-controls="spot-images" aria-label="Upload spot images">
+                            <p>Drag and drop images here, or click to browse.</p>
+                            <small>Minimum 1 image, maximum 3 images.</small>
+                        </div>
+                        <input id="spot-images" name="images" class="sr-only" type="file" accept="image/*" multiple required />
+                        <small class="form-hint">Each image is uploaded and validated before final submit.</small>
+                        <div id="image-preview-grid" class="image-preview-grid" aria-live="polite"></div>
+
+                        <ul id="image-upload-list" class="image-upload-list"></ul>
+
+                        <div class="form-actions">
+                            <button type="submit" id="add-spot-submit" class="add-spot-submit">Submit Spot</button>
+                            <a href="/" class="add-spot-cancel">Cancel</a>
+                        </div>
+                    </form>
+
+                    <p id="add-spot-status" class="add-spot-status" aria-live="polite"></p>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="static/app.js"></script>
+</body>
+</html>

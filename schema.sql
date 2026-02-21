@@ -4,7 +4,8 @@ CREATE TABLE spots (
     description TEXT NOT NULL,
     address TEXT NOT NULL,
     hours TEXT NOT NULL,
-    phone text NOT NULL,
+    phone TEXT NOT NULL,
     rating FLOAT NOT NULL,
-    tags TEXT NOT NULL
+    tags TEXT NOT NULL,
+    pictures TEXT NOT NULL
 );

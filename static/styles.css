@@ -147,6 +147,10 @@ body {
     width: 70%;
 }
 
+.nav-top-wrapper.no-search {
+    align-items: center;
+}
+
 .logo-wrapper, .user-wrapper {
     flex: 1 1 0;
     display: flex;
@@ -210,6 +214,10 @@ body {
 .search-wrapper {
     width: 90%;
     height: 100%;
+}
+
+.nav-top-wrapper.no-search .middle-wrapper {
+    justify-content: center;
 }
 
 .top-routes-wrapper {
@@ -745,4 +753,223 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 0.75rem;
+}
+
+/* Add spot page */
+.add-spot-page {
+    width: min(820px, 92%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.add-spot-card {
+    width: 100%;
+    background: var(--bg-clr);
+    border-radius: 1.25rem;
+    box-shadow: var(--box-shadow);
+    padding: 1.75rem;
+}
+
+.add-spot-card h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.add-spot-subtitle {
+    color: var(--font-clr);
+    margin-bottom: 1.25rem;
+}
+
+.add-spot-form {
+    display: grid;
+    gap: 0.65rem;
+}
+
+.add-spot-form label {
+    font-weight: 600;
+    color: var(--font-clr-dark);
+}
+
+.add-spot-form input,
+.add-spot-form textarea {
+    border: 1px solid var(--font-clr-light);
+    border-radius: 0.65rem;
+    padding: 0.75rem 0.8rem;
+    font: inherit;
+}
+
+.add-spot-form input:focus,
+.add-spot-form textarea:focus {
+    outline: 2px solid var(--faded-primary-clr);
+    border-color: var(--primary-clr);
+}
+
+.form-hint {
+    color: var(--font-clr);
+    font-size: 0.9rem;
+}
+
+.image-drop-zone {
+    border: 2px dashed var(--font-clr-light);
+    border-radius: 0.9rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+    background: #fafafa;
+}
+
+.image-drop-zone p {
+    margin: 0;
+    color: var(--font-clr-dark);
+}
+
+.image-drop-zone small {
+    color: var(--font-clr);
+}
+
+.image-drop-zone:hover,
+.image-drop-zone.drag-over {
+    border-color: var(--primary-clr);
+    background-color: #fff6ef;
+}
+
+.image-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.6rem;
+    margin-top: 0.25rem;
+}
+
+.image-preview-item {
+    border: 1px solid #e9e9e9;
+    border-radius: 0.65rem;
+    overflow: hidden;
+    background: #fff;
+}
+
+.image-preview-item img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+}
+
+.image-preview-item span {
+    display: block;
+    padding: 0.35rem 0.45rem 0.5rem;
+    font-size: 0.78rem;
+    color: var(--font-clr-dark);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.image-upload-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.25rem 0 0;
+    display: grid;
+    gap: 0.35rem;
+}
+
+.image-upload-list li {
+    font-size: 0.9rem;
+    color: var(--font-clr-dark);
+}
+
+.image-upload-list .ok {
+    color: var(--open-clr);
+}
+
+.image-upload-list .error {
+    color: var(--closed-clr);
+}
+
+.form-actions {
+    margin-top: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.add-spot-submit {
+    border: none;
+    border-radius: 10rem;
+    padding: 0.7rem 1.15rem;
+    background: var(--primary-clr);
+    color: var(--bg-clr);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.add-spot-submit:hover {
+    background: var(--primary-clr-dark);
+}
+
+.add-spot-submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.add-spot-cancel {
+    color: var(--font-clr-dark);
+    text-decoration: none;
+}
+
+.add-spot-status {
+    min-height: 1.25rem;
+    margin-top: 1rem;
+    color: var(--font-clr-dark);
+}
+
+.add-spot-status.error {
+    color: var(--closed-clr);
+}
+
+.add-spot-status.success {
+    color: var(--open-clr);
+}
+
+/* Add spot success page */
+.spot-success-page {
+    width: min(760px, 92%);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.spot-success-card {
+    width: 100%;
+    background: var(--bg-clr);
+    border-radius: 1.25rem;
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    text-align: center;
+}
+
+.spot-success-card h1 {
+    font-size: 2rem;
+    margin-bottom: 0.85rem;
+}
+
+.spot-success-card p {
+    color: var(--font-clr-dark);
+    margin-bottom: 0.4rem;
+}
+
+.spot-success-home-link {
+    display: inline-block;
+    margin-top: 1.1rem;
+    border-radius: 10rem;
+    padding: 0.7rem 1.25rem;
+    background: var(--primary-clr);
+    color: var(--bg-clr);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.spot-success-home-link:hover {
+    background: var(--primary-clr-dark);
 }

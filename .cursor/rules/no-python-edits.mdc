@@ -1,0 +1,11 @@
+---
+description: Never edit Python files in this project
+alwaysApply: true
+---
+
+# Python Files Are Read-Only
+
+- Do not create, modify, rename, or delete any `.py` files.
+- Do not run tools that would indirectly rewrite `.py` files.
+- If a requested task requires Python changes, stop and tell the user the requirements. Do not directly suggest code.
+- Prefer frontend/static-only changes unless the user clearly overrides this rule.
