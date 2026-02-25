@@ -1,4 +1,4 @@
-CREATE TABLE spots (
+CREATE TABLE IF NOT EXISTS spots (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -10,25 +10,22 @@ CREATE TABLE spots (
     pictures TEXT NOT NULL
 );
 
-CREATE VIRTUAL TABLE spots_fts USING fts5(
+CREATE VIRTUAL TABLE IF NOT EXISTS spots_fts USING fts5(
     name,
     description,
     address,
-    tags,
-    content
-)
+    tags
+);
 
-CREATE TRIGGER spots_ai AFTER INSERT ON spots BEGIN
+CREATE TRIGGER IF NOT EXISTS spots_ai AFTER INSERT ON spots BEGIN
     INSERT INTO spots_fts(rowid, name, description, address, tags)
     VALUES (new.id, new.name, new.description, new.address, new.tags);
 END;
-CREATE TRIGGER spots_ad AFTER DELETE ON spots BEGIN
-    INSERT INTO spots_fts(rowid, name, description, address, tags)
-    VALUES ('delete', old.id, old.name, old.description, old.address, old.tags);
+CREATE TRIGGER IF NOT EXISTS spots_ad AFTER DELETE ON spots BEGIN
+    DELETE FROM spots_fts WHERE rowid = old.id;
 END;
-CREATE TRIGGER spots_ai AFTER UPDATE ON spots BEGIN
-    INSERT INTO spots_fts(rowid, name, description, address, tags)
-    VALUES ('delete', old.id, old.name, old.description, old.address, old.tags);
+CREATE TRIGGER IF NOT EXISTS spots_au AFTER UPDATE ON spots BEGIN
+    DELETE FROM spots_fts WHERE rowid = old.id;
     INSERT INTO spots_fts(rowid, name, description, address, tags)
     VALUES (new.id, new.name, new.description, new.address, new.tags);
 END;

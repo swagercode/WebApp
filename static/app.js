@@ -109,6 +109,32 @@
                 closePreferenceMenu();
             }
         });
+
+        var pathname = window.location.pathname;
+        if ((pathname === '/' || pathname === '/index.html') && searchInput) {
+            var content = document.getElementById('content');
+            var searchTimeout;
+            searchInput.addEventListener('input', function () {
+                var term = searchInput.value.trim();
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(function () {
+                    if (!content) return;
+                    if (term === '') {
+                        content.innerHTML = '<p class="add-spot-status home-load-status">Loading spots...</p>';
+                        fetchHomeSpots().then(renderHomeSpots).catch(function () {
+                            content.innerHTML = '<p class="add-spot-status error home-load-status">Failed to load spots.</p>';
+                        });
+                        return;
+                    }
+                    content.innerHTML = '<p class="add-spot-status home-load-status">Searching...</p>';
+                    fetchSearchSpots(term).then(function (spots) {
+                        renderHomeSpots(spots);
+                    }).catch(function () {
+                        content.innerHTML = '<p class="add-spot-status error home-load-status">Search failed.</p>';
+                    });
+                }, 250);
+            });
+        }
     }
 
     function initHeaderHeight() {
@@ -609,6 +635,27 @@
             }
         }
         return spots;
+    }
+
+    async function fetchSearchSpots() {
+        const searchInput = document.getElementById('search-input');
+        var searchTerm = searchInput.value;
+        if (searchTerm.trim() == '') {
+            return;
+        }
+        try {
+            var response = await fetch(`/api/search-term?${searchTerm}`)
+            var data = await response.json();
+            return data;
+        }
+        catch (err) {
+            console.error(err);
+            return [];
+        }
+    }
+
+    function renderSearchSpots() {
+        
     }
 
     function renderHomeSpots(spots) {

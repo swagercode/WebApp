@@ -18,6 +18,7 @@
                                 <a href="/"><img src="static/nav-icons/spots-icon.png" alt="SPOTS" /><h1 class="button-text" style="color: var(--font-clr-dark);">SPOTS</h1><hr class="selected-line" /></a>
                                 <a href="/groups"><img src="static/nav-icons/groups-icon.png" alt="GROUPS" /><h1 class="button-text">GROUPS</h1></a>
                                 <a href="#"><img src="static/nav-icons/housing-icon.png" alt="HOUSING" /><h1 class="button-text">HOUSING</h1></a>
+                                <a href="#"><img src="static/nav-icons/tutoring-icon.png" alt="TUTORING" /><h1 class="button-text">TUTORING</h1></a>
                             </div>
                         </div>
                         <div class="search-wrapper">
@@ -34,13 +35,33 @@
                                             <span class="search-menu-header-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFA53B" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#FFA53B" stroke-width="2" stroke-linecap="round"/></svg></span>
                                             <div class="search-menu-header-text">
                                                 <div class="search-menu-title">Recent searches</div>
+                                                <div class="search-menu-desc">Find your previous <span class="highlight">study spots</span></div>
                                             </div>
                                         </div>
                                         <hr class="search-menu-divider" />
                                         <div class="search-menu-list" id="search-menu-list"></div>
                                     </div>
                                 </div>
-                                <button type="button" class="search-submit-button" aria-label="Search"><img src="static/search/search-magnify.png" alt="Search" /></button>
+                                <hr class="search-bar-divider" />
+                                <div class="search-right-wrapper">
+                                    <button type="button" class="search-bar-filter-button" id="filter-btn" aria-expanded="false">
+                                        <p class="search-text-normal">Filter: <span class="search-text-highlight" id="filter-label">All</span></p>
+                                    </button>
+                                    <div class="search-preference-menu-wrapper" id="preference-menu" hidden>
+                                        <div class="search-menu-container">
+                                            <div class="search-menu-header">
+                                                <span class="search-menu-header-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#FFA53B" stroke-width="2"/><path d="M12 6v6l4 2" stroke="#FFA53B" stroke-width="2" stroke-linecap="round"/></svg></span>
+                                                <div class="search-menu-header-text">
+                                                    <div class="search-menu-title">Recent searches</div>
+                                                    <div class="search-menu-desc">Find your previous <span class="highlight">study spots</span></div>
+                                                </div>
+                                            </div>
+                                            <hr class="search-menu-divider" />
+                                            <div class="search-menu-list" id="preference-menu-list"></div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="search-submit-button" aria-label="Search"><img src="static/search/search-magnify.png" alt="Search" /></button>
+                                </div>
                             </div>
                         </div>
                     </div>

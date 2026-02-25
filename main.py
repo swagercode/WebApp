@@ -1,3 +1,4 @@
+import json
 from flask import Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
 import os, uuid, sqlite3
 
@@ -59,12 +60,17 @@ def spot():
 
 @app.route('/api/search-spot')
 def search_spot():
-    frag = request.args.get('fragment', '')
-    if not frag:
-        return
+    term = request.args.get('term', '')
+    if not term:
+        return jsonify({'error': 'No search term'})
     g.cur.execute('''
-        SELECT * FROM spots WHERE name=?
-    ''')
+        SELECT rowid, bm25(spots_fts) AS rank FROM spots_fts WHERE spots_fts MATCH ? ORDER BY rank;
+    ''', term)
+    spots = g.cur.fetchmany(10)
+    if not spots:
+        flash('No results')
+        return jsonify({'ok': 'No results'})
+    return jsonify(spots)
 
 @app.route('/api/add-spot', methods=['POST'])
 def add_spot() -> Response:
