@@ -1,8 +1,9 @@
-from flask import Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for
+from flask import Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
 import os, uuid, sqlite3
 
 app = Flask('__name__')
 app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000
+app.config['SECRET_KEY'] = os.urandom(12)
 
 SPOTS_IMAGE_FOLDER = "./spots-images"
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -66,17 +67,24 @@ def search_spot():
     ''')
 
 @app.route('/api/add-spot', methods=['POST'])
-def add_spot():
+def add_spot() -> Response:
     data: dict = request.get_json()
     REQUIRED_KEYS: set[str] = {'name', 'description', 'address', 'hours', 'phone', 'rating', 'tags', 'pictures'}
     print('attempted to print', data['pictures'])
     if not data or set(data.keys()) != REQUIRED_KEYS:
         flash('Please fill out all fields')
-        return redirect(request.url)
+        return jsonify({'error': 'Not all fields filled'}), 405
+    for field in data.values():
+        print('fields are:', field)
+        if not field:
+            flash('Please fill out all fields')
+            return jsonify({'error': 'Not all fields filled'}), 405
     pictures: str = ''
     if type(data['pictures']) == list:
         pictures = ','.join(data['pictures'])
-
+    else:
+        flash('Pictures should return a list')
+        return jsonify({'error': 'Pictures not in list'}), 405
     g.cur.execute('''
         INSERT INTO spots (name, description, address, hours, phone, rating, tags, pictures) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     ''', (data['name'], data['description'], data['address'], data['hours'], data['phone'], data['rating'], data['tags'], pictures))

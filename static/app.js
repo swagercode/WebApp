@@ -385,15 +385,15 @@
             if (submitBtn) submitBtn.disabled = true;
 
             try {
-                var formData = new FormData(form);
+                var formData = new FormData(form); 
                 var payload = {
-                    name: String(formData.get('name') || '').trim(),
-                    description: String(formData.get('description') || '').trim(),
-                    address: String(formData.get('address') || '').trim(),
-                    hours: String(formData.get('hours') || '').trim(),
-                    phone: String(formData.get('phone') || '').trim(),
-                    rating: Number(formData.get('rating') || 0),
-                    tags: String(formData.get('tags') || '').trim(),
+                    name: String(formData.get('name')).trim(),
+                    description: String(formData.get('description')).trim(),
+                    address: String(formData.get('address')).trim(),
+                    hours: String(formData.get('hours')).trim(),
+                    phone: String(formData.get('phone')).trim(),
+                    rating: Number(formData.get('rating')),
+                    tags: String(formData.get('tags')).trim(),
                     pictures: uploadedImagePaths
                 };
                 console.log('add-spot request payload:', payload);
@@ -414,6 +414,11 @@
                 
                 if (response.redirected && response.url) {
                     window.location.href = response.url;
+                    return;
+                }
+
+                if (addSpotResult && addSpotResult.error) {
+                    setStatus(addSpotResult.error, 'error');
                     return;
                 }
 
