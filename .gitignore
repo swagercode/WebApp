@@ -7,6 +7,9 @@ ENV/
 *.sqlite3
 *.db
 
+# Ignore node
+node_modules/
+
 # Ignore spots images (uploaded images)
 spots-images/
 
