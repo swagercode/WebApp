@@ -61,7 +61,6 @@
             }
         }
 
-        var searchPlaceholder = document.getElementById('search-placeholder');
         var searchInput = document.getElementById('search-input');
 
         if (searchLeftBtn && searchMenu) {
@@ -593,17 +592,6 @@
             .replace(/'/g, '&#39;');
     }
 
-    function parseCsvList(value) {
-        if (Array.isArray(value)) return value;
-        if (typeof value !== 'string') return [];
-        return value.split(',').map(function (item) { return item.trim(); }).filter(Boolean);
-    }
-
-    function spotImageUrl(picture) {
-        if (!picture) return '';
-        return '/api/download-image?name=' + encodeURIComponent(picture);
-    }
-
     async function fetchHomeSpots() {
         try {
             var listResponse = await fetch('/api/spots');
@@ -637,9 +625,7 @@
         return spots;
     }
 
-    async function fetchSearchSpots() {
-        const searchInput = document.getElementById('search-input');
-        var searchTerm = searchInput.value;
+    async function fetchSearchSpots(searchTerm) {
         if (searchTerm.trim() == '') {
             return;
         }
@@ -654,9 +640,6 @@
         }
     }
 
-    function renderSearchSpots() {
-        
-    }
 
     function renderHomeSpots(spots) {
         var content = document.getElementById('content');
