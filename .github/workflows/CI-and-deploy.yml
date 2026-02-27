@@ -55,7 +55,7 @@ jobs:
               repo: context.repo.repo,
               deployment_id: ${{ steps.deployment.outputs.deployment_id }},
               state: 'success',
-              environment_url: 'https://YOUR_APP.fly.dev'
+              environment_url: 'https://stot.fly.dev'
             });
 
       - name: Set deployment failure
