@@ -9,6 +9,17 @@ function spotImageUrl(picture) {
     return '/api/download-image?name=' + encodeURIComponent(picture);
 }
 
+var recentSearches = [
+        { name: 'Better Buzz', icon: '☕', time: '12 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 }
+];
+
+
+
 function renderSearchMenuList(containerId) {
     var list = document.getElementById(containerId);
     if (!list) return;
@@ -22,12 +33,13 @@ function renderSearchMenuList(containerId) {
     }).join('');
 }
 
-
-module.exports = {
-    parseCsvList,
-    spotImageUrl,
-    renderSearchMenuList,
-};
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        parseCsvList,
+        spotImageUrl,
+        renderSearchMenuList,
+    };
+}
 
 if (typeof window !== 'undefined') {
     window.spotImageUrl = spotImageUrl;
