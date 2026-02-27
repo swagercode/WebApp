@@ -48,7 +48,6 @@ function parseRawSpotJSON(rawSpotJSON) {
     }
     if (spot.pictures) spot.pictures = parsePictures(spot.pictures);
     if (spot.tags) spot.tags = parseTags(spot.tags);
-    console.log('Parsed spot: ' + JSON.stringify(spot));
     return spot;
 }
 function parsePictures(picturesField) {
