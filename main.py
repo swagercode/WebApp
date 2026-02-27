@@ -64,7 +64,7 @@ def search_spot():
         flash("No search term")
         return jsonify({'error': 'No search term'}), 405
     g.cur.execute('''
-        SELECT s.name, s.rating, s.id
+        SELECT s.name, s.rating, s.id, s.pictures
         FROM spots_fts 
         JOIN spots AS s ON s.id = spots_fts.rowid
         WHERE spots_fts

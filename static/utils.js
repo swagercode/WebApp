@@ -10,22 +10,22 @@ function spotImageUrl(picture) {
 }
 
 var recentSearches = [
-        { name: 'Better Buzz', icon: '☕', time: '12 mins away', rating: 4.3 },
-        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
-        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
-        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
-        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 },
-        { name: 'Green Bean Coffee', icon: '☕', time: '10 mins away', rating: 4.3 }
+        { name: 'Better Buzz', id: '121', pictures: ['391a13f5-5259-438a-bae8-856831216ea3.jpg'], time: '12 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', id: '122', pictures: ['391a13f5-5259-438a-bae8-856831216ea3.jpg'], time: '10 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', id: '123', pictures: ['391a13f5-5259-438a-bae8-856831216ea3.jpg'], time: '10 mins away', rating: 4.3 },
+        { name: 'Green Bean Coffee', id: '124', pictures: ['391a13f5-5259-438a-bae8-856831216ea3.jpg'], time: '10 mins away', rating: 4.3 },
 ];
 
 function renderSearchMenuList(listContainerElement, spotSearchResultsList) {
     if (!listContainerElement) return;
     var source = Array.isArray(spotSearchResultsList) ? spotSearchResultsList : recentSearches;
-    console.log('Rendering search menu list with source: ' + String.toString(source));
     listContainerElement.innerHTML = source.map(function (s) {
+        if (!s.pictures) {
+            throw new Error('Expected spot to have at least one picture');
+        }
         return '<a class="search-menu-item" href="/spot?id=' + encodeURIComponent(s.id) + '">' +
                 '<div class="search-menu-item">' +
-                    '<span class="search-menu-item-icon">' + s.icon + '</span>' +
+                    '<img class="search-menu-item-icon" src="' + spotImageUrl(s.pictures[0]) + '"></img>' +
                     '<div class="search-menu-item-info">' +
                         '<div class="search-menu-item-title">' + s.name + '</div>' +
                     '<div class="search-menu-item-meta">' + s.time + ' <span class="star">★</span>' + s.rating + '</div>' +
