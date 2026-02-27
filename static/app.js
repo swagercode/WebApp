@@ -21,9 +21,11 @@
         var searchMenu = document.getElementById('search-menu');
         var preferenceMenu = document.getElementById('preference-menu');
         var filterLabel = document.getElementById('filter-label');
+        var searchMenuList = document.getElementById('search-menu-list');
+        var searchMenuListHeader = document.getElementById('spot-search-menu-header');
+        var searchMenuListHeaderHr = document.getElementById('spot-search-menu-header-hr');
 
-        renderSearchMenuList('search-menu-list');
-        renderSearchMenuList('preference-menu-list');
+        renderSearchMenuList(searchMenuList);
 
         if (filterLabel) filterLabel.textContent = currentFilter;
 
@@ -87,7 +89,36 @@
                 closePreferenceMenu();
             }
         });
-
+        
+        var pathname = window.location.pathname;
+        if (pathname === '/' && searchInput) {
+             var searchTimeout;
+             searchInput.addEventListener('input', () => {
+                var term = searchInput.value.trim();
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    if (!content) return;
+                    if (term === '') {
+                        searchMenuListHeader.hidden = false;
+                        searchMenuListHeaderHr.hidden = false;
+                        renderSearchMenuList(searchMenuList);
+                    } else {
+                        searchMenuListHeader.hidden = true;
+                        searchMenuListHeaderHr.hidden = true;
+                        fetchSpotSearchResults(term)
+                        .then( (result) => { return result.json(); })
+                        .then( (rawSpots) => {
+                            if (!Array.isArray(rawSpots)) {
+                                console.log('got here');
+                                return;
+                            }
+                            var parsedSpots = rawSpots.map((rawSpot) => parseRawSpotJSON(rawSpot));
+                            renderSearchMenuList(searchMenuList, parsedSpots);
+                        });
+                    }
+                }, 250);
+             });
+        }
         
 
     }
@@ -328,9 +359,6 @@
                     event.stopPropagation();
                     imageDrop.classList.add('drag-over');
                 });
-            });
-
-            ['dragleave', 'dragend', 'drop'].forEach(function (eventName) {
                 imageDrop.addEventListener(eventName, function (event) {
                     event.preventDefault();
                     event.stopPropagation();
@@ -448,22 +476,6 @@
             if (isError) statusEl.classList.add('error');
         }
 
-        function parsePictures(picturesField) {
-            if (Array.isArray(picturesField)) return picturesField;
-            if (typeof picturesField === 'string') {
-                return picturesField.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-            }
-            return [];
-        }
-
-        function parseTags(tagsField) {
-            if (Array.isArray(tagsField)) return tagsField;
-            if (typeof tagsField === 'string') {
-                return tagsField.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
-            }
-            return [];
-        }
-
         function renderGallery(images) {
             if (!galleryEl) return;
             galleryEl.innerHTML = images.slice(1, 5).map(function (img) {
@@ -487,18 +499,7 @@
                 return json;
             })
             .then(function (rawSpot) {
-                var spot = rawSpot;
-                if (Array.isArray(rawSpot) && rawSpot.length > 0) {
-                    spot = rawSpot[0];
-                }
-
-                if (!spot || typeof spot !== 'object') {
-                    throw new Error('Spot data was invalid');
-                }
-
-                var pictures = parsePictures(spot.pictures);
-                var tags = parseTags(spot.tags);
-
+                var spot = parseRawSpotJSON(rawSpot);
                 if (titleEl) titleEl.textContent = spot.name || 'Spot';
                 var addr = spot.address || '';
                 if (addressLineEl) addressLineEl.textContent = addr || 'Address unavailable';
@@ -514,19 +515,19 @@
                 }
 
                 if (mainImageEl) {
-                    if (pictures.length > 0) {
-                        mainImageEl.src = spotImageUrl(pictures[0]);
+                    if (spot.pictures.length > 0) {
+                        mainImageEl.src = spotImageUrl(spot.pictures[0]);
                     } else {
                         mainImageEl.removeAttribute('src');
                         mainImageEl.alt = 'No image available';
                     }
                 }
 
-                renderGallery(pictures);
+                renderGallery(spot.pictures);
 
                 if (tagsEl) {
-                    tagsEl.innerHTML = tags.length
-                        ? tags.map(function (tag) {
+                    tagsEl.innerHTML = spot.tags.length
+                        ? spot.tags.map(function (tag) {
                             return '<li>' + escapeHtml(tag) + '</li>';
                         }).join('')
                         : '<li>No tags</li>';
@@ -555,7 +556,9 @@
                 var listJson = await listResponse.json();
                 if (Array.isArray(listJson)) return listJson;
             }
-        } catch (e) {}
+        } catch (e) {
+            console.error("TODO: add api/spots endpoint with personalized recommendations")
+        }
 
         // Fallback when list endpoint is unavailable: probe by id.
         var spots = [];

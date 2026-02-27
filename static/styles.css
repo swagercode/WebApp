@@ -89,7 +89,6 @@ body {
     to { opacity: 0; }
 }
 
-/* Layout */
 .layout {
     height: 100%;
     width: 100%;
@@ -114,7 +113,6 @@ body {
     margin-block-end: 100px;
 }
 
-/* Nav */
 .nav-wrapper {
     position: fixed;
     width: 100%;
@@ -488,6 +486,10 @@ body {
 
 .search-menu-header { display: flex; align-items: center; gap: 1rem; }
 
+.search-menu-header[hidden] {
+    display: none !important;
+}
+
 .search-menu-header-icon {
     background: #FFF6E6;
     border-radius: 1.2rem;
@@ -510,6 +512,8 @@ body {
     border-radius: 1rem;
     transition: background 0.15s;
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
 }
 .search-menu-item:hover { background: #FAFAFA; }
 .search-menu-item-icon {

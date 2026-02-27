@@ -53,7 +53,6 @@ def spot():
         SELECT * FROM spots WHERE id=?;
     ''', (id, ))
     spot = g.cur.fetchone()
-    print(spot)
     if not spot:
         return jsonify({'error': 'Not found'})
     return jsonify(dict(spot))
@@ -62,26 +61,32 @@ def spot():
 def search_spot():
     term = request.args.get('term', '')
     if not term:
-        return jsonify({'error': 'No search term'})
+        flash("No search term")
+        return jsonify({'error': 'No search term'}), 405
     g.cur.execute('''
-        SELECT rowid, bm25(spots_fts) AS rank FROM spots_fts WHERE spots_fts MATCH ? ORDER BY rank;
-    ''', term)
-    spots = g.cur.fetchmany(10)
+        SELECT s.name, s.rating, s.id
+        FROM spots_fts 
+        JOIN spots AS s ON s.id = spots_fts.rowid
+        WHERE spots_fts
+        MATCH ? 
+        ORDER BY bm25(spots_fts)
+        LIMIT 10;
+    ''', (term + '*',))
+    spots = g.cur.fetchall()
+    spots_dicts = [dict(row) for row in spots]
     if not spots:
         flash('No results')
-        return jsonify({'ok': 'No results'})
-    return jsonify(spots)
+        return jsonify({'ok': 'No results'}), 200
+    return jsonify(spots_dicts), 200
 
 @app.route('/api/add-spot', methods=['POST'])
 def add_spot() -> Response:
     data: dict = request.get_json()
     REQUIRED_KEYS: set[str] = {'name', 'description', 'address', 'hours', 'phone', 'rating', 'tags', 'pictures'}
-    print('attempted to print', data['pictures'])
     if not data or set(data.keys()) != REQUIRED_KEYS:
         flash('Please fill out all fields')
         return jsonify({'error': 'Not all fields filled'}), 405
     for field in data.values():
-        print('fields are:', field)
         if not field:
             flash('Please fill out all fields')
             return jsonify({'error': 'Not all fields filled'}), 405
