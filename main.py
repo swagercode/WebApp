@@ -1,4 +1,3 @@
-import json
 from flask import Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
 import os, uuid, sqlite3
 
