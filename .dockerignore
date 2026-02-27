@@ -1,0 +1,28 @@
+# flyctl launch added from .gitignore
+# Ignore Python cache and virtual environments
+**\__pycache__
+**\*.pyc
+**\env
+**\venv
+**\ENV
+**\*.sqlite3
+**\*.db
+
+# Ignore node
+**\node_modules
+
+# Ignore spots images (uploaded images)
+**\spots-images
+
+# Editor/IDE/project files
+**\.vscode
+**\.cursor
+**\.DS_Store
+**\*.swp
+**\*.swo
+**\.idea
+**\*.iml
+
+# OS-specific
+**\Thumbs.db
+fly.toml
