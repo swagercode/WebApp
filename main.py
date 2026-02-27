@@ -1,11 +1,22 @@
 from flask import Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
-import os, uuid, sqlite3
+import os, uuid, sqlite3, logging, sys
+
+level_name = os.getenv('LOG_LEVEL', 'INFO').upper()
+level = getattr(logging, level_name, logging.INFO)
+logging.basicConfig(
+    level=level,
+    stream=sys.stdout,
+    format="%(asctime)s [%(levelname)s], %(name)s: %(message)s",
+)
+logger = logging.getLogger('main')
 
 app = Flask('__name__')
 app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000
 app.config['SECRET_KEY'] = os.urandom(12)
 
-SPOTS_IMAGE_FOLDER = "./spots-images"
+DB_PATH = os.getenv('DB_PATH', 'spots.db')
+SPOTS_IMAGES_PATH = os.getenv('SPOTS_IMAGES_PATH', './spots-images')
+
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename: str) -> bool:
@@ -60,7 +71,8 @@ def spot():
 def search_spot():
     term = request.args.get('term', '')
     if not term:
-        flash("No search term")
+        logger.warning('search_spot: missing term')
+        flash('No search term')
         return jsonify({'error': 'No search term'}), 405
     g.cur.execute('''
         SELECT s.name, s.rating, s.id, s.pictures
@@ -76,6 +88,7 @@ def search_spot():
     if not spots:
         flash('No results')
         return jsonify({'ok': 'No results'}), 200
+    logger.info('search_spot: term=%r results=%d', term, len(spots_dicts))
     return jsonify(spots_dicts), 200
 
 @app.route('/api/add-spot', methods=['POST'])
@@ -113,9 +126,9 @@ def upload():
     if allowed_file(file.filename):
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f'{uuid.uuid4()}.{ext}'
-        if not os.path.isdir(SPOTS_IMAGE_FOLDER):
-            os.mkdir(SPOTS_IMAGE_FOLDER)
-        file.save(os.path.join(SPOTS_IMAGE_FOLDER, filename))
+        if not os.path.isdir(SPOTS_IMAGES_PATH):
+            os.mkdir(SPOTS_IMAGES_PATH)
+        file.save(os.path.join(SPOTS_IMAGES_PATH, filename))
         return jsonify({'success': 'File uploaded successfully', 'filename': filename})
     else:
         return jsonify({'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'})
@@ -125,10 +138,10 @@ def download_image():
     name = request.args.get('name', '')
     if not name:
         return jsonify({'error': 'Missing name'}), 400
-    return send_from_directory(SPOTS_IMAGE_FOLDER, name)
+    return send_from_directory(SPOTS_IMAGES_PATH, name)
 
 @app.route('/spot-add-success')
 def spot_add_success():
     return send_from_directory('.', 'spot_add_success.html')
 
-app.run()
+app.run(host='0.0.0.0', port=5000)
