@@ -16,6 +16,9 @@ jobs:
       - run: npm test
 
   deploy:
+    permissions:
+      content: read
+      deployments: write
     needs: test
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
