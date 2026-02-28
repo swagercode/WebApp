@@ -144,4 +144,5 @@ def download_image():
 def spot_add_success():
     return send_from_directory('.', 'spot_add_success.html')
 
-app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
