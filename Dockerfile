@@ -6,4 +6,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5000
-CMD ["sh", "-c", "python init_db.py && exec python main.py"]
+CMD ["sh", "-c", "python init_db.py && exec -w 4 -b 0.0.0.0:5000 main:app"]
