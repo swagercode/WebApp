@@ -117,21 +117,21 @@ def add_spot() -> Response:
 @app.route('/api/upload-image', methods=['POST'])
 def upload():
     if 'file' not in request.files:
-        return jsonify({'error': 'No  file included'})
+        return jsonify({'error': 'No  file included'}), 405
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'error': 'Empty file name'})
+        return jsonify({'error': 'Empty file name'}), 405
     if not file:
-        return jsonify({'error': 'No file included'})
+        return jsonify({'error': 'No file included'}), 405
     if allowed_file(file.filename):
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f'{uuid.uuid4()}.{ext}'
         if not os.path.isdir(SPOTS_IMAGES_PATH):
             os.mkdir(SPOTS_IMAGES_PATH)
         file.save(os.path.join(SPOTS_IMAGES_PATH, filename))
-        return jsonify({'success': 'File uploaded successfully', 'filename': filename})
+        return jsonify({'success': 'File uploaded successfully', 'filename': filename}), 200
     else:
-        return jsonify({'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'})
+        return jsonify({'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'}), 405
 
 @app.route('/api/download-image')
 def download_image():
