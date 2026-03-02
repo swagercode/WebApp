@@ -24,6 +24,7 @@
         var searchMenuList = document.getElementById('search-menu-list');
         var searchMenuListHeader = document.getElementById('spot-search-menu-header');
         var searchMenuListHeaderHr = document.getElementById('spot-search-menu-header-hr');
+        var content = document.getElementById('content');
 
         renderSearchMenuList(searchMenuList);
 

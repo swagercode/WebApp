@@ -12,7 +12,7 @@ logger = logging.getLogger('main')
 
 app = Flask('__name__')
 app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000
-app.config['SECRET_KEY'] = os.urandom(12)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', os.urandom(12))
 
 DB_PATH = os.getenv('DB_PATH', 'spots.db')
 SPOTS_IMAGES_PATH = os.getenv('SPOTS_IMAGES_PATH', './spots-images')
@@ -28,7 +28,7 @@ def dict_factory(cursor, row):
 
 @app.before_request
 def before_request():
-    g.db = sqlite3.connect('spots.db')
+    g.db = sqlite3.connect(DB_PATH)
     g.db.row_factory = sqlite3.Row
     g.cur = g.db.cursor()
 
@@ -112,7 +112,7 @@ def add_spot() -> Response:
         INSERT INTO spots (name, description, address, hours, phone, rating, tags, pictures) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     ''', (data['name'], data['description'], data['address'], data['hours'], data['phone'], data['rating'], data['tags'], pictures))
     g.db.commit()
-    return redirect(url_for('spot_add_success'))
+    return redirect(url_for('spot_add_success', id=g.cur.lastrowid)), 303
 
 @app.route('/api/upload-image', methods=['POST'])
 def upload():
