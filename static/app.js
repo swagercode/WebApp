@@ -109,10 +109,7 @@
                         fetchSpotSearchResults(term)
                         .then( (result) => { return result.json(); })
                         .then( (rawSpots) => {
-                            if (!Array.isArray(rawSpots)) {
-                                console.log('got here');
-                                return;
-                            }
+                            if (!Array.isArray(rawSpots)) return;
                             var parsedSpots = rawSpots.map((rawSpot) => parseRawSpotJSON(rawSpot));
                             renderSearchMenuList(searchMenuList, parsedSpots);
                         });
@@ -584,22 +581,6 @@
         }
         return spots;
     }
-
-    async function fetchSearchSpots(searchTerm) {
-        if (searchTerm.trim() == '') {
-            return;
-        }
-        try {
-            var response = await fetch(`/api/search-term?${searchTerm}`)
-            var data = await response.json();
-            return data;
-        }
-        catch (err) {
-            console.error(err);
-            return [];
-        }
-    }
-
 
     function renderHomeSpots(spots) {
         var content = document.getElementById('content');

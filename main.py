@@ -112,7 +112,7 @@ def add_spot() -> Response:
         INSERT INTO spots (name, description, address, hours, phone, rating, tags, pictures) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
     ''', (data['name'], data['description'], data['address'], data['hours'], data['phone'], data['rating'], data['tags'], pictures))
     g.db.commit()
-    return redirect(url_for('spot_add_success', id=g.cur.lastrowid)), 303
+    return redirect(url_for('spot_add_success', id=g.cur.lastrowid)), 301
 
 @app.route('/api/upload-image', methods=['POST'])
 def upload():
