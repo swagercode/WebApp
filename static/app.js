@@ -322,7 +322,15 @@
                     });
                     var result = await response.json();
                     if (!response.ok) {
-                        throw new Error(result.error || 'Upload failed');
+                        if (!response.error) {
+                            console.error('API error with no messages:', {
+                                url: response.url,
+                                status: response.status,
+                                statusText: response.statusText,
+                                body: result
+                            });
+                        }
+                        throw new Error(result.error || 'An unknown error has occured.');
                     }
                     var filename = result.filename || file.name;
                     filenames.push(filename);
