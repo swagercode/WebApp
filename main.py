@@ -1,6 +1,17 @@
-from flask import Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
-import os, uuid, sqlite3, logging, sys
+from flask import (
+    Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
+)
+import os
+import uuid
+import psycopg
+import logging
+import sys
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Configure logging
 level_name = os.getenv('LOG_LEVEL', 'INFO').upper()
 level = getattr(logging, level_name, logging.INFO)
 logging.basicConfig(
@@ -8,29 +19,37 @@ logging.basicConfig(
     stream=sys.stdout,
     format="%(asctime)s [%(levelname)s], %(name)s: %(message)s",
 )
-logger = logging.getLogger('main')
+logger = logging.getLogger("main")
 
+# Flask app setup
 app = Flask('__name__')
-app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000
+app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000  # 1MB max upload
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', os.urandom(12))
 
-DB_PATH = os.getenv('DB_PATH', 'spots.db')
+# Environment config
+DB_URL = os.getenv('DB_URL')
 SPOTS_IMAGES_PATH = os.getenv('SPOTS_IMAGES_PATH', './spots-images')
-
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
+
 def allowed_file(filename: str) -> bool:
+    """Check if filename is an allowed extension."""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def dict_factory(cursor, row):
-    fields = [column[0] for column in cursor.description]
-    return {key: value for key, value in zip(fields, row)}
 
 @app.before_request
 def before_request():
-    g.db = sqlite3.connect(DB_PATH)
-    g.db.row_factory = sqlite3.Row
-    g.cur = g.db.cursor()
+    # Example debug account for dev
+    if app.debug:
+        g.user_id = 1
+    try:
+        g.db = psycopg.connect(DB_URL)
+        g.db.row_factory = psycopg.rows.dict_row
+        g.cur = g.db.cursor()
+    except Exception as e:
+        logger.error(f'Failed to connect: {e}')        
+        return jsonify({'error': 'Database connection failed'}), 500
+
 
 @app.teardown_request
 def teardown_request(exception=None):
@@ -38,34 +57,48 @@ def teardown_request(exception=None):
     if db is not None:
         db.close()
 
+
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
+
 
 @app.route('/groups')
 def groups():
     return send_from_directory('.', 'groups.html')
 
+
 @app.route('/spot')
 def spot_page():
     return send_from_directory('.', 'spot.html')
+
 
 @app.route('/add-spot')
 def add_spot_page():
     return send_from_directory('.', 'add_spot.html')
 
+
 @app.route('/api/spot')
 def spot():
-    id = request.args.get('id', '')
-    if not id:
+    spot_id = request.args.get('id', '')
+    if not spot_id:
         return jsonify({'error': 'Missing ID'}), 400
-    g.cur.execute('''
-        SELECT * FROM spots WHERE id=?;
-    ''', (id, ))
+    g.cur.execute(
+        "select * from spots where id=%s;",
+        (spot_id,)
+    )
     spot = g.cur.fetchone()
     if not spot:
         return jsonify({'error': 'Not found'})
-    return jsonify(dict(spot))
+    spot_dict = dict(spot)
+    tags = spot_dict.get('tags')
+    if isinstance(tags, str):
+        s = tags.strip('{}')
+        if not s:
+            return jsonify({'error': 'No tags'}), 500
+        spot_dict['tags'] = [x.strip().strip('""') for x in s.split(',')]
+    return jsonify(spot_dict)
+
 
 @app.route('/api/search-spot')
 def search_spot():
@@ -74,45 +107,58 @@ def search_spot():
         logger.warning('search_spot: missing term')
         flash('No search term')
         return jsonify({'error': 'No search term'}), 405
-    g.cur.execute('''
-        SELECT s.name, s.rating, s.id, s.pictures
-        FROM spots_fts 
-        JOIN spots AS s ON s.id = spots_fts.rowid
-        WHERE spots_fts
-        MATCH ? 
-        ORDER BY bm25(spots_fts)
-        LIMIT 10;
-    ''', (term + '*',))
+
+    g.cur.execute(
+        '''
+        select s.name, s.id, s.pictures,
+        ts_rank(s.search_vector, query) as rank
+        from spots s,
+            to_tsquery('english', %s) query
+        where s.search_vector @@ query
+        order by rank desc
+        limit 10;
+        ''',
+        (term + ':*',)
+    )
     spots = g.cur.fetchall()
     spots_dicts = [dict(row) for row in spots]
     if not spots:
-        flash('No results')
         return jsonify({'ok': 'No results'}), 200
     logger.info('search_spot: term=%r results=%d', term, len(spots_dicts))
     return jsonify(spots_dicts), 200
 
+
 @app.route('/api/add-spot', methods=['POST'])
 def add_spot() -> Response:
-    data: dict = request.get_json()
-    REQUIRED_KEYS: set[str] = {'name', 'description', 'address', 'hours', 'phone', 'rating', 'tags', 'pictures'}
+    data = request.get_json()
+    print(data)
+    REQUIRED_KEYS = {'name', 'description', 'address', 'tags', 'pictures'}
+
     if not data or set(data.keys()) != REQUIRED_KEYS:
-        flash('Please fill out all fields')
         return jsonify({'error': 'Not all fields filled'}), 405
     for field in data.values():
         if not field:
-            flash('Please fill out all fields')
             return jsonify({'error': 'Not all fields filled'}), 405
-    pictures: str = ''
-    if type(data['pictures']) == list:
-        pictures = ','.join(data['pictures'])
-    else:
-        flash('Pictures should return a list')
+    if not isinstance(data.get('pictures'), list):
         return jsonify({'error': 'Pictures not in list'}), 405
-    g.cur.execute('''
-        INSERT INTO spots (name, description, address, hours, phone, rating, tags, pictures) VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-    ''', (data['name'], data['description'], data['address'], data['hours'], data['phone'], data['rating'], data['tags'], pictures))
+
+    g.cur.execute(
+        '''
+        insert into spots (name, description, address, tags, pictures)
+        values (%s, %s, %s, %s, %s) returning id;
+        ''',
+        (
+            data['name'],
+            data['description'],
+            data['address'],
+            data['tags'],
+            data['pictures']
+        )
+    )
     g.db.commit()
-    return redirect(url_for('spot_add_success', id=g.cur.lastrowid)), 301
+    spot_id = g.cur.fetchone()['id']
+    return redirect(url_for('spot_add_success', id=spot_id)), 301
+
 
 @app.route('/api/upload-image', methods=['POST'])
 def upload():
@@ -131,7 +177,10 @@ def upload():
         file.save(os.path.join(SPOTS_IMAGES_PATH, filename))
         return jsonify({'success': 'File uploaded successfully', 'filename': filename}), 200
     else:
-        return jsonify({'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'}), 405
+        return jsonify({
+            'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'
+        }), 405
+
 
 @app.route('/api/download-image')
 def download_image():
@@ -140,9 +189,14 @@ def download_image():
         return jsonify({'error': 'Missing name'}), 400
     return send_from_directory(SPOTS_IMAGES_PATH, name)
 
+
 @app.route('/spot-add-success')
 def spot_add_success():
     return send_from_directory('.', 'spot_add_success.html')
+
+@app.route('/favicon.ico')
+def serve_favicon():
+    return send_from_directory('.', 'favicon.ico')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

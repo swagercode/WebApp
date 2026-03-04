@@ -24,3 +24,6 @@ spots-images/
 
 # OS-specific
 Thumbs.db
+
+# Ignore secrets
+.env

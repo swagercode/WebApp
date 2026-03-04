@@ -990,6 +990,58 @@ body {
     border-color: var(--primary-clr);
 }
 
+/* Tags dropdown menu (add spot form) */
+#spot-tag-menu {
+    margin-top: 0.35rem;
+    padding: 0.5rem;
+    border: 1px solid var(--font-clr-light);
+    border-radius: 0.65rem;
+    background: var(--bg-clr);
+    max-height: 12rem;
+    overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+#spot-tag-menu[hidden] {
+    display: none;
+}
+
+.add-spot-form .spot-tag {
+    padding: 0.4rem 0.65rem;
+    border: 1px solid var(--font-clr-light);
+    border-radius: 10rem;
+    background: var(--gray-button-clr);
+    color: var(--font-clr-dark);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.add-spot-form .spot-tag:hover {
+    background: var(--gray-button-hover-clr);
+    border-color: var(--primary-clr);
+    color: var(--font-clr-dark);
+}
+
+.spot-tag.included {
+    background: var(--primary-clr);
+    border-color: var(--font-clr-light);
+    color: var(--bg-clr);    
+}
+
+.spot-tag.included:hover {
+    background: var(--faded-primary-clr);
+    border-color: var(--font-clr-light);
+    color: var(--bg-clr);    
+}
+
+.add-spot-form .spot-tag[hidden] {
+    display: none;
+}
+
 .form-hint {
     color: var(--font-clr);
     font-size: 0.9rem;

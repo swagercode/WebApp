@@ -66,7 +66,6 @@ function parseTags(tagsField) {
     return [];
 }
 
-
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         parseCsvList,

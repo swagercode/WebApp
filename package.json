@@ -2,13 +2,15 @@
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
-    "jest-environment-jsdom": "^30.2.0"
+    "jest-environment-jsdom": "^30.2.0",
+    "supabase": "^2.76.15"
   },
   "scripts": {
     "test": "jest"
   },
   "dependencies": {
     "docker": "^1.0.0",
-    "fly": "^4.6.16"
+    "fly": "^4.6.16",
+    "python-dotenv": "^0.0.1-security"
   }
 }

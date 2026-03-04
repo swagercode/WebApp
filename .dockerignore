@@ -26,3 +26,6 @@
 # OS-specific
 **/Thumbs.db
 fly.toml
+
+# Secrets
+.env

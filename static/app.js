@@ -179,9 +179,60 @@
     }
 
     function initAddSpotForm() {
+        const ACCESS_TOKEN = 'pk.eyJ1IjoibHVrZWJ1cnJvdWdoMjYiLCJhIjoiY21tYTVzODJxMDl1azJzcHM1ZDhzdHN1diJ9.hlSRI8GUwtT_FNRlPOoHPg';
+        mapboxgl.accessToken = ACCESS_TOKEN;
+        const defaultCenter = [-73.99, 40.5];
+        const map = new mapboxgl.Map({
+            container: 'map',
+            center: defaultCenter,
+            zoom: 1
+        });
+
+        const addressPreview = document.getElementById('address-preview');
+        var fullAddress;
+        var spotName;
+        map.on('load', async () => {
+            const searchBox = new MapboxSearchBox();
+            searchBox.accessToken = ACCESS_TOKEN;
+            searchBox.options = {
+                language: 'en',
+                types: 'address,poi',
+                proximity: defaultCenter
+            };
+            searchBox.marker = true;
+            searchBox.mapboxgl = mapboxgl;
+            searchBox.componentOptions = { allowReverse: true, flipCoordinates: true };
+            map.addControl(searchBox);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const userCenter = [
+                            position.coords.longitude,
+                            position.coords.latitude
+                        ];
+                        const target = { center: userCenter, zoom: 12};
+                        map.flyTo({
+                            ...target,
+                            duration: 1,
+                            essential: true
+                        });
+                    }
+                );
+            }
+
+            searchBox.addEventListener('retrieve', (e) => {
+                const feature = e.detail;
+                spotName = feature.features[0].properties.name;
+                fullAddress = feature.features[0].properties.full_address;
+                addressPreview.innerText = fullAddress;
+            });
+        });
+
         var form = document.getElementById('add-spot-form');
         if (!form) return;
 
+        var tagsMenu = document.getElementById('spot-tag-menu');
         var imageInput = document.getElementById('spot-images');
         var imageDrop = document.getElementById('spot-image-drop');
         var previewGrid = document.getElementById('image-preview-grid');
@@ -193,6 +244,27 @@
         var isUploading = false;
         var MAX_IMAGE_COUNT = 3;
         var MIN_IMAGE_COUNT = 1;
+
+        const availableTags = [
+            'Free Wifi',
+            'Outlets',
+            'Quiet',
+            'Coffee',
+            'Food',
+            'Outdoor',
+            'Parking',
+            'Open Late',
+            'Wheelchair Accessible'
+        ];
+        var selectedTags = new Set();
+        window.toggleDataInclusionOnTagButtonClick = function (tagButtonElement) {
+            if (tagButtonElement.classList.toggle('included')) 
+            selectedTags.add(tagButtonElement.textContent.trim());
+            else selectedTags.delete(tagButtonElement.textContent.trim());
+        }
+        tagsMenu.innerHTML = availableTags.map((tag) => {
+            return '<button type="button" class="spot-tag" onclick="toggleDataInclusionOnTagButtonClick(this)">' + tag + '</button>';
+        }).join('');
 
         function setStatus(message, stateClass) {
             if (!status) return;
@@ -381,6 +453,11 @@
         form.addEventListener('submit', async function (event) {
             event.preventDefault();
             setStatus('', null);
+            
+            if (!fullAddress) {
+                setStatus('Please enter your spot.', 'error');
+                return;
+            }
 
             if (!selectedFiles || selectedFiles.length < MIN_IMAGE_COUNT || selectedFiles.length > MAX_IMAGE_COUNT) {
                 setStatus('Please upload between 1 and 3 images.', 'error');
@@ -402,13 +479,10 @@
             try {
                 var formData = new FormData(form); 
                 var payload = {
-                    name: String(formData.get('name')).trim(),
+                    name: spotName.trim(),
                     description: String(formData.get('description')).trim(),
-                    address: String(formData.get('address')).trim(),
-                    hours: String(formData.get('hours')).trim(),
-                    phone: String(formData.get('phone')).trim(),
-                    rating: Number(formData.get('rating')),
-                    tags: String(formData.get('tags')).trim(),
+                    address: fullAddress.trim(),
+                    tags: Array.from(selectedTags),
                     pictures: uploadedImagePaths
                 };
                 console.log('add-spot request payload:', payload);
@@ -444,14 +518,9 @@
                     }
                     throw new Error(errText);
                 }
-
-                setStatus('Spot added successfully.', 'success');
-                var newId = addSpotResult && (addSpotResult.id != null) ? addSpotResult.id : '';
-                window.location.href = newId ? '/spot-add-success?id=' + encodeURIComponent(newId) : '/spot-add-success';
             } catch (error) {
                 setStatus(error.message || 'Something went wrong.', 'error');
             } finally {
-                if (submitBtn) submitBtn.disabled = false;
             }
         });
     }
@@ -652,7 +721,7 @@
         initHeaderHeight();
         initHeaderFold();
         initAddSpotButton();
-        initAddSpotForm();
+        if (window.location.pathname == '/add-spot') initAddSpotForm();
         initSpotPage();
         initHomeSpots();
         initSpotAddSuccessPage();
