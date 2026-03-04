@@ -95,15 +95,30 @@ def spot():
     spot = g.cur.fetchone()
     if not spot:
         return jsonify({'error': 'Not found'})
+    return jsonify(process_spot(spot))
+
+@app.route('/api/spots')
+def spots():
+    g.cur.execute(
+        """
+        select *
+        from spots
+        order by id
+        limit 25;
+        """
+    )
+    payload = []
+    for spot in g.cur.fetchall():
+        payload.append(process_spot(spot))
+    return jsonify(payload)
+    
+def process_spot(spot):
     spot_dict = dict(spot)
     tags = spot_dict.get('tags')
     if isinstance(tags, str):
         s = tags.strip('{}')
-        if not s:
-            return jsonify({'error': 'No tags'}), 500
         spot_dict['tags'] = [x.strip().strip('""') for x in s.split(',')]
-    return jsonify(spot_dict)
-
+    return spot_dict
 
 @app.route('/api/search-spot')
 def search_spot():
