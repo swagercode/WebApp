@@ -181,7 +181,7 @@ def upload():
             file=file.read(),
             path=filename,
             file_options={
-                'file-type': 'image/' + ext
+                'content_type': 'image/' + ext
             }
         )
         return jsonify({'success': 'File uploaded successfully', 'filename': supabase_client.storage.from_("spot-images").get_public_url(filename)}), 200
