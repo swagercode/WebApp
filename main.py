@@ -7,7 +7,6 @@ import uuid
 import psycopg
 import logging
 import sys
-import supabase
 from supabase import create_client
 from dotenv import load_dotenv
 
@@ -179,7 +178,7 @@ def upload():
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f'{uuid.uuid4()}.{ext}'
         supabase_client.storage.from_('spot-images').upload(
-            file=file.stream,
+            file=file.read(),
             path=filename,
             file_options={
                 'file-type': 'image/' + ext
