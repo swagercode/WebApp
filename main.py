@@ -8,10 +8,8 @@ import logging
 import sys
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-# Configure logging
 level_name = os.getenv('LOG_LEVEL', 'INFO').upper()
 level = getattr(logging, level_name, logging.INFO)
 logging.basicConfig(
@@ -21,12 +19,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger("main")
 
-# Flask app setup
 app = Flask('__name__')
 app.config['MAX_CONTENT_LENGTH'] = 1000 * 1000  # 1MB max upload
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', os.urandom(12))
 
-# Environment config
 DB_URL = os.getenv('DB_URL')
 SPOTS_IMAGES_PATH = os.getenv('SPOTS_IMAGES_PATH', './spots-images')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
