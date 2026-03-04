@@ -554,7 +554,7 @@
         function renderGallery(images) {
             if (!galleryEl) return;
             galleryEl.innerHTML = images.slice(1, 5).map(function (img) {
-                return '<div class="photo-item"><img src="' + spotImageUrl(img) + '" alt="Spot image" loading="lazy" /></div>';
+                return '<div class="photo-item"><img src="' + img + '" alt="Spot image" loading="lazy" /></div>';
             }).join('');
         }
 
@@ -591,7 +591,7 @@
 
                 if (mainImageEl) {
                     if (spot.pictures.length > 0) {
-                        mainImageEl.src = spotImageUrl(spot.pictures[0]);
+                        mainImageEl.src = spot.pictures[0];
                     } else {
                         mainImageEl.removeAttribute('src');
                         mainImageEl.alt = 'No image available';
@@ -671,7 +671,7 @@
         content.innerHTML = spots.map(function (spot, index) {
             var delay = (Math.floor(index / 3) * 50) + ((index % 3) * 100);
             var pictures = parseCsvList(spot.pictures);
-            var imageSrc = pictures[0] ? spotImageUrl(pictures[0]) : 'static/categories/overall.svg';
+            var imageSrc = pictures[0] ? pictures[0] : 'static/categories/overall.svg';
             var rating = (spot.rating != null && spot.rating !== '') ? spot.rating : '-';
             var subtitle = spot.address || spot.hours || '';
 

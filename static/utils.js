@@ -4,11 +4,6 @@ function parseCsvList(value) {
     return value.split(',').map((item) => { return item.trim(); }).filter(Boolean);
 }
 
-function spotImageUrl(picture) {
-    if (!picture) return '';
-    return '/api/download-image?name=' + encodeURIComponent(picture);
-}
-
 var recentSearches = [
         { name: 'Better Buzz', id: '121', pictures: ['391a13f5-5259-438a-bae8-856831216ea3.jpg'], time: '12 mins away', rating: 4.3 },
         { name: 'Green Bean Coffee', id: '122', pictures: ['391a13f5-5259-438a-bae8-856831216ea3.jpg'], time: '10 mins away', rating: 4.3 },
@@ -25,7 +20,7 @@ function renderSearchMenuList(listContainerElement, spotSearchResultsList) {
         }
         return '<a class="search-menu-item" href="/spot?id=' + encodeURIComponent(s.id) + '">' +
                 '<div class="search-menu-item">' +
-                    '<img class="search-menu-item-icon" src="' + spotImageUrl(s.pictures[0]) + '"></img>' +
+                    '<img class="search-menu-item-icon" src="' + s.pictures[0] + '"></img>' +
                     '<div class="search-menu-item-info">' +
                         '<div class="search-menu-item-title">' + s.name + '</div>' +
                     '<div class="search-menu-item-meta">' + s.time + ' <span class="star">★</span>' + s.rating + '</div>' +
@@ -69,7 +64,6 @@ function parseTags(tagsField) {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         parseCsvList,
-        spotImageUrl,
         renderSearchMenuList,
         fetchSpotSearchResults,
         parseRawSpotJSON,
@@ -77,7 +71,6 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 if (typeof window !== 'undefined') {
-    window.spotImageUrl = spotImageUrl;
     window.parseCsvList = parseCsvList;
     window.renderSearchMenuList = renderSearchMenuList;
     window.fetchSpotSearchResults = fetchSpotSearchResults;

@@ -35,9 +35,7 @@ describe('renderSearchMenuList', () => {
 
     const firstImg = first.querySelector('img.search-menu-item-icon');
     expect(firstImg).not.toBeNull();
-    expect(firstImg.getAttribute('src')).toBe(
-      '/api/download-image?name=' + encodeURIComponent('foo.jpg'),
-    );
+    expect(firstImg.getAttribute('src')).toBe('foo.jpg');
 
     const firstTitle = first.querySelector('.search-menu-item-title');
     expect(firstTitle.textContent).toBe('Cafe Amazon');

@@ -1,3 +1,4 @@
+from stat import filemode
 from flask import (
     Flask, redirect, send_from_directory, request, g, jsonify, flash, url_for, Response
 )
@@ -6,9 +7,18 @@ import uuid
 import psycopg
 import logging
 import sys
+import supabase
+from supabase import create_client
 from dotenv import load_dotenv
 
 load_dotenv()
+
+supabase_url = os.getenv('SUPABASE_URL')
+supabase_secret_key = os.getenv('SUPABASE_SECRET_KEY')
+if supabase_url and supabase_secret_key:
+    supabase_client = create_client(supabase_url, supabase_secret_key)
+else:
+    raise Exception('Supabase url/key missing')
 
 level_name = os.getenv('LOG_LEVEL', 'INFO').upper()
 level = getattr(logging, level_name, logging.INFO)
@@ -168,23 +178,18 @@ def upload():
     if allowed_file(file.filename):
         ext = file.filename.rsplit('.', 1)[1].lower()
         filename = f'{uuid.uuid4()}.{ext}'
-        if not os.path.isdir(SPOTS_IMAGES_PATH):
-            os.mkdir(SPOTS_IMAGES_PATH)
-        file.save(os.path.join(SPOTS_IMAGES_PATH, filename))
-        return jsonify({'success': 'File uploaded successfully', 'filename': filename}), 200
+        supabase_client.storage.from_('spot-images').upload(
+            file=file.stream,
+            path=filename,
+            file_options={
+                'file-type': 'image/' + ext
+            }
+        )
+        return jsonify({'success': 'File uploaded successfully', 'filename': supabase_client.storage.from_("spot-images").get_public_url(filename)}), 200
     else:
         return jsonify({
             'error': f'Invalid file path. Please choose from the following file types: {ALLOWED_EXTENSIONS}'
         }), 405
-
-
-@app.route('/api/download-image')
-def download_image():
-    name = request.args.get('name', '')
-    if not name:
-        return jsonify({'error': 'Missing name'}), 400
-    return send_from_directory(SPOTS_IMAGES_PATH, name)
-
 
 @app.route('/spot-add-success')
 def spot_add_success():
